@@ -6,25 +6,25 @@
         <title><?php bloginfo('name')?></title>
         <?php wp_head()?>
     </head>
+    <!-- 'NavBar' - Bootstrap>Components-->   
     <body <?php body_class()?>>
-        <?php wp_body_open()?>
-    <!-- 'NavBar' - Bootstrap>Components-->    
-        
-        
-        <?php
+        <?php wp_body_open();
+     
             get_template_part('template-parts/nav');
+            get_template_part('template-parts/image-slider');
+            ?>
+            <div class="p-4 card-group gap">
+        <?php
             // show posts as default content
             if(have_posts()){
                 while(have_posts()){
                     the_post();
-                    ?><h1><?php the_title()?></h1>
-                    <p><?php the_excerpt()?></p>
-                    <p><a href="<?php the_permalink();?>"><?php the_title();?></a></p>
-                    <br>
-                    <?php
+                    get_template_part('template-parts/post');
+
                 }
             }
         ?>
+        </div>
 
         <?php wp_footer()?>
     </body>
