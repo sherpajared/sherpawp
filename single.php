@@ -2,7 +2,6 @@
     get_header();
      
             get_template_part('template-parts/nav');
-            get_template_part('template-parts/image-slider');
             ?>
             <div class="p-4 card-group gap justify-content-center">
         <?php
@@ -10,7 +9,8 @@
             if(have_posts()){
                 while(have_posts()){
                     the_post();
-                    get_template_part('template-parts/post'); 
+                        get_template_part('template-parts/single-post');
+                    
 
                 }
             }
