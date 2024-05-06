@@ -2,7 +2,9 @@
     get_header();
      
             get_template_part('template-parts/nav');
-            get_template_part('template-parts/image-slider');
+            if(is_home()){    
+                get_template_part('template-parts/image-slider');
+            }
             ?>
             <div class="p-4 card-group gap justify-content-center">
         <?php
@@ -14,9 +16,10 @@
 
                 }
             }
+            
         ?>
         </div>
-
+        <?php get_template_part('template-parts/pagination');?>
         <?php get_footer()?>
 
 

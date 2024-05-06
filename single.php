@@ -4,6 +4,7 @@
             get_template_part('template-parts/nav');
             ?>
             <div class="p-4 card-group gap justify-content-center">
+            
         <?php
             // show posts as default content
             if(have_posts()){

@@ -7,6 +7,11 @@ https://developer.wordpress.org/reference/functions/bloginfo/
 
 language_attributes() - used in html tag, adds attributes for WP
 
+KEY PRINCIPLE
+the_title() - echos the title
+get_the_title() - returns the value 
+get_template_directory() - gets directory up to theme
+get_template_directory_uri() - gets up to theme directory as http
 ------------------------------------------------------
 ======================================================
 NECESSARY WORDPRESS FUNCTIONS
@@ -22,3 +27,9 @@ ADD TO START OF <body>
 
 <?php wp_footer();?>
 ADD TO END OF <body>
+
+======================================================
+------------------------------------------------------
+TEMPLATES
+
+get_template_part();
