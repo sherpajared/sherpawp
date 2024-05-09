@@ -6,19 +6,29 @@
                 get_template_part('template-parts/image-slider');
             }
             ?>
-            <div class="p-4 card-group gap justify-content-center">
-        <?php
-            // show posts as default content
-            if(have_posts()){
-                while(have_posts()){
-                    the_post();
-                    get_template_part('template-parts/post'); 
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="p-4 card-group gap justify-content-center col-lg">
+                    <?php
+                        
+                        $args = ['post_type' => 'post'];
+                        $myposts = new WP_Query($args);
+                        if($myposts->have_posts()){
+                            while($myposts->have_posts()){
+                                $myposts->the_post();
+                                get_template_part('template-parts/post'); 
 
-                }
-            }
-            
-        ?>
-        </div>
+                            }
+                        }
+                        wp_reset_postdata();
+                        
+                    ?>
+                </div>
+               <div class="col-lg-2 bg-light p-2">
+                    <?php dynamic_sidebar( 'sidebar-1' );?>
+                </div>
+            </div>
+                    </div>
         <?php get_template_part('template-parts/pagination');?>
         <?php get_footer()?>
 
