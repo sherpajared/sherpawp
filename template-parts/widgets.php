@@ -26,6 +26,7 @@ class Most_Viewed_Widget extends WP_Widget {
 			'order'			 => 'DESC'
 		];
 		$myposts = new WP_Query($args);
+		echo "poop";
 		if(have_posts()){
 			while($myposts->have_posts()){
 				$myposts->the_post();
