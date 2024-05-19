@@ -15,4 +15,5 @@
     <p class="text center"><?= substr(get_the_excerpt(), 0, 50)?></p>
     <a href="<?php the_permalink()?>" class="btn btn-primary">Read More</a>
   </div>
+  <p></p>
 </div>

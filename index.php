@@ -8,7 +8,7 @@
             ?>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="p-4 card-group gap justify-content-center col-lg">
+                    <div class="p-4 card-group gap justify-content-center col-md" style="align-items: flex-start;">
                     <?php
                         
                         $args = ['post_type' => 'post'];

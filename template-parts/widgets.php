@@ -18,7 +18,20 @@ class Most_Viewed_Widget extends WP_Widget {
 	);
 
 	public function widget( $args, $instance ) {
-
+		$args = [
+			'meta_key'  	 => 'views',			
+			'post_type' 	 => 'post',
+			'posts_per_page' => 2,
+			'orderby' 		 => 'meta_value_num',
+			'order'			 => 'DESC'
+		];
+		$myposts = new WP_Query($args);
+		if(have_posts()){
+			while($myposts->have_posts()){
+				$myposts->the_post();
+				get_template_part('template-parts/post-small');
+			}
+		}
 	}
 
 	public function form( $instance ) {

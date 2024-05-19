@@ -65,6 +65,40 @@ function sherpa_custom_logo_setup(){
     add_theme_support('custom-logo', $defaults);
 }
 add_action('after_setup_theme', 'sherpa_custom_logo_setup');
+function sherpawp_customize_register( $wp_customize ){
+    echo "poop";
+    $wp_customize -> add_section( 'sherpawp_slider_settings', array(
+        'title'             => __('Slider Image Settings'),
+        'description'       => __('Edit slider image settings'),
+        //'panel'             =>
+        'priority'          => 160,
+        'capability'        => 'edit_theme_options',
+        //'theme_supports'    => 
+    ));
+    $wp_customize->add_setting( 'setting_id', array(
+        'type' => 'theme_mod', // or 'option'
+        'capability' => 'edit_theme_options',
+        'theme_supports' => '', // Rarely needed.
+        'default' => '',
+        'transport' => 'refresh', // or postMessage
+        'sanitize_callback' => 'sanitize_text_field',
+        //'sanitize_js_callback' => '', // Basically to_json.
+    ) );
+    $wp_customize->add_control( 'setting_id', array(
+        'type' => 'text',
+        // Within the section.'priority' => 10, 
+        'section' => 'Slider Image Settings', // Required, core or custom.
+        'label' => __( 'Some text' ),
+        'description' => __( 'This is a date control with a red border.' ),
+        'input_attrs' => array(
+          'class' => 'my-custom-class-for-js',
+          'style' => 'border: 1px solid #900',
+          'placeholder' => __( 'mm/dd/yyyy' ),
+        ),
+      ) );
+}
+add_action('customize_register', 'sherpawp_customize_register');
+
     //wp_enqueue_script();
 require get_template_directory().'/template-parts/walker.php';
 require get_template_directory().'/template-parts/widgets.php';

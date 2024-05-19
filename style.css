@@ -8,6 +8,11 @@ Version 1.0
 License: GPL
 License URL: https://www.gnu.org/licenses/gpl-3.0.html
 */
+
+body, html{
+    max-width:100% !important;
+    min-width:100% !important;
+}
 .gap{
     gap: 1em !important;
 }
