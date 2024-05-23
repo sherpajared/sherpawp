@@ -11,17 +11,18 @@ d-flex - home_url(), added name 'search' to input tag
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
+    <div class="w-100">
   <?php
-    if (has_custom_logo()) {
+    /*if (has_custom_logo()) {
         the_custom_logo();
-    }else{
+    }else{*/
       ?>
       <a class="navbar-brand site-title" href="<?= get_home_url()?>"?>
-        <?php bloginfo('name')?>
+        <img class="custom-logo" src="<?= get_template_directory_uri().'/assets/img/placeholders/sherpa1080p.png'?>" alt="1920x1080">
       </a>
       <?php
-    }
-    ?>
+    //}
+    ?></div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>

@@ -24,7 +24,7 @@ function sherpa_init(){
 
 add_action('init', 'sherpa_init');
 add_action( 'widgets_init', function(){    
-        register_sidebar( array(
+        /*register_sidebar( array(
             'id'            => 'sidebar-1',
             'name'          => 'Primary Sidebar', 'sherpawp',
             'description'   => 'A short description of the sidebar.',
@@ -32,7 +32,7 @@ add_action( 'widgets_init', function(){
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        ) );
+        ) ); */
         register_sidebar( array(
             'id'            => 'footer-sidebar-1',
             'name'          => 'Footer Sidebar1', 'sherpawp',

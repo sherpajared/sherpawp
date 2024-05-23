@@ -1,6 +1,13 @@
 <div class="card m-2 shadow border justify-content-center" style="width: 22em; max-width: 98%;">
   <div style="text-align: center; margin-top: 1em;">
-  <?php the_post_thumbnail('post-preview'); ?>
+  <?php 
+        if(has_post_thumbnail()){
+          the_post_thumbnail('post-preview'); 
+        }else{
+          echo "gotcha";
+        }
+  ?>
+
 </div>
   <div class="card-body">
     <h5 class="card-title text-center"><?php the_title()?></h5>
