@@ -11,7 +11,7 @@ d-flex - home_url(), added name 'search' to input tag
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="max-height: 76px;">
   <div class="container-fluid">
-    <div style="max-height: 76px;">
+    
   <?php
         $logo_attr = array(
           'class' => 'mh-100',
@@ -25,7 +25,7 @@ d-flex - home_url(), added name 'search' to input tag
 
       
    
-    ?></div>
+    ?>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
