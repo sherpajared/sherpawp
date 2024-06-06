@@ -24,7 +24,7 @@ function sherpa_init(){
 
 add_action('init', 'sherpa_init');
 add_action( 'widgets_init', function(){    
-        /*register_sidebar( array(
+        register_sidebar( array(
             'id'            => 'sidebar-1',
             'name'          => 'Primary Sidebar', 'sherpawp',
             'description'   => 'A short description of the sidebar.',
@@ -32,7 +32,7 @@ add_action( 'widgets_init', function(){
             'after_widget'  => '</aside>',
             'before_title'  => '<h3 class="widget-title">',
             'after_title'   => '</h3>',
-        ) ); */
+        ) ); 
         register_sidebar( array(
             'id'            => 'footer-sidebar-1',
             'name'          => 'Footer Sidebar1', 'sherpawp',
@@ -66,7 +66,7 @@ function sherpa_custom_logo_setup(){
 }
 add_action('after_setup_theme', 'sherpa_custom_logo_setup');
 function sherpawp_customize_register( $wp_customize ){
-    echo "poop";
+ 
     $wp_customize -> add_section( 'sherpawp_slider_settings', array(
         'title'             => __('Slider Image Settings'),
         'description'       => __('Edit slider image settings'),
@@ -98,6 +98,43 @@ function sherpawp_customize_register( $wp_customize ){
       ) );
 }
 add_action('customize_register', 'sherpawp_customize_register');
+//Callable functions
+function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = '') {
+
+    $placeholder_url = get_template_directory_uri() . '/assets/img/placeholders/sherpa1080p.png';
+        
+    // Determine the size attributes for the placeholder image
+    $sizes = array(
+        'thumbnail' => array(320, 180),   // 16:9 aspect ratio
+        'medium' => array(640, 360),      // 16:9 aspect ratio
+        'medium_large' => array(768, 432),// 16:9 aspect ratio
+        'large' => array(1024, 576),      // 16:9 aspect ratio
+        'full' => array(1920, 1080),      // 16:9 aspect ratio (HD resolution)
+    );
+
+    $width = isset($sizes[$size][0]) ? $sizes[$size][0] : '';
+    $height = isset($sizes[$size][1]) ? $sizes[$size][1] : '';
+
+    // Add width and height attributes if specified
+    $size_attr = '';
+    if ($width) {
+        $size_attr .= 'width="' . $width . '" ';
+    }
+    if ($height) {
+        $size_attr .= 'height="' . $height . '" ';
+    }
+
+    echo '<img src="' . esc_url($placeholder_url) . '" ' . $size_attr;
+
+    // Add additional attributes from $attr parameter
+    if (!empty($attr)) {
+        foreach ($attr as $key => $value) {
+            echo $key . '="' . esc_attr($value) . '" ';
+        }
+    }
+
+    echo 'alt="' . esc_attr(get_the_title()) . '">';
+}
 
     //wp_enqueue_script();
 require get_template_directory().'/template-parts/walker.php';

@@ -11,7 +11,7 @@
                     <div class="p-4 card-group gap justify-content-center col-md" style="align-items: flex-start;">
                     <?php
                         
-                        /*$args = ['post_type' => 'post'];
+                        $args = ['post_type' => 'post'];
                         $myposts = new WP_Query($args);
                         if($myposts->have_posts()){
                             while($myposts->have_posts()){
@@ -21,7 +21,7 @@
                             }
                         }
                         wp_reset_postdata();
-                        */
+                        
                     ?>
                 </div>
                <div class="col-lg-2 bg-light p-2">

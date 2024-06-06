@@ -19,9 +19,7 @@ body, html{
 .center{
     justify-content: center !important;
 }
-img{
-    max-width: 100% !important;
-}
+
 .sherpa-blog-pag{
     display: flex;
     justify-content: center !important;
@@ -34,9 +32,10 @@ img{
     text-decoration: none;
 }
 .custom-logo{
-    max-width: 200px;
-    max-height: 50px;
-    
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+    position: relative;
 }
 .nav-item{
     padding: 1em;
@@ -55,4 +54,7 @@ form.d-flex{
 .dropdown-menu{
     position: absolute !important;
     
+}
+.mh-100 {
+    max-height: 100%;
 }
