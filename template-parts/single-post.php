@@ -11,6 +11,7 @@
     'style'=> 'width: 50%; height: 100%; display: inline-block; margin-top: 1em;']); ?>
   </div>
   <div class="body">
+    
     <h5 class="title"><?php the_title()?></h5>
     <p class="text center"><?= substr(get_the_excerpt(), 0, 50)?></p>
     <a href="<?php the_permalink()?>" class="btn btn-primary">Read More</a>
