@@ -66,10 +66,7 @@ function sherpa_custom_logo_setup(){
 }
 add_action('after_setup_theme', 'sherpa_custom_logo_setup');
 function sherpawp_customize_register( $wp_customize ){
-<<<<<<< Updated upstream
- 
-=======
->>>>>>> Stashed changes
+
     $wp_customize -> add_section( 'sherpawp_slider_settings', array(
         'title'             => __('Slider Image Settings'),
         'description'       => __('Edit slider image settings'),
