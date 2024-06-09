@@ -11,12 +11,18 @@ d-flex - home_url(), added name 'search' to input tag
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="max-height: 76px;">
   <div class="container-fluid navbar-container">
-  <div class="navbar-logo-container">
+  <div class="navbar-logo-container" <?php
+    if(has_custom_logo()){
+      echo sherpa_def_image_size(get_theme_mod('custom_logo'), 65, 0);
+    }
+    ?>
   <?php
         $logo_attr = array(
           'class' => 'mh-100',
         );
+        $custom_logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full');
         if(has_custom_logo()){
+         
           the_custom_logo();
         }
         else{

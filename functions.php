@@ -98,6 +98,17 @@ function sherpawp_customize_register( $wp_customize ){
       ) );
 }
 add_action('customize_register', 'sherpawp_customize_register');
+function sherpa_def_image_size($image, $container_height, $type){
+    $image_out = wp_get_attachment_image_src($image, 'full');
+    $width =($image_out[1]*$container_height)/$image_out[2];
+    if($type == 0){
+        return 'style="width: '. $width . 'px;"';
+    }
+    if($type == 1){
+        return '<img src="' . $image_out[0] . '" style="width:' . $width . 'px;">';
+    }
+    
+}
 //Callable functions
 function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = '') {
 

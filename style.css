@@ -37,13 +37,15 @@ body, html{
     height: auto;
     width: auto;
     display: block;
+    object-fit: cover;
   }
-  .navbar-logo-container {
-    max-height: 65px;
-    max-width: 260px;
+  .navbar-logo-container, .custom-logo-link {
+    min-height: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
+  
+    overflow: hidden;
     
 
   }
