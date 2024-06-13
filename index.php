@@ -1,7 +1,7 @@
 <?php
     get_header();
      
-            get_template_part('template-parts/nav');
+            
             if(is_home()){    
                 get_template_part('template-parts/image-slider');
             }

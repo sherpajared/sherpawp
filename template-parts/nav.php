@@ -21,8 +21,9 @@ d-flex - home_url(), added name 'search' to input tag
           'class' => 'mh-100',
         );
         $custom_logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full');
+        ?><a href = get_home_uri();><?php
         if(has_custom_logo()){
-         
+          
           the_custom_logo();
         }
         else{
@@ -31,7 +32,7 @@ d-flex - home_url(), added name 'search' to input tag
 
       
    
-    ?>
+    ?></a>
     </div>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>

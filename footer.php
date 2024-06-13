@@ -17,6 +17,7 @@
 </div>
 </div>
 </div>
+<script src="<?php echo get_template_directory_uri(); ?>/js/sticky-header.js"></script>
 </footer>
 <?php wp_footer()?>
 </body>

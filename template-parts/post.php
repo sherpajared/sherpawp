@@ -4,7 +4,7 @@
         if(has_post_thumbnail()){
           the_post_thumbnail('post-preview'); 
         }else{
-          echo "gotcha";
+          
         }
   ?>
 

@@ -5,6 +5,7 @@ function sherpa_init(){
         wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/css/bootstrap.min.css');
         wp_enqueue_style('systemcss', get_template_directory_uri().'/style.css');
         wp_enqueue_script('bootjs', get_template_directory_uri().'/assets/js/bootstrap.min.js');
+        wp_enqueue_script('sticky-header', get_template_directory_uri() . '/assets/js/sticky-header.js');
     }
     add_theme_support('widgets');
     add_theme_support('menus');
@@ -96,16 +97,62 @@ function sherpawp_customize_register( $wp_customize ){
           'placeholder' => __( 'mm/dd/yyyy' ),
         ),
       ) );
+    /* Customizer for Custom Colors to use in CSS */
+    $wp_customize->add_setting('primary_color', array(
+        'default'   => '#3498db',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_setting('secondary_color', array(
+        'default'   => '#2ecc71',
+        'transport' => 'refresh',
+    ));
+
+    // Add controls
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
+        'label'    => __('Primary Color', 'mytheme'),
+        'section'  => 'colors',
+        'settings' => 'primary_color',
+    )));
+
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'secondary_color_control', array(
+        'label'    => __('Secondary Color', 'mytheme'),
+        'section'  => 'colors',
+        'settings' => 'secondary_color',
+    )));
 }
 add_action('customize_register', 'sherpawp_customize_register');
-function sherpa_def_image_size($image, $container_height, $type){
+//Add Custom Colors to head
+function sherpawp_custom_colors() {
+    // Get the colors from the customizer settings
+    $primary_color = get_theme_mod('primary_color', '#3498db');
+    $secondary_color = get_theme_mod('secondary_color', '#2ecc71');
+
+    // Output the colors as CSS variables
+    echo "<style>
+        :root {
+            --primary-color: $primary_color;
+            --secondary-color: $secondary_color;
+        }
+    </style>";
+}
+add_action('wp_head', 'sherpawp_custom_colors');
+
+function sherpa_def_image_size($image, $container_height, $type, $redirect=''){
     $image_out = wp_get_attachment_image_src($image, 'full');
     $width =($image_out[1]*$container_height)/$image_out[2];
+
     if($type == 0){
         return 'style="width: '. $width . 'px;"';
     }
     if($type == 1){
-        return '<img src="' . $image_out[0] . '" style="width:' . $width . 'px;">';
+        if($redirect != ''){
+            return '<a href= ' . $redirect . '<img src="' . $image_out[0] . '" style="width:' . $width . 'px;"></a>';
+        }
+        else{
+            return '<img src="' . $image_out[0] . '" style="width:' . $width . 'px;">';
+        }
+    
     }
     
 }
@@ -146,7 +193,10 @@ function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = ''
 
     echo 'alt="' . esc_attr(get_the_title()) . '">';
 }
-
+function enqueue_custom_scripts() {
+    wp_enqueue_script('sticky-header', get_template_directory_uri() . '/js/sticky-header.js', array(), null, true);
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
     //wp_enqueue_script();
 require get_template_directory().'/template-parts/walker.php';
 require get_template_directory().'/template-parts/widgets.php';
