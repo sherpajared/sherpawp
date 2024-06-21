@@ -5,7 +5,8 @@ function sherpa_init(){
         wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/css/bootstrap.min.css');
         wp_enqueue_style('systemcss', get_template_directory_uri().'/style.css');
         wp_enqueue_script('bootjs', get_template_directory_uri().'/assets/js/bootstrap.min.js');
-        wp_enqueue_script('sticky-header', get_template_directory_uri() . '/assets/js/sticky-header.js');
+        wp_enqueue_script('sticky-header', get_template_directory_uri() . '/assets/js/sticky-header.js', array('jquery'), null, true);
+
     }
     add_theme_support('widgets');
     add_theme_support('menus');
@@ -120,6 +121,51 @@ function sherpawp_customize_register( $wp_customize ){
         'section'  => 'colors',
         'settings' => 'secondary_color',
     )));
+    $wp_customize->add_section( 'sherpawp_footer_settings', array(
+        'title'       => __( 'Footer Settings', 'mytheme' ),
+        'description' => __( 'Customize the footer area', 'mytheme' ),
+        'priority'    => 160,
+    ) );
+
+    // Add setting for footer background color
+    $wp_customize->add_setting( 'footer_background_color', array(
+        'default'   => '#333333',
+        'transport' => 'refresh',
+    ) );
+
+    // Add control for footer background color
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'footer_background_color_control', array(
+        'label'    => __( 'Footer Background Color', 'mytheme' ),
+        'section'  => 'sherpawp_footer_settings',
+        'settings' => 'footer_background_color',
+    ) ) );
+
+    // Add setting for footer text color
+    $wp_customize->add_setting( 'footer_text_color', array(
+        'default'   => '#ffffff',
+        'transport' => 'refresh',
+    ) );
+
+    // Add control for footer text color
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'footer_text_color_control', array(
+        'label'    => __( 'Footer Text Color', 'mytheme' ),
+        'section'  => 'sherpawp_footer_settings',
+        'settings' => 'footer_text_color',
+    ) ) );
+
+    // Add setting for footer text
+    $wp_customize->add_setting( 'footer_text', array(
+        'default'           => __( '© 2024 My Website', 'mytheme' ),
+        'sanitize_callback' => 'sanitize_text_field',
+    ) );
+
+    // Add control for footer text
+    $wp_customize->add_control( 'footer_text_control', array(
+        'label'    => __( 'Footer Text', 'mytheme' ),
+        'section'  => 'sherpawp_footer_settings',
+        'settings' => 'footer_text',
+        'type'     => 'text',
+    ) );
 }
 add_action('customize_register', 'sherpawp_customize_register');
 //Add Custom Colors to head
@@ -193,6 +239,47 @@ function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = ''
 
     echo 'alt="' . esc_attr(get_the_title()) . '">';
 }
+// Add CPTS
+// Register Projects Custom Post Type
+function register_projects_cpt() {
+    $labels = array(
+        'name'               => _x( 'Projects', 'post type general name', 'your-text-domain' ),
+        'singular_name'      => _x( 'Project', 'post type singular name', 'your-text-domain' ),
+        'menu_name'          => _x( 'Projects', 'admin menu', 'your-text-domain' ),
+        'name_admin_bar'     => _x( 'Project', 'add new on admin bar', 'your-text-domain' ),
+        'add_new'            => _x( 'Add New', 'project', 'your-text-domain' ),
+        'add_new_item'       => __( 'Add New Project', 'your-text-domain' ),
+        'new_item'           => __( 'New Project', 'your-text-domain' ),
+        'edit_item'          => __( 'Edit Project', 'your-text-domain' ),
+        'view_item'          => __( 'View Project', 'your-text-domain' ),
+        'all_items'          => __( 'All Projects', 'your-text-domain' ),
+        'search_items'       => __( 'Search Projects', 'your-text-domain' ),
+        'parent_item_colon'  => __( 'Parent Projects:', 'your-text-domain' ),
+        'not_found'          => __( 'No projects found.', 'your-text-domain' ),
+        'not_found_in_trash' => __( 'No projects found in Trash.', 'your-text-domain' )
+    );
+
+    $args = array(
+        'labels'             => $labels,
+        'description'        => __( 'Description.', 'your-text-domain' ),
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'projects' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array( 'title', 'editor', 'thumbnail', 'excerpt', 'custom-fields' ),
+        'taxonomies'         => array( 'category', 'post_tag' ) // Add relevant taxonomies if needed
+    );
+
+    register_post_type( 'projects', $args );
+}
+add_action( 'init', 'register_projects_cpt' );
+
 function enqueue_custom_scripts() {
     wp_enqueue_script('sticky-header', get_template_directory_uri() . '/js/sticky-header.js', array(), null, true);
 }

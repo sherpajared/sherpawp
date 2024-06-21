@@ -27,7 +27,7 @@ body{
     overflow: visible !important;
 }
 .navbar.transparent {
-    background-color: transparent; 
+    background-color: transparent !important; 
 }
 .gap{
     gap: 1em !important;

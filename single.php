@@ -1,7 +1,7 @@
 <?php
     get_header();
      
-            get_template_part('template-parts/nav');
+            
             ?>
             <div class="p-4 card-group gap justify-content-center">
             
