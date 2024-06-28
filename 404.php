@@ -1,7 +1,7 @@
 <?php
     get_header();
      
-            get_template_part('template-parts/nav');
+            
             
             ?>
         <div class="p-4 gap justify-content-center mx-auto" style="max-width: 50%;">

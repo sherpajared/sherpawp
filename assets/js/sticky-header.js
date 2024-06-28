@@ -1,4 +1,4 @@
-console.log("hello");
+/*
 document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         var header = document.querySelector('.navbar');
@@ -8,4 +8,4 @@ document.addEventListener('DOMContentLoaded', function() {
             header.classList.remove('transparent');
         }
     });
-});
+});*/

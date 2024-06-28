@@ -98,7 +98,13 @@ function sherpawp_customize_register( $wp_customize ){
           'placeholder' => __( 'mm/dd/yyyy' ),
         ),
       ) );
-    /* Customizer for Custom Colors to use in CSS */
+    /******************
+     * Customizer:
+     * Color Selector
+     * creates css variables based on Colors selected:
+     * var(--primary-color)
+     * var(--secondary-color)
+    */
     $wp_customize->add_setting('primary_color', array(
         'default'   => '#3498db',
         'transport' => 'refresh',
@@ -108,21 +114,30 @@ function sherpawp_customize_register( $wp_customize ){
         'default'   => '#2ecc71',
         'transport' => 'refresh',
     ));
+    $wp_customize->add_setting('accent_color', array(
+        'default'   => '#ababab',
+        'transport' => 'refresh',
+    ));
 
     // Add controls
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
-        'label'    => __('Primary Color', 'mytheme'),
+        'label'    => __('Primary Color', 'sherpawp'),
         'section'  => 'colors',
         'settings' => 'primary_color',
     )));
 
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'secondary_color_control', array(
-        'label'    => __('Secondary Color', 'mytheme'),
+        'label'    => __('Secondary Color', 'sherpawp'),
         'section'  => 'colors',
         'settings' => 'secondary_color',
     )));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'accent_color_control', array(
+        'label'    => __('Accent Color', 'sherpawp'),
+        'section'  => 'colors',
+        'settings' => 'accent_color',
+    )));
     $wp_customize->add_section( 'sherpawp_footer_settings', array(
-        'title'       => __( 'Footer Settings', 'mytheme' ),
+        'title'       => __( 'Footer Settings', 'sherpawp' ),
         'description' => __( 'Customize the footer area', 'mytheme' ),
         'priority'    => 160,
     ) );
@@ -168,6 +183,21 @@ function sherpawp_customize_register( $wp_customize ){
     ) );
 }
 add_action('customize_register', 'sherpawp_customize_register');
+function sherpawp_customizer_css() {
+    $primary_color = get_theme_mod('primary_color', '#3498db');
+    $secondary_color = get_theme_mod('secondary_color', '#2ecc71');
+    $accent_color = get_theme_mod('accent_color', '#ababab');
+    ?>
+    <style type="text/css">
+        :root {
+            --primary-color: <?php echo esc_attr($primary_color); ?>;
+            --secondary-color: <?php echo esc_attr($secondary_color); ?>;
+            --accent-color: <?php echo esc_attr($accent_color); ?>
+        }
+    </style>
+    <?php
+}
+add_action('wp_head', 'sherpawp_customizer_css');
 //Add Custom Colors to head
 function sherpawp_custom_colors() {
     // Get the colors from the customizer settings
@@ -276,12 +306,12 @@ function register_projects_cpt() {
         'taxonomies'         => array( 'category', 'post_tag' ) // Add relevant taxonomies if needed
     );
 
-    register_post_type( 'projects', $args );
+    register_post_type( 'project', $args );
 }
 add_action( 'init', 'register_projects_cpt' );
 
 function enqueue_custom_scripts() {
-    wp_enqueue_script('sticky-header', get_template_directory_uri() . '/js/sticky-header.js', array(), null, true);
+    //wp_enqueue_script('sticky-header', get_template_directory_uri() . '/js/sticky-header.js', array(), null, true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
     //wp_enqueue_script();

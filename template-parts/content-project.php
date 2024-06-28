@@ -5,7 +5,7 @@
 
     <div class="entry-content">
         <?php the_content(); ?>
-        <p>poop</p>
+         
     </div><!-- .entry-content -->
 
     <?php
