@@ -51,16 +51,14 @@ d-flex - home_url(), added name 'search' to input tag
         'walker' => new header_menu_walker(),
       )
     );?>
-<div class="collapse navbar-collapse">
+<div>
       <form class="d-flex" role="search" action="<?= get_home_url()?>">
         <input name="s" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
         
       </form>
   </div>
-  <div class="d-flex">
-  <button style="max-height: 76px;" class="btn diagonal text-nowrap w-auto  nav-contact h-50" type="submit">Contact Us!</button>
-  </div>
+
     
    
     

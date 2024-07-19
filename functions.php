@@ -25,6 +25,11 @@ function sherpa_init(){
 }
 
 add_action('init', 'sherpa_init');
+function custom_admin_styles() {
+    wp_enqueue_style( 'admin-custom-style', get_template_directory_uri() . '/assets/css/admin-style.css' );
+}
+add_action( 'admin_enqueue_scripts', 'custom_admin_styles' );
+
 add_action( 'widgets_init', function(){    
         register_sidebar( array(
             'id'            => 'sidebar-1',
@@ -136,6 +141,8 @@ function sherpawp_customize_register( $wp_customize ){
         'section'  => 'colors',
         'settings' => 'accent_color',
     )));
+    /* END CUSTOM COLORS */
+    /* FOOTER SETTINGS */
     $wp_customize->add_section( 'sherpawp_footer_settings', array(
         'title'       => __( 'Footer Settings', 'sherpawp' ),
         'description' => __( 'Customize the footer area', 'mytheme' ),
@@ -181,6 +188,46 @@ function sherpawp_customize_register( $wp_customize ){
         'settings' => 'footer_text',
         'type'     => 'text',
     ) );
+    /* End Footer Settings */
+    /* Customize Hero Banner */
+    $wp_customize->add_section('hero_section', array(
+        'title' => __('Hero Section', 'mytheme'),
+        'priority' => 30,
+    ));
+
+    $wp_customize->add_setting('hero_title', array(
+        'default' => 'Welcome to Our Website',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_setting('hero_subtitle', array(
+        'default' => 'Your Success, Our Commitment',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_setting('hero_button_text', array(
+        'default' => 'Learn More',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_control('hero_title_control', array(
+        'label' => __('Hero Title', 'mytheme'),
+        'section' => 'hero_section',
+        'settings' => 'hero_title',
+    ));
+
+    $wp_customize->add_control('hero_subtitle_control', array(
+        'label' => __('Hero Subtitle', 'mytheme'),
+        'section' => 'hero_section',
+        'settings' => 'hero_subtitle',
+    ));
+
+    $wp_customize->add_control('hero_button_text_control', array(
+        'label' => __('Hero Button Text', 'mytheme'),
+        'section' => 'hero_section',
+        'settings' => 'hero_button_text',
+    ));
+    /* End Hero */
 }
 add_action('customize_register', 'sherpawp_customize_register');
 function sherpawp_customizer_css() {
@@ -309,9 +356,146 @@ function register_projects_cpt() {
     register_post_type( 'project', $args );
 }
 add_action( 'init', 'register_projects_cpt' );
+// Add meta box for gallery images on project post type
+function project_gallery_meta_box() {
+    add_meta_box(
+        'project_gallery_meta_box',
+        'Project Gallery Images',
+        'project_gallery_meta_box_callback',
+        'project', // Replace with your custom post type slug
+        'normal',
+        'high'
+    );
+}
+
+
+// Callback function to display meta box content
+// Callback function to display meta box content
+function project_gallery_meta_box_callback($post) {
+    // WordPress nonce for security
+    wp_nonce_field(basename(__FILE__), 'project_gallery_nonce');
+    
+    // Retrieve the current gallery images
+    $gallery_images = get_post_meta($post->ID, 'project-gallery-images', true); // Use true to return a single value
+
+    ?>
+    <div>
+        <label for="project-gallery-images">Gallery Images:</label>
+        <ul id="gallery-images-container">
+            <?php
+            if (!empty($gallery_images)) {
+                foreach ($gallery_images as $attachment_id) {
+                    echo '<li>';
+                    echo wp_get_attachment_image($attachment_id, 'thumbnail');
+                    echo '</li>';
+                }
+            }
+            ?>
+        </ul>
+        <input id="project-gallery-images" name="project-gallery-images" value="<?php echo esc_attr(json_encode($gallery_images)); ?>" />
+        <button id="upload_gallery_images_button" class="button">Select Images</button>
+    </div>
+    <script>
+    jQuery(document).ready(function($) {
+        var customUploader;
+        attachmentIds = [];
+        $('#upload_gallery_images_button').click(function(e) {
+            e.preventDefault();
+
+            if (customUploader) {
+                customUploader.open();
+                return;
+            }
+
+            customUploader = wp.media.frames.file_frame = wp.media({
+                title: 'Choose Images',
+                button: {
+                    text: 'Select'
+                },
+                multiple: true
+            });
+
+            customUploader.on('select', function() {
+                var newAttachmentIds = customUploader.state().get('selection').map(function(attachment) {
+                    attachment = attachment.toJSON();
+                    return attachment.id;
+                });
+                attachmentIds = attachmentIds.concat(newAttachmentIds);
+                console.log(attachmentIds);
+                $('#project-gallery-images').val(JSON.stringify(attachmentIds));
+                $('#gallery-images-container').empty();
+
+                attachmentIds.forEach(function(attachmentId) {
+                    wp.media.attachment(attachmentId).fetch().done(function(attachment) {
+                        var imageUrl = attachment.url;
+                        $('#gallery-images-container').append('<li><img src="' + imageUrl + '" class="gallery-image-preview" /></li>');
+                    });
+                });
+            });
+
+            customUploader.open();
+        });
+    });
+    </script>
+    <?php
+}
+
+
+add_action('add_meta_boxes', 'project_gallery_meta_box');
+// Save meta box data
+
+
+function save_project_gallery_meta_box($post_id) {
+    if (!isset($_POST['project_gallery_nonce']) || !wp_verify_nonce($_POST['project_gallery_nonce'], basename(__FILE__))) {
+        return $post_id;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return $post_id;
+    }
+
+    if ('page' === $_POST['post_type'] && !current_user_can('edit_page', $post_id)) {
+        return $post_id;
+    } elseif (!current_user_can('edit_post', $post_id)) {
+        return $post_id;
+    }
+
+    $gallery_images = json_decode(stripslashes($_POST['project-gallery-images']));
+    update_post_meta($post_id, 'project-gallery-images', $gallery_images);
+}
+add_action('save_post', 'save_project_gallery_meta_box');
+
+function save_project_gallery_meta_data($post_id) {
+    // Check if nonce is set
+    if (!isset($_POST['project_gallery_nonce'])) {
+        return;
+    }
+
+    // Verify nonce
+    if (!wp_verify_nonce($_POST['project_gallery_nonce'], 'project_gallery_meta_box')) {
+        return;
+    }
+
+    // Check if this is an autosave
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Check if the user has permissions to save data
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Save gallery images data
+    if (isset($_POST['gallery_images'])) {
+        update_post_meta($post_id, 'gallery_images', sanitize_text_field($_POST['gallery_images']));
+    }
+}
+add_action('save_post', 'save_project_gallery_meta_data');
 
 function enqueue_custom_scripts() {
     //wp_enqueue_script('sticky-header', get_template_directory_uri() . '/js/sticky-header.js', array(), null, true);
+    wp_enqueue_script('navbar-js', get_template_directory_uri() . '/assets/js/navbar-vp-optimize.js', array(), null, true);
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
     //wp_enqueue_script();

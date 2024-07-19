@@ -1,0 +1,32 @@
+.gallery-image-preview, .gallery-image-container{
+    position: relative;
+    max-height: 90%;
+    max-width: 90%; 
+    height: auto;
+    width: auto;
+
+}
+
+.gallery-image {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+}
+.delete-image{
+    
+    background-color: red;
+    display: block;
+    position: relative;
+    top: 0;
+    right: 0;
+    height: 50px;
+    width: 50px;
+}
+.gallery-image-preview:hover .delete-image{
+    display:block;
+}
+
+
+
+
+

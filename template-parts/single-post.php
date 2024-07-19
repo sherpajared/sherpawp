@@ -7,14 +7,21 @@
           $views = (int)get_post_meta($post_id, 'views', true);
           echo "Views: " . $views . "<br>";
   ?>
-  <?php the_post_thumbnail('post-thumbnail', [
-    'style'=> 'width: 50%; height: 100%; display: inline-block; margin-top: 1em;']); ?>
+  <?php 
+      if (has_post_thumbnail($post->ID)) {
+        // If post has thumbnail, display it
+        the_post_thumbnail($size);
+    } else {
+        // If no thumbnail, display placeholder image
+        echo '<img src="' . get_template_directory_uri() . '/assets/img/placeholders/sherpa3-2.png" alt="' . get_the_title() . '" />';
+    } 
+  ?>
   </div>
   <div class="body">
     
     <h5 class="title"><?php the_title()?></h5>
     <p class="text center"><?= substr(get_the_excerpt(), 0, 50)?></p>
-    <a href="<?php the_permalink()?>" class="btn btn-primary">Read More</a>
+    <a href="<?php the_permalink()?>" class="btn btn-primary sherpa-color">Read More</a>
   </div>
   <p></p>
 </div>

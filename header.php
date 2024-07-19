@@ -9,6 +9,7 @@
 
     <!-- 'NavBar' - Bootstrap>Components-->   
     <body <?php body_class()?>>
+        
         <?php get_template_part('template-parts/nav'); ?>
 
         <?php wp_body_open();

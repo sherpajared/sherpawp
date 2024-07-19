@@ -122,10 +122,75 @@ class Recent_Posts_Widget extends WP_Widget {
         return $instance;
     }
 }
+class Image_Gallery_Widget extends WP_Widget {
+
+    public function __construct() {
+        parent::__construct(
+            'image_gallery_widget', // Base ID
+            'Image Gallery Widget', // Widget name
+            array( 'description' => 'Displays an image gallery' )
+        );
+    }
+
+    // Widget form (admin panel)
+    public function form($instance) {
+        // Output admin widget options form
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
+        $images = ! empty( $instance['images'] ) ? $instance['images'] : '';
+
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id( 'images' ); ?>"><?php _e( 'Image URLs (comma-separated):' ); ?></label>
+            <textarea class="widefat" rows="5" id="<?php echo $this->get_field_id( 'images' ); ?>" name="<?php echo $this->get_field_name( 'images' ); ?>"><?php echo esc_textarea( $images ); ?></textarea>
+        </p>
+        <?php
+    }
+
+    // Widget update/save
+    public function update($new_instance, $old_instance) {
+        $instance = array();
+        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+        $instance['images'] = ( ! empty( $new_instance['images'] ) ) ? sanitize_text_field( $new_instance['images'] ) : '';
+
+        return $instance;
+    }
+
+    // Widget display on front-end
+    public function widget($args, $instance) {
+        $title = apply_filters( 'widget_title', $instance['title'] );
+        $images = ! empty( $instance['images'] ) ? explode( ',', $instance['images'] ) : array();
+
+        echo $args['before_widget'];
+        if ( ! empty( $title ) ) {
+            echo $args['before_title'] . $title . $args['after_title'];
+        }
+
+        if ( ! empty( $images ) ) {
+            echo '<div class="image-gallery-widget">';
+            foreach ( $images as $image_url ) {
+                if ( ! empty( $image_url ) ) {
+                    echo '<img src="' . esc_url( $image_url ) . '" alt="">';
+                }
+            }
+            echo '</div>';
+        }
+
+        echo $args['after_widget'];
+    }
+}
+
+// Register the widget
+
+
 
 function register_custom_widgets() {
     register_widget('Most_Viewed_Widget');
     register_widget('Recent_Posts_Widget');
+	register_widget( 'Image_Gallery_Widget' );
 };
 add_action('widgets_init', 'register_custom_widgets');
 ?>
