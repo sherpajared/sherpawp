@@ -5,130 +5,123 @@
 
 ?>
 <style>
-    .gallery-section{
-        display: flex;
-        justify-content: center;
-    }
-    .gallery{
-        width: 80%;
-    }
-    .gallery-main-img{
-        width: auto;
-        height: 600px;
-        object-fit: cover;
-    }
-    .multi-carousel {
-  overflow: hidden;
+.gallery-2{
+    max-height: 80vh;
+    padding: 1em;
+    margin: 2em;
+   
+}
+.sherpa-gallery{
+    display: grid;
+    gap: 10px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 2fr 5fr;
+    width: 100%;
+    min-width: 100%;
+    max-height: 80vh;
+    height: 80vh;
+    
+}
+.carousel-container{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+    max-height: 100%;
+    height: inherit;
+    box-sizing: border-box;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.carousel-item-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure content does not overflow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); /* Shiny effect */
+    background-color: #fff; /* Optional background color for better contrast */
 }
 
-.multi-carousel-inner {
-  display: flex;
-  flex-direction: column;
-  /* Adjust as needed for your design */
-}
-
-.multi-carousel-item {
-  flex: 1 0 33.33%; /* Adjust to fit 3 items */
-  height: 600px;
-}
-
-div[withcaption="false"]{
+.carousel-img {
+    object-fit: contain;
 
 }
+.main-image-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+
+}
+.main-img{
+    max-height: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+
+}
+
 </style>
-
-<div class="gallery vertical">
-  <div class="row">
-    <div class="col-4 col-sm-3">
-      <div class="multi-carousel vertical"  carousel-items="3">
-        <div class="multi-carousel-inner">
-          <div class="multi-carousel-item active">
-            <div class="image-wrapper">
-            <img
-              src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-              main-image="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-              alt="sherpa-placeholder"
-              class="active w-100"
-            /></div>
-            
-          </div>
-          <div class="multi-carousel-item">
-            <div class="img-wrapper"><img
-              src="https://picsum.photos/200/300"
-              main-image="https://picsum.photos/200/300"
-              alt="picsum1"
-              class="w-100"
-            /></div>
-           
-          </div>
-          <div class="multi-carousel-item">
-            <div class="img-wrapper"><img
-              src="https://picsum.photos/200/300"
-              main-image="https://picsum.photos/200/300"
-              alt="picsum2"
-              class="w-100"
-            /></div>
-           
-          </div>
-          <div class="multi-carousel-item">
-            <div class="img-wrapper"><img
-              src="https://picsum.photos/200/300"
-              main-image="https://picsum.photos/200/300"
-              alt="picsum3"
-              class="w-100"
-            /></div>
-            
-          </div>
+<div class="sherpa-gallery">
+    <div class="carousel-container">
+        <div class="carousel-item-container cast">
+            <img 
+                class="carousel-img"
+                src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
+                carousel-link=""
+                alt="image1"
+            >
         </div>
-        <button
-          class="carousel-control-prev"
-          tabindex="0"
-          type="button"
-          data-slide="prev"
-        >
-          <span
-            class="carousel-control-prev-icon"
-            aria-hidden="true"
-          ></span>
-        </button>
-        <button
-          class="carousel-control-next"
-          tabindex="0"
-          type="button"
-          data-slide="next"
-        >
-          <span
-            class="carousel-control-next-icon"
-            aria-hidden="true"
-          ></span>
-        </button>
-      </div>
+        <div class="carousel-item-container">
+            <img 
+                class="carousel-img"
+                src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
+                carousel-link=""
+                alt="image2"
+            >
+        </div>
+        <div class="carousel-item-container active">
+            <img 
+                class="carousel-img"
+                src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
+                carousel-link=""
+                alt="image3"
+            >
+        </div>
+        <div class="carousel-item-container active">
+            <img 
+                class="carousel-img"
+                src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
+                carousel-link=""
+                alt="image4"
+            >
+        </div>
     </div>
-    <div class="col-8 col-sm-9">
-      <div class="lightbox" data-lightbox-init>
-        <img
-          src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-          alt="sherpa-placeholder"
-          class="gallery-main-img active w-100"
-        />
-        
-      </div>
+    <div class="main-sec-container">
+        <div class="lightbox main-image-container">
+            <img class="main-img" src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png" alt="main-image">
+        </div>       
     </div>
-  </div>
 </div>
+
 <div class="project-images">
     <?php
     // Check if the post has a featured image (post thumbnail) and display it
-    echo '<div class="project-thumbnail">';
+    //echo '<div class="project-thumbnail">';
     if (has_post_thumbnail()) {
         
-        the_post_thumbnail('large'); // Display the featured image with 'large' size
+       //   the_post_thumbnail('large'); // Display the featured image with 'large' size
         
-    }
+  }
     else{
-        echo '<img src="' . get_template_directory_uri() . '/assets/img/placeholders/sherpa3-2.png" alt="' . get_the_title() . '" />';
+        //echo '<img src="' . get_template_directory_uri() . '/assets/img/placeholders/sherpa3-2.png" alt="' . get_the_title() . '" />';
     }
-    echo '</div>';
+    //echo '</div>';
     // Example: Display additional gallery images if available
     $gallery_images = get_post_meta(get_the_ID(), 'gallery_images', true); // Fetch gallery images meta data
 

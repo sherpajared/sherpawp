@@ -10,7 +10,11 @@
   <?php 
       if (has_post_thumbnail($post->ID)) {
         // If post has thumbnail, display it
-        the_post_thumbnail($size);
+        if(get_post_type() != 'projects'){
+          echo "who shotcha";
+          the_post_thumbnail($size);
+        }
+
     } else {
         // If no thumbnail, display placeholder image
         echo '<img src="' . get_template_directory_uri() . '/assets/img/placeholders/sherpa3-2.png" alt="' . get_the_title() . '" />';

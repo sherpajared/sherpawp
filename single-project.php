@@ -11,12 +11,28 @@
                 <div class="entry-content">
                     <?php
                     the_content();
+                    $HAS_CAPTION = false;
                     ?>
 
                     <?php
                     // Include template parts for project details and images
-                    get_template_part('template-parts/content', 'project-details');
-                    get_template_part('template-parts/content', 'project-images');
+                    if ($HAS_CAPTION){
+                        ?>
+                        <div class="detail-section">
+                            <?php get_template_part('template-parts/content', 'project-details'); ?>
+                        </div>
+                        <div class="gallery-1">
+                            <?php get_template_part('template-parts/content', 'project-images'); ?>
+                        </div>
+                    <?php
+                    }else{ ?>
+                        <div class="gallery-2">
+                            <?php get_template_part('template-parts/content', 'project-images'); ?>
+                        </div><?php
+                    }
+                    
+                    
+
                     ?>
                 </div><!-- .entry-content -->
             </article><!-- #post-<?php the_ID(); ?> -->
