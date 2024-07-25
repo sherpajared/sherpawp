@@ -73,7 +73,7 @@
             <img 
                 class="carousel-img"
                 src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-                carousel-link=""
+                main-img=""
                 alt="image1"
             >
         </div>
@@ -81,7 +81,7 @@
             <img 
                 class="carousel-img"
                 src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-                carousel-link=""
+                main-img=""
                 alt="image2"
             >
         </div>
@@ -89,7 +89,7 @@
             <img 
                 class="carousel-img"
                 src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-                carousel-link=""
+                main-img=""
                 alt="image3"
             >
         </div>
@@ -97,7 +97,7 @@
             <img 
                 class="carousel-img"
                 src="http://localhost/wordpress/wp-content/themes/sherpawp/assets/img/placeholders/sherpa3-2.png"
-                carousel-link=""
+                main-img=""
                 alt="image4"
             >
         </div>
@@ -146,15 +146,15 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeCarousel();
 
   // Listener for click
-  document.querySelectorAll('.multi-carousel-item').forEach(ele => {
+  document.querySelectorAll('carousel-item-container').forEach(ele => {
     ele.addEventListener('click', function() {
-      document.querySelectorAll('.multi-carousel-item').forEach(item => {item.classList.remove('active')});
+      document.querySelectorAll('carousel-item-container').forEach(item => {item.classList.remove('active')});
       
 
       //set active class and update image val
       this.classList.add('active');
         console.log(this);
-      const mainImageSrc = this.querySelector('img').getAttribute('main-image');
+      const mainImageSrc = this.querySelector('img').getAttribute('main-img');
       console.log(mainImageSrc);
       document.querySelector('.lightbox img').setAttribute('src', mainImageSrc);
     });
