@@ -376,24 +376,61 @@ function project_gallery_meta_box_callback($post) {
     wp_nonce_field(basename(__FILE__), 'project_gallery_nonce');
     
     // Retrieve the current gallery images
-    $gallery_images = get_post_meta($post->ID, 'project-gallery-images', true); // Use true to return a single value
+    $gallery_images = get_post_meta($post->ID, 'project-gallery-images', true);
+    $gallery_captions = get_post_meta($post->ID, 'project-gallery-captions', true); // Use true to return a single value
 
     ?>
     <div>
         <label for="project-gallery-images">Gallery Images:</label>
-        <ul id="gallery-images-container">
+        <div id="gallery-images-container">
             <?php
             if (!empty($gallery_images)) {
-                foreach ($gallery_images as $attachment_id) {
+                
+                    ?><table id="newmeta" class="sherpa-custom-field-table">
+                        <thead>
+                        <tr>
+                        <th class="left"><label for="image">Image</label></th>
+                        <th><label for="Caption">Caption</label></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        $count = 1;
+                        $custom = ['class' => 'sherpa-limit-img'];
+                        foreach ($gallery_images as $attachment_id) { ?>
+                            <tr class="gallery-row">
+                                <td id="newmetaleft" class="left sherpa-custom-field-table-left">
+                                    
+                                    <?php echo '<div id="img' . $count . '" class="gallery-image">' . wp_get_attachment_image($attachment_id, false) . '</div>'; ?>
+                                </td>
+                                <td class="sherpa-custom-field-table-right">
+                                    <?php echo '<textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea>';?>
+                                </td>
+                            </tr>
+                            <?php 
+                            $count = $count + 1; 
+                        } 
+                        ?>
+                        <tr>
+                            <td id="newmetaleft" class="left">                               
+                                <button id="upload_gallery_images_button" class="button">Select Images</button>
+                            </td>
+                            <td>
+                                <textarea id="metavalue" name="metavalue" rows="2" cols="25"></textarea>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <?php
                     echo '<li>';
                     echo wp_get_attachment_image($attachment_id, 'thumbnail');
                     echo '</li>';
-                }
+                
             }
             ?>
-        </ul>
+        </div>
         <input id="project-gallery-images" name="project-gallery-images" value="<?php echo esc_attr(json_encode($gallery_images)); ?>" />
-        <button id="upload_gallery_images_button" class="button">Select Images</button>
+        
     </div>
     <script>
     jQuery(document).ready(function($) {
@@ -461,6 +498,7 @@ function save_project_gallery_meta_box($post_id) {
     }
 
     $gallery_images = json_decode(stripslashes($_POST['project-gallery-images']));
+
     update_post_meta($post_id, 'project-gallery-images', $gallery_images);
 }
 add_action('save_post', 'save_project_gallery_meta_box');

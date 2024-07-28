@@ -25,6 +25,37 @@
 .gallery-image-preview:hover .delete-image{
     display:block;
 }
+.gallery-image{
+    max-width: 45%;
+    
+    
+}
+.gallery-row{
+    display: block;
+    max-height: auto;
+    height: auto;
+    padding: 1%;
+    border: solid thick black;
+    border-radius: 10px;
+}
+.sherpa-custom-field-table-left{
+    max-height: 100%;
+    max-width: 100%;
+}
+.gallery-row img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    
+}
+.sherpa-custom-field-table{
+    margin: 0;
+    width: 100%;
+    border: 1px solid #dcdcde;
+    border-spacing: 0;
+    background-color: #f6f7f7;
+}
+
 
 
 
