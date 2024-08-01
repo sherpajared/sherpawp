@@ -387,24 +387,27 @@ function project_gallery_meta_box_callback($post) {
             if (!empty($gallery_images)) {
                 
                     ?><table id="newmeta" class="sherpa-custom-field-table">
-                        <thead>
+                        <thead class="sherpa-thead">
                         <tr>
-                        <th class="left"><label for="image">Image</label></th>
-                        <th><label for="Caption">Caption</label></th>
+                        <th class="left sherpa-th"><label for="image" class="sherpa-table-label">Image</label></th>
+                        <th class="right sherpa-th"><label for="Caption" class="sherpa-table-label">Caption</label></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="sherpa-custom-field-body">
                         <?php
                         $count = 1;
                         $custom = ['class' => 'sherpa-limit-img'];
                         foreach ($gallery_images as $attachment_id) { ?>
                             <tr class="gallery-row">
-                                <td id="newmetaleft" class="left sherpa-custom-field-table-left">
-                                    
+                                <td class="left">
+                                    <div class="td-border">
                                     <?php echo '<div id="img' . $count . '" class="gallery-image">' . wp_get_attachment_image($attachment_id, false) . '</div>'; ?>
+                                    </div>
                                 </td>
-                                <td class="sherpa-custom-field-table-right">
-                                    <?php echo '<textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea>';?>
+                                <td class="right">
+                                    <div class="td-border">
+                                    <?php echo '<div id="caption" class="gallery-caption"><textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea></div>';?>
+                                    </div>
                                 </td>
                             </tr>
                             <?php 

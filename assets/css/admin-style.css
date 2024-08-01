@@ -10,7 +10,8 @@
 .gallery-image {
     position: relative;
     display: inline-block;
-    margin-right: 10px;
+    align-items: center;
+    width: 100%;
 }
 .delete-image{
     
@@ -25,19 +26,72 @@
 .gallery-image-preview:hover .delete-image{
     display:block;
 }
-.gallery-image{
-    max-width: 45%;
-    
-    
-}
+
 .gallery-row{
-    display: block;
-    max-height: auto;
-    height: auto;
-    padding: 1%;
-    border: solid thick black;
-    border-radius: 10px;
+    border-spacing: 5em;
+    border-collapse: collapse;
 }
+.gallery-row td{
+    height: 1px;
+}
+.gallery-image{
+    width: 45%;
+    height: 100%;
+}
+
+.sherpa-th{
+    text-align: left !important;
+}
+
+.td-border{
+    height: 90%;
+    padding: 0.5em;
+
+}
+.sherpa-custom-field-body .gallery-row td:first-child .td-border{
+
+    border-top: dashed 2pt #ababab;
+    border-left: dashed 2pt #ababab;
+    border-bottom: dashed 2pt #ababab;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    border-collapse: collapse;
+}
+.sherpa-custom-field-body .gallery-row td:last-child .td-border{
+
+    border-top: dashed 2pt #ababab;
+    border-right: dashed 2pt #ababab;
+    border-bottom: dashed 2pt #ababab;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    border-collapse: collapse;
+}
+.sherpa-custom-field-body .gallery-row td:first-child{
+
+    padding: 1em 0 1em 0;
+    box-sizing: border-box;
+
+}
+.sherpa-custom-field-body .gallery-row td:last-child{
+   
+    padding: 1em 0 1em 0;
+    box-sizing: border-box;
+}
+.sherpa-table-label{
+    padding-left: 1em;
+}
+.gallery-image, .gallery-caption{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    height: 100%;
+
+}
+.sherpa-custom-field-body{
+    width: 100%;
+}
+
+
 .sherpa-custom-field-table-left{
     max-height: 100%;
     max-width: 100%;
@@ -49,7 +103,10 @@
     
 }
 .sherpa-custom-field-table{
+    display: table;
+    table-layout: fixed;
     margin: 0;
+    padding: 0.5em;
     width: 100%;
     border: 1px solid #dcdcde;
     border-spacing: 0;
