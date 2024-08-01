@@ -406,7 +406,8 @@ function project_gallery_meta_box_callback($post) {
                                 </td>
                                 <td class="right">
                                     <div class="td-border">
-                                    <?php echo '<div id="caption" class="gallery-caption"><textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea></div>';?>
+                                    <?php echo '<div id="caption" class="gallery-caption"><textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea>';?>
+                                    <?php echo '<button type="button" class="close delete-image" id="remove' . $count . '"aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';?>
                                     </div>
                                 </td>
                             </tr>
