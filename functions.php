@@ -407,7 +407,7 @@ function project_gallery_meta_box_callback($post) {
                                 <td class="right">
                                     <div class="td-border">
                                     <?php echo '<div id="caption" class="gallery-caption"><textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea>';?>
-                                    <?php echo '<button type="button" class="close delete-image" id="remove' . $count . '"aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';?>
+                                    <?php echo '<button type="button" class="sherpa-btn-close" aria-label="Close" id="remove' . $count . '"aria-label="Close">&times;</button></div>';?>
                                     </div>
                                 </td>
                             </tr>
@@ -415,20 +415,28 @@ function project_gallery_meta_box_callback($post) {
                             $count = $count + 1; 
                         } 
                         ?>
-                        <tr>
+                        <tr class="gallery-row">
                             <td id="newmetaleft" class="left">                               
-                                <button id="upload_gallery_images_button" class="button">Select Images</button>
+                                <div class="td-border">
+                                    <div class="gallery-add" id="replace-me">
+                                        <button id="upload_gallery_images_button" class="button">Select Images</button>
+                                    </div>
+                                </div>
                             </td>
-                            <td>
-                                <textarea id="metavalue" name="metavalue" rows="2" cols="25"></textarea>
+                            <td class="right">
+                                <div class="td-border">
+                                    <div class="gallery-caption">
+                                        <textarea id="gallery-caption-new" name="caption" rows="2" cols="25"></textarea>
+                                        <button type="button" class="sherpa-btn-close" aria-label="Close" id="remove-new"aria-label="Close">&times;</button>
+                                    </div>
+                                </div>
+                                </td>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                     <?php
-                    echo '<li>';
-                    echo wp_get_attachment_image($attachment_id, 'thumbnail');
-                    echo '</li>';
+
                 
             }
             ?>
@@ -457,14 +465,26 @@ function project_gallery_meta_box_callback($post) {
             });
 
             customUploader.on('select', function() {
-                var newAttachmentIds = customUploader.state().get('selection').map(function(attachment) {
+                var newAttachment = customUploader.state().get('selection').map(function(attachment) {
                     attachment = attachment.toJSON();
-                    return attachment.id;
+                    return attachment;
                 });
+                newAttachmentIds = newAttachment[0].id;
                 attachmentIds = attachmentIds.concat(newAttachmentIds);
                 console.log(attachmentIds);
                 $('#project-gallery-images').val(JSON.stringify(attachmentIds));
-                $('#gallery-images-container').empty();
+                let newImageLocation = document.getElementById("replace-me");
+                newImageLocation.classList.remove("gallery-add");
+                newImageLocation.classList.add("gallery-image");
+                newImageLocation.innerHTML = '';
+                let newDiv = document.createElement('div');
+                let x = "img" + (document.querySelectorAll(".gallery-row").length+1);
+                newDiv.id = x;
+                newDiv.classList.add("gallery-image");
+                let newImage = document.createElement('img');
+                newImage.src = newAttachment[0].url;
+                newImageLocation.appendChild(newDiv);
+                newDiv.appendChild(newImage);
 
                 attachmentIds.forEach(function(attachmentId) {
                     wp.media.attachment(attachmentId).fetch().done(function(attachment) {

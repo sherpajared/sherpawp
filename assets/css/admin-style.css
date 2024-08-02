@@ -52,12 +52,16 @@
     right: 0;
 }
 .gallery-caption textarea{
-    width: 60%;
-    margin-right: 5em;
+    width: 75%;
+    margin-right: 3em;
     flex-grow: 1;
 }
-
-.sherpa-th:first-child{
+.gallery-add{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+.sherpa-th{
     text-align: left !important;
 }
 
@@ -107,6 +111,17 @@
 }
 .sherpa-custom-field-body{
     width: 100%;
+}
+.sherpa-btn-close{
+    background-color: transparent;
+    border: none;
+    font-size: 14pt;
+    font-weight: 500;
+    color: #ababab;
+    transition-duration: .3s;
+}
+.sherpa-btn-close:hover{
+    color: red;
 }
 
 
