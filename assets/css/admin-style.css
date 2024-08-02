@@ -71,6 +71,9 @@
     background-color: #fafbfb;
 
 }
+.td-border.full{
+    width: 100%;
+}
 .sherpa-custom-field-body .gallery-row td:first-child .td-border{
 
     border-top: dashed 2pt #ababab;

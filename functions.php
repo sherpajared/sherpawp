@@ -383,17 +383,19 @@ function project_gallery_meta_box_callback($post) {
     <div>
         <label for="project-gallery-images">Gallery Images:</label>
         <div id="gallery-images-container">
+            
+            <table id="newmeta" class="sherpa-custom-field-table">
+            <thead class="sherpa-thead">
+            <tr>
+            <th class="left sherpa-th"><label for="image" class="sherpa-table-label">Image</label></th>
+            <th class="right sherpa-th"><label for="Caption" class="sherpa-table-label">Caption</label></th>
+            </tr>
+            </thead>
+            <tbody class="sherpa-custom-field-body" id="sherpa-gallery-body">
             <?php
             if (!empty($gallery_images)) {
                 
-                    ?><table id="newmeta" class="sherpa-custom-field-table">
-                        <thead class="sherpa-thead">
-                        <tr>
-                        <th class="left sherpa-th"><label for="image" class="sherpa-table-label">Image</label></th>
-                        <th class="right sherpa-th"><label for="Caption" class="sherpa-table-label">Caption</label></th>
-                        </tr>
-                        </thead>
-                        <tbody class="sherpa-custom-field-body">
+                    ?>
                         <?php
                         $count = 1;
                         $custom = ['class' => 'sherpa-limit-img'];
@@ -414,32 +416,20 @@ function project_gallery_meta_box_callback($post) {
                             <?php 
                             $count = $count + 1; 
                         } 
+            }
                         ?>
-                        <tr class="gallery-row">
-                            <td id="newmetaleft" class="left">                               
-                                <div class="td-border">
+                        <tr class="gallery-row" id="sherpa-add">
+                            <td id="newmetaleft" class="full">                               
+                                <div class="td-border full">
                                     <div class="gallery-add" id="replace-me">
                                         <button id="upload_gallery_images_button" class="button">Select Images</button>
                                     </div>
                                 </div>
                             </td>
-                            <td class="right">
-                                <div class="td-border">
-                                    <div class="gallery-caption">
-                                        <textarea id="gallery-caption-new" name="caption" rows="2" cols="25"></textarea>
-                                        <button type="button" class="sherpa-btn-close" aria-label="Close" id="remove-new"aria-label="Close">&times;</button>
-                                    </div>
-                                </div>
-                                </td>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
-                    <?php
 
-                
-            }
-            ?>
         </div>
         <input id="project-gallery-images" name="project-gallery-images" value="<?php echo esc_attr(json_encode($gallery_images)); ?>" />
         
@@ -465,14 +455,20 @@ function project_gallery_meta_box_callback($post) {
             });
 
             customUploader.on('select', function() {
+                //gets the attachment that was selected
                 var newAttachment = customUploader.state().get('selection').map(function(attachment) {
                     attachment = attachment.toJSON();
                     return attachment;
                 });
-                newAttachmentIds = newAttachment[0].id;
+                //clones the table row that contains the select image button
+                const rowAdd = document.getElementById('sherpa-add').cloneNode(true);
+                //gets the ID of a selected image
+                let newAttachmentIds = newAttachment[0].id;
+                //adds it to the total list of all image ids in an input field
                 attachmentIds = attachmentIds.concat(newAttachmentIds);
+                $('project-gallery-images').val(JSON.stringify(attachmentIds));
                 console.log(attachmentIds);
-                $('#project-gallery-images').val(JSON.stringify(attachmentIds));
+                //the select buttons div container class is called replace me because when a user 
                 let newImageLocation = document.getElementById("replace-me");
                 newImageLocation.classList.remove("gallery-add");
                 newImageLocation.classList.add("gallery-image");
@@ -485,7 +481,7 @@ function project_gallery_meta_box_callback($post) {
                 newImage.src = newAttachment[0].url;
                 newImageLocation.appendChild(newDiv);
                 newDiv.appendChild(newImage);
-
+                document.getElementById("sherpa-gallery-body").appendChild(rowAdd);
                 attachmentIds.forEach(function(attachmentId) {
                     wp.media.attachment(attachmentId).fetch().done(function(attachment) {
                         var imageUrl = attachment.url;
