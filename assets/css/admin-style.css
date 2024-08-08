@@ -30,6 +30,10 @@
     
     border-collapse: collapse;
 }
+.gallery-row.hide{
+    display: none;
+    visibility: hidden;
+}
 .gallery-row td{
     
     height: 1px;

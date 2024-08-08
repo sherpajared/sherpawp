@@ -18,6 +18,11 @@
             </div>
         <?php endif; ?>
     </div>
+    <script>
+        $(document).ready(function() {
+            $(".my-scrollable-element").nanoScroller();
+        });
+    </script>
 </footer>
 <?php wp_footer(); ?>
 </body>

@@ -3,6 +3,9 @@
     <head>
         <meta charset="<?php bloginfo('charset')?>">
         <meta name="description" content="<?php blogInfo('description')?>">
+        <link rel="stylesheet" href="<?php echo get_template_directory_uri()."/assets/css/nanoscroller.css"?>">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="<?php echo get_template_directory_uri()."/assets/js/nanoscroller.js"?>">
         <title><?php bloginfo('name')?></title>
         <?php wp_head()?>
     </head>

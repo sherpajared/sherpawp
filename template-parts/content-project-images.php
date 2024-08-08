@@ -5,91 +5,12 @@
 
 ?>
 <style>
-.gallery-2{
-    max-height: 60vh;
-    width: 60%;
-    height: 60vh;
-    padding: 1em;
-    margin: 2em;
-   
-}
-.sherpa-gallery{
-    display: grid;
-    gap: 0 10px;
-    grid-template-rows: 1fr;
-    grid-template-columns: 2fr 6fr;
-    width: auto;
-    max-height: 60vh;
-    height: 60vh;
-    
-}
-.carousel-container{
-    display: grid;
-    grid-auto-rows: auto;
-    grid-template-columns: 1fr;
-    max-height: 100%;
-    height: inherit;
-    box-sizing: border-box;
-    gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-.carousel-item-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    border-radius: 5px; /* Rounded corners */
-    overflow: hidden; /* Ensure content does not overflow */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19); /* Shiny effect */
-    background-color: #fff; /* Optional background color for better contrast */
-}
 
-.carousel-img {
-    width: 100%;
-    object-fit: contain;
 
-}
-.main-sec-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    place-items: center;
-    max-height: 90%;
-    width: 90%;
-    height: inherit;
-    box-sizing: border-box;
-    gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin: auto;
-    
-    
-}
-.main-image-container{
-    display: flex;
-    border-radius: 10px;
-    overflow: hidden;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    object-fit: contain;
-    
-}
-.main-img{
-    max-height: 100%;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-
-}
 
 </style>
-<div class="sherpa-gallery">
-    <div class="carousel-container">
+<div class="sherpa-gallery nano">
+    <div class="carousel-container nano-content">
         <?php
         
                    $gallery_images = get_project_gallery_images(get_the_ID());
