@@ -81,7 +81,7 @@ function project_gallery_meta_box_callback($post) {
                                 </td>
                                 <td class="right">
                                         <div class="td-border">
-                                        <div id="caption" class="gallery-caption"><textarea id="gallery-caption0" name="caption" rows="2" cols="25"></textarea>
+                                        <div id="caption" class="gallery-caption"><textarea id="gallery-caption0" name="" rows="2" cols="25"></textarea>
                                         <button type="button" class="sherpa-btn-close" aria-label="Close" id="remove0"aria-label="Close">&times;</button></div>
                                     </div>
                                 </td>
@@ -93,7 +93,7 @@ function project_gallery_meta_box_callback($post) {
                         <?php
                         $count = 1;
                         $custom = ['class' => 'sherpa-limit-img'];
-                        foreach ($gallery_images as $attachment_id) { ?>
+                        foreach ($gallery_images as $index => $attachment_id) { ?>
                             <tr class="gallery-row">
                                 <td class="left">
                                     <div class="td-border">
@@ -102,7 +102,7 @@ function project_gallery_meta_box_callback($post) {
                                 </td>
                                 <td class="right">
                                     <div class="td-border">
-                                    <?php echo '<div id="caption" class="gallery-caption"><textarea id="gallery-caption' . $count . '" name="caption" rows="2" cols="25"></textarea>';?>
+                                    <?php echo '<div id="caption" class="gallery-caption"><textarea id="gallery-caption' . $count . '" name="gallery_captions[]" rows="2" cols="25">' . esc_textarea($gallery_captions[$index] ?? '') . '</textarea>';?>
                                     <?php echo '<button type="button" class="sherpa-btn-close" aria-label="Close" id="remove' . $count . '"aria-label="Close">&times;</button></div>';?>
                                     </div>
                                 </td>
@@ -246,8 +246,11 @@ function save_project_gallery_meta_box($post_id) {
     }
 
     $gallery_images = json_decode(stripslashes($_POST['project-gallery-images']));
-
     update_post_meta($post_id, 'project-gallery-images', $gallery_images);
+
+    $gallery_captions = isset($_POST['gallery_captions']) ? array_map('sanitize_text_field', $_POST['gallery_captions']) : [];
+    
+    update_post_meta($post_id, 'project-gallery-captions', $gallery_captions);
 }
 add_action('save_post', 'save_project_gallery_meta_box');
 
@@ -275,6 +278,9 @@ function save_project_gallery_meta_data($post_id) {
     // Save gallery images data
     if (isset($_POST['gallery_images'])) {
         update_post_meta($post_id, 'gallery_images', sanitize_text_field($_POST['gallery_images']));
+    }
+    if(isset($_POST['gallery-captions'])){
+        update_post_meta($post_id, 'gallery_captions', sanitize_text_field($_POST['gallery-captions']));
     }
 }
 add_action('save_post', 'save_project_gallery_meta_data');

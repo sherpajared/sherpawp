@@ -272,21 +272,31 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     grid-template-rows: 1fr;
     grid-template-columns: 2fr 6fr;
     width: auto;
+    padding: 0.75rem;
     max-height: 60vh;
     height: 60vh;
+    place-items: center;
     
+}
+.sherpa-bgd-lin-gradient{
+    background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--primary-color) 50%, var(--secondary-color) 100%)
+}
+.sherpa-bgd-rad-gradient{
+    background: radial-gradient(circle at 50% 50%, var(--secondary-color) 0%, var(--primary-color) 200%);
+
 }
 .carousel-container{
     display: grid;
     grid-auto-rows: auto;
     grid-template-columns: 1fr;
-    max-height: 100%;
+    max-height: 90%;
     height: inherit;
     box-sizing: border-box;
     gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px;
     overflow-y: scroll;
+    border-radius: 10px;
+    margin: auto;
 }
 .carousel-item-container {
     display: flex;
@@ -316,22 +326,40 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     height: inherit;
     box-sizing: border-box;
     gap: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin: auto;
-    
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 10px;   
     
 }
 .main-image-container{
     display: flex;
+    flex-direction: column;
     border-radius: 10px;
-    overflow: hidden;
+    padding: 1.25rem 1.25rem 1.25rem 0;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
     object-fit: contain;
     
+}
+.hidden{
+    display: none;
+    visibility: hidden;
+}
+.main-fig{
+    max-height: 100%;
+    padding: 1.25rem 1.25rem 1.25rem 0;
+}
+figcaption.caption{
+    width: 100%;
+    padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: rgba(
+        var(--primary-color-r),
+        var(--primary-color-g),
+        var(--primary-color-b),
+        0.2);
 }
 .main-img{
     max-height: 100%;
@@ -348,5 +376,6 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
 }
 .gallery-2{
     width: 80vw;
+    margin-bottom: 0.75rem;
     height: auto;
 }

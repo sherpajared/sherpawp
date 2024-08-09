@@ -12,19 +12,19 @@
 <div class="sherpa-gallery nano">
     <div class="carousel-container nano-content">
         <?php
-        
-                   $gallery_images = get_project_gallery_images(get_the_ID());
+                    $gallery_captions = get_project_gallery_captions(get_the_ID());
+                    $gallery_images = get_project_gallery_images(get_the_ID());
                     if(!empty($gallery_images)){
                         $first = true;
-                        foreach($gallery_images as $src){
+                        foreach($gallery_images as $index => $src){
                             if($first){    
-                                echo '<div class="carousel-item-container cast">';
+                                echo '<div class="carousel-item-container cast"><pre class="caption hidden" pull-caption>' . $gallery_captions[$index] . '</pre>';
                                 $first = false;
                             }
                             else{
-                                echo '<div class="carousel-item-container">';
+                                echo '<div class="carousel-item-container"><pre class="caption hidden" pull-caption>' . $gallery_captions[$index] . '</pre>';
                             }
-                            echo '<img class="carousel-img" src="' . $src . '" main-img="' . $src . '" alt="image1">';
+                            echo '<img class="carousel-img" src="' . $src . '" main-img="' . $src . '" alt="image">';
                             echo '</div>';
                         }
                     }
@@ -67,9 +67,13 @@
         <div class="lightbox main-image-container">
             <?php
                 $gallery_images = get_project_gallery_images(get_the_ID());
+                $gallery_captions = get_project_gallery_captions(get_the_ID());
                 if(!empty($gallery_images)){
+                    echo '<figure class="main-fig">';
                     echo '<img class="main-img" src="' . $gallery_images[0] . '" alt="main-image">';
+                    echo '<figcaption class="caption" put-caption>' . $gallery_captions[0] . '</figcaption></figure>';
                 }
+                
             ?>
         </div>       
     </div>
@@ -115,13 +119,16 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('.carousel-item-container').forEach(ele => {
     ele.addEventListener('click', function() {
       document.querySelectorAll('.carousel-item-container').forEach(item => {item.classList.remove('cast')});
-      console.log("hellooo");
-
+      
+        console.log("sherpa::content-project-images")
       //set active class and update image val
       this.classList.add('cast');
-      console.log(this);
+      let caption = this.querySelectorAll('[pull-caption]');
+      
       const mainImageSrc = this.querySelector('img').getAttribute('main-img');
-      console.log(mainImageSrc);
+      const mainCaption = document.querySelector('[put-caption]');
+      mainCaption.innerText = caption[0].innerText;
+     
       document.querySelector('.lightbox img').setAttribute('src', mainImageSrc);
     });
   });
@@ -129,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <?php function get_project_gallery_images($post_id) {
     // Retrieve the gallery images from the post meta
+    
     $gallery_images = get_post_meta($post_id, 'project-gallery-images', true);
 
     // Initialize an array to store image sources
@@ -148,5 +156,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Return the array of image sources
     return $image_sources;
+}
+function get_project_gallery_captions($post_id){
+    $gallery_captions = get_post_meta($post_id, 'project-gallery-captions', true);
+    return $gallery_captions;
 }
 ?>

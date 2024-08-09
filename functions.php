@@ -234,17 +234,47 @@ function sherpawp_customizer_css() {
     $primary_color = get_theme_mod('primary_color', '#3498db');
     $secondary_color = get_theme_mod('secondary_color', '#2ecc71');
     $accent_color = get_theme_mod('accent_color', '#ababab');
+    
+    $primary_rgb = hex_to_rgb($primary_color);
+    $secondary_rgb = hex_to_rgb($secondary_color);
+    $accent_rgb = hex_to_rgb($accent_color);
+    
     ?>
     <style type="text/css">
         :root {
             --primary-color: <?php echo esc_attr($primary_color); ?>;
+            --primary-color-r: <?php echo $primary_rgb[0]; ?>;
+            --primary-color-g: <?php echo $primary_rgb[1]; ?>;
+            --primary-color-b: <?php echo $primary_rgb[2]; ?>;
+            
             --secondary-color: <?php echo esc_attr($secondary_color); ?>;
-            --accent-color: <?php echo esc_attr($accent_color); ?>
+            --secondary-color-r: <?php echo $secondary_rgb[0]; ?>;
+            --secondary-color-g: <?php echo $secondary_rgb[1]; ?>;
+            --secondary-color-b: <?php echo $secondary_rgb[2]; ?>;
+            
+            --accent-color: <?php echo esc_attr($accent_color); ?>;
+            --accent-color-r: <?php echo $accent_rgb[0]; ?>;
+            --accent-color-g: <?php echo $accent_rgb[1]; ?>;
+            --accent-color-b: <?php echo $accent_rgb[2]; ?>;
         }
     </style>
     <?php
 }
 add_action('wp_head', 'sherpawp_customizer_css');
+function hex_to_rgb($hex) {
+    $hex = ltrim($hex, '#');
+    if (strlen($hex) == 6) {
+        list($r, $g, $b) = array(substr($hex, 0, 2), substr($hex, 2, 2), substr($hex, 4, 2));
+    } elseif (strlen($hex) == 3) {
+        list($r, $g, $b) = array(str_repeat(substr($hex, 0, 1), 2), str_repeat(substr($hex, 1, 1), 2), str_repeat(substr($hex, 2, 1), 2));
+    } else {
+        return false;
+    }
+    $r = hexdec($r);
+    $g = hexdec($g);
+    $b = hexdec($b);
+    return array($r, $g, $b);
+}
 //Add Custom Colors to head
 function sherpawp_custom_colors() {
     // Get the colors from the customizer settings
