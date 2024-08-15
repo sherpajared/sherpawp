@@ -12,8 +12,10 @@
 <div class="sherpa-gallery nano">
     <div class="carousel-container nano-content">
         <?php
-                    $gallery_captions = get_project_gallery_captions(get_the_ID());
+                    $gallery_captions = get_project_gallery_captions(get_the_ID());                 
                     $gallery_images = get_project_gallery_images(get_the_ID());
+                    $gallery_images = is_array($gallery_images) ? $gallery_images : array($gallery_images);
+                    $gallery_captions = is_array($gallery_captions) ? $gallery_captions : array($gallery_captions);
                     if(!empty($gallery_images)){
                         $first = true;
                         foreach($gallery_images as $index => $src){
@@ -94,7 +96,7 @@
     //echo '</div>';
     // Example: Display additional gallery images if available
     $gallery_images = get_post_meta(get_the_ID(), 'gallery_images', true); // Fetch gallery images meta data
-
+    
     if ($gallery_images) {
         $gallery_images = explode(',', $gallery_images); // Split image URLs by comma if stored as a comma-separated string
 
@@ -138,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Retrieve the gallery images from the post meta
     
     $gallery_images = get_post_meta($post_id, 'project-gallery-images', true);
-
+    $gallery_images = is_array($gallery_images) ? $gallery_images : array($gallery_images);
     // Initialize an array to store image sources
     $image_sources = array();
 

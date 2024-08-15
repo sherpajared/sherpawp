@@ -88,7 +88,7 @@ function project_gallery_meta_box_callback($post) {
                             </tr>
             <?php
             if (!empty($gallery_images)) {
-                
+                $gallery_images = is_array($gallery_images) ? $gallery_images : array($gallery_images);
                     ?>
                         <?php
                         $count = 1;
