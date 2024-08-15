@@ -108,7 +108,37 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  function initializeCarousel() {
+    $(document).ready(function(){
+        $('.carousel-containerer').slick({
+            dots: true,
+            infinite: false,
+            speed: 300,
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: true,
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 2,
+                        lidesToScroll: 1
+                    }
+
+                }
+            ]
+        });
+    });
+
+  
+    function initializeCarousel() {
     const carousel = document.querySelector('.multi-carousel');
     /***********/
   }

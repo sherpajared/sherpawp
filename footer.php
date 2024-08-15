@@ -23,6 +23,8 @@
             $(".my-scrollable-element").nanoScroller();
         });
     </script>
+    <script type="text/javascript" src="<?php echo get_template_directory_uri() . "/assets/js/slick.min.js";?>">
+    <script type="text/javascript" src="<?php echo get_template_directory_uri() . "/assets/js/slick.js";?>">
 </footer>
 <?php wp_footer(); ?>
 </body>
