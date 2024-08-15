@@ -88,7 +88,7 @@ function project_gallery_meta_box_callback($post) {
                             </tr>
             <?php
             if (!empty($gallery_images)) {
-                
+                $gallery_images = is_array($gallery_images) ? $gallery_images : array($gallery_images);
                     ?>
                         <?php
                         $count = 1;
@@ -249,8 +249,10 @@ function save_project_gallery_meta_box($post_id) {
     update_post_meta($post_id, 'project-gallery-images', $gallery_images);
 
     $gallery_captions = isset($_POST['gallery_captions']) ? array_map('sanitize_text_field', $_POST['gallery_captions']) : [];
-    
     update_post_meta($post_id, 'project-gallery-captions', $gallery_captions);
+    if (!has_post_thumbnail($post_id) && !empty($gallery_images)) {
+        set_post_thumbnail($post_id, $gallery_images[0]);
+    }
 }
 add_action('save_post', 'save_project_gallery_meta_box');
 
