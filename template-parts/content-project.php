@@ -35,36 +35,55 @@
             $projects_query = new WP_Query($args);
             
             if ($projects_query->have_posts()) :
-                $primary_post;
-                $primary_id;
-                if($featured_projects_query->have_posts()){;
+                $primary_post = null;
+                $primary_id = null;
+                
+                if ($featured_projects_query->have_posts()) {
                     $posts = $featured_projects_query->posts;
                     $primary_post = $posts[0];
-                    
                     $primary_id = $primary_post->ID;
                     $featured_projects_query->the_post();
-                    
                     ?>
-                    <div class="project-item primary-project">
-                        <a href="<?php the_permalink()?>">
-                            <?php the_post_thumbnail()?>
-                    </a></div><?php
+                    <div class="project-block-hover">
+                        <a class="anchor-container-hover" href="<?php the_permalink(); ?>">
+                            <?php the_post_thumbnail(); ?>
+                            <div class="block-hover-caption">
+                                <div class="blur"></div>
+                                <div class="hover-caption-text">
+                                    <h1>Amazing Caption</h1>
+                                    <p>Lorem Ipsum Dolor Sit Amet</p>
+                                </div>
+                </div>
+                        </a>
+                    </div>
+                    <?php
+                    // Reset post data after featured project loop
+                    wp_reset_postdata();
                 }
-                    
-                while ($projects_query->have_posts()) : $projects_query->the_post(); 
-                    if(get_the_ID() != $primary_id){ ?>   
-                        <div class="project-item">
-                            <a href="<?php the_permalink()?>">
-                                <?php the_post_thumbnail() ?>
-                                <h3><?php the_title(); ?></h3>
-                            </a>
-                        </div>
-            <?php   } 
-                 endwhile;
+            
+                while ($projects_query->have_posts()) : $projects_query->the_post();
+                    if (get_the_ID() != $primary_id) { ?>   
+                    <div class="project-block-hover project-item">
+                        <a class="anchor-container-hover" href="<?php the_permalink(); ?>">
+                            <?php the_post_thumbnail(); ?>
+                            <div class="block-hover-caption">
+                            Aruba fJamaica Ooo I wanna Take ya
+                                <div class="blur"></div>
+                                <div class="hover-caption-text">
+                                    <h1>Amazing Caption</h1>
+                                    <p>Lorem Ipsum Dolor Sit Amet</p>
+                                </div>
+                </div>
+                        </a>
+                    </div>
+                    <?php }
+                endwhile;
+            
                 wp_reset_postdata();
             else : ?>
                 <p>No projects found.</p>
             <?php endif; ?>
+            
         </div>
         </div>
 

@@ -450,3 +450,76 @@ figcaption.caption{
         grid-template-columns: 1fr; /* Single column on small screens */
     }
 }
+/* Hover Caption */
+.project-block-hover{
+    margin: 0px;
+    padding: 0px;   
+
+}
+
+.project-block-hover li{
+    float: left;
+    padding: 0px;
+    position: relative;
+    overflow: hidden;
+}
+
+.project-block-hover .anchor-container-hover:hover .block-hover-caption{
+    opacity: 1;
+
+
+}
+.anchor-container-hover{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+
+.project-block-hover img{
+
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    z-index: 4;
+}
+
+.projects-archive{
+    overflow: hidden;
+}
+.project-block-hover .block-hover-caption{
+    cursor: pointer;
+    position: absolute;
+    height: auto;
+    width: auto;
+    opacity: 0;
+    -webkit-transition:all 0.45s ease-in-out;
+    -moz-transition:all 0.45s ease-in-out;
+    -o-transition:all 0.45s ease-in-out;
+    -ms-transition:all 0.45s ease-in-out;
+    transition:all 0.45s ease-in-out;
+
+}
+.project-block-hover .blur{
+    background-color: rgba(0,0,0,0.65);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 5;
+    position: absolute;
+}
+
+.project-block-hover .hover-caption-text h1{
+    text-transform: uppercase;
+    font-size: 24px;
+}
+.project-block-hover .hover-caption-text{
+    z-index: 10;
+    color: #fff;
+    position: absolute;
+    width: 400px;
+    height: 300px;
+    text-align: center;
+    top:100px;
+}

@@ -128,10 +128,12 @@ function project_gallery_meta_box_callback($post) {
                     </table>
 
         </div>
-        <input id="project-gallery-images" name="project-gallery-images" value="<?php echo esc_attr(json_encode($gallery_images)); ?>" />
+        <input id="project-gallery-images" name="project-gallery-images"
+    value="<?php echo esc_attr(!empty($gallery_images) ? json_encode($gallery_images) : '[]'); ?>"/>
         
     </div>
     <script>
+    
     jQuery(document).ready(function($) {
         function updateHiddenField(ids) {
             $('#project-gallery-images').val(JSON.stringify(ids));
