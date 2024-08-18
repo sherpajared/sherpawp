@@ -252,7 +252,7 @@ function save_project_gallery_meta_box($post_id) {
 
     $gallery_captions = isset($_POST['gallery_captions']) ? array_map('sanitize_text_field', $_POST['gallery_captions']) : [];
     update_post_meta($post_id, 'project-gallery-captions', $gallery_captions);
-    if (!has_post_thumbnail($post_id) && !empty($gallery_images)) {
+    if (!empty($gallery_images)) {
         set_post_thumbnail($post_id, $gallery_images[0]);
     }
 }

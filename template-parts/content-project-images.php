@@ -10,6 +10,8 @@
 
 </style>
 <div class="sherpa-gallery nano">
+    <div class="carousel-controller">
+        <button class="slider-control up"></button>
     <div class="carousel-container nano-content">
         <?php
                     $gallery_captions = get_project_gallery_captions(get_the_ID());                 
@@ -20,11 +22,15 @@
                         $first = true;
                         foreach($gallery_images as $index => $src){
                             if($first){    
-                                echo '<div class="carousel-item-container cast"><pre class="caption hidden" pull-caption>' . $gallery_captions[$index] . '</pre>';
+                                echo '<div class="carousel-item-container cast"><pre class="caption hidden" pull-caption>' . 
+                                (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .
+                                '</pre>';
                                 $first = false;
                             }
                             else{
-                                echo '<div class="carousel-item-container"><pre class="caption hidden" pull-caption>' . $gallery_captions[$index] . '</pre>';
+                                echo '<div class="carousel-item-container"><pre class="caption hidden" pull-caption>' . 
+                                (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .$gallery_captions[$index] 
+                                . '</pre>';
                             }
                             echo '<img class="carousel-img" src="' . $src . '" main-img="' . $src . '" alt="image">';
                             echo '</div>';
@@ -64,6 +70,8 @@
                 alt="image4"
             >
         </div>-->
+    </div>
+    <button class="slider-control down"></button>
     </div>
     <div class="main-sec-container">
         <div class="lightbox main-image-container">
@@ -109,35 +117,17 @@
     ?>
 </div>
 <script>
+
 document.addEventListener('DOMContentLoaded', function() {
     $(document).ready(function(){
-        $('.carousel-containerer').slick({
-            dots: true,
-            infinite: false,
-            speed: 300,
-            slidesToShow: 4,
-            slidesToScroll: 1,
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: true,
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        lidesToScroll: 1
-                    }
-
-                }
-            ]
-        });
+        $('.carousel-container').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        
+        
     });
+});
 
   
     function initializeCarousel() {
@@ -191,6 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 function get_project_gallery_captions($post_id){
     $gallery_captions = get_post_meta($post_id, 'project-gallery-captions', true);
+    
     return $gallery_captions;
 }
 ?>

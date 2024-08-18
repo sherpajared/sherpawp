@@ -44,13 +44,13 @@
                     $primary_id = $primary_post->ID;
                     $featured_projects_query->the_post();
                     ?>
-                    <div class="project-block-hover">
+                    <div class="project-block-hover project-item featured">
                         <a class="anchor-container-hover" href="<?php the_permalink(); ?>">
                             <?php the_post_thumbnail(); ?>
                             <div class="block-hover-caption">
                                 <div class="blur"></div>
                                 <div class="hover-caption-text">
-                                    <h1>Amazing Caption</h1>
+                                    <h1><?php the_title();?></h1>
                                     <p>Lorem Ipsum Dolor Sit Amet</p>
                                 </div>
                 </div>
@@ -67,10 +67,9 @@
                         <a class="anchor-container-hover" href="<?php the_permalink(); ?>">
                             <?php the_post_thumbnail(); ?>
                             <div class="block-hover-caption">
-                            Aruba fJamaica Ooo I wanna Take ya
                                 <div class="blur"></div>
                                 <div class="hover-caption-text">
-                                    <h1>Amazing Caption</h1>
+                                    <h1><?php the_title();?></h1>
                                     <p>Lorem Ipsum Dolor Sit Amet</p>
                                 </div>
                 </div>

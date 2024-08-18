@@ -348,7 +348,9 @@ function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = ''
 }
 // Add CPTS
 // Register Projects Custom Post Type
-
+function CONSOLE_DEBUG($message){
+    echo '<script>console.log("' . $message . '");</script>';
+}
 
 function enqueue_custom_scripts() {
     //wp_enqueue_script('sticky-header', get_template_directory_uri() . '/js/sticky-header.js', array(), null, true);
