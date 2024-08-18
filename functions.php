@@ -189,13 +189,42 @@ function sherpawp_customize_register( $wp_customize ){
         'type'     => 'text',
     ) );
     /* End Footer Settings */
-    /* Customize Hero Banner */
+    /* Customize Hero Banners */
+    $heroes = ['home', 'projects'];
     $wp_customize->add_section('hero_section', array(
-        'title' => __('Hero Section', 'mytheme'),
+        'title' => __('Hero Section', 'sherpawp'),
         'priority' => 30,
     ));
-
-    $wp_customize->add_setting('hero_title', array(
+    foreach($heroes as $hero){
+        $wp_customize->add_setting($hero . '_title', array(
+            'default'   =>  'Welcome to Our Website',
+            'transport' =>  'refresh',
+        ));
+        $wp_customize->add_setting($hero . '_subtitle', array(
+            'default'   =>  'Your Success, Our Commitment',
+            'transport' =>  'refresh',
+        ));
+        $wp_customize->add_setting($hero . '_button_text', array(
+            'default'   =>  'Learn More',
+            'transport' =>  'refresh',
+        ));
+        $wp_customize->add_control($hero . '_title_control', array(
+            'label'     =>  __(ucfirst($hero) . ' Title', 'sherpawp'),
+            'section'   => 'hero_section',
+            'settings'  => $hero . '_title',
+        ));
+        $wp_customize->add_control($hero . '_subtitle_control', array(
+            'label'     =>  __(ucfirst($hero) . ' Subtitle', 'sherpawp'),
+            'section'   =>  'hero_section',
+            'settings'  =>  $hero . '_subtitle',
+        ));
+        $wp_customize->add_control($hero . '_button_control', array(
+            'label'     => __(ucfirst($hero) . ' Button', 'sherpawp'),
+            'section'   =>  'hero_section',
+            'settings'  =>  $hero . '_button_text',
+        ));
+    }
+   /* $wp_customize->add_setting('hero_title', array(
         'default' => 'Welcome to Our Website',
         'transport' => 'refresh',
     ));
@@ -226,7 +255,7 @@ function sherpawp_customize_register( $wp_customize ){
         'label' => __('Hero Button Text', 'mytheme'),
         'section' => 'hero_section',
         'settings' => 'hero_button_text',
-    ));
+    ));*/
     /* End Hero */
 }
 add_action('customize_register', 'sherpawp_customize_register');
@@ -361,4 +390,5 @@ add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
 require get_template_directory().'/template-parts/walker.php';
 require get_template_directory().'/template-parts/widgets.php';
 require get_template_directory().'/cpts/project-cpt.php';
+require get_template_directory().'/includes/theme-init.php';
 ?>

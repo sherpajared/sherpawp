@@ -15,13 +15,14 @@ d-flex - home_url(), added name 'search' to input tag
     if(has_custom_logo()){
       echo sherpa_def_image_size(get_theme_mod('custom_logo'), 65, 0);
     }
-    ?>
+    ?>>
   <?php
         $logo_attr = array(
           'class' => 'mh-100',
         );
         $custom_logo = wp_get_attachment_image_src(get_theme_mod('custom_logo'), 'full');
-        ?><a href = get_home_uri();><?php
+        ?>
+        <a href = get_home_uri();><?php
         if(has_custom_logo()){
           
           the_custom_logo();

@@ -11,7 +11,7 @@
 </style>
 <div class="sherpa-gallery nano">
     <div class="carousel-controller">
-        <button class="slider-control up"></button>
+        <button class="slider-control up slick-prev"></button>
     <div class="carousel-container nano-content">
         <?php
                     $gallery_captions = get_project_gallery_captions(get_the_ID());                 
@@ -71,7 +71,7 @@
             >
         </div>-->
     </div>
-    <button class="slider-control down"></button>
+    <button class="slider-control down slick-next"></button>
     </div>
     <div class="main-sec-container">
         <div class="lightbox main-image-container">

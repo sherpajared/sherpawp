@@ -11,7 +11,8 @@
         <script src="<?php echo get_template_directory_uri().'/assets/js/slick.min.js'?>"></script>
         <script src="<?php echo get_template_directory_uri().'/assets/js/slick.js'?>"></script>
         <script src="<?php echo get_template_directory_uri().'/assets/js/nanoscroller.js'?>"></script>
-    
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
         <title><?php bloginfo('name')?></title>
         <?php wp_head()?>
     </head>

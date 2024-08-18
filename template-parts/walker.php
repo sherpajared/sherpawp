@@ -230,10 +230,17 @@ class header_menu_walker extends Walker {
         }
         if($this->has_children){
             $atts['class'] = 'nav-link dropdown-toggle';
-            $atts['href'] = '#';
-            $atts['id='] = "navbarDropdown";
+            if ( $menu_item->object === 'custom' ) {
+                // Keep the original URL for custom links
+                $atts['href'] = ! empty( $menu_item->url ) ? $menu_item->url : '#';
+            } else {
+                // Default behavior for non-custom links
+                $atts['href'] = '#';
+                $atts['data-bs-toggle'] = "dropdown";
+            }
+            $atts['id'] = "navbarDropdown";
             $atts['role'] = "button";
-            $atts['data-bs-toggle'] = "dropdown";
+            
             $atts['aria-expanded'] = false;
         }
 

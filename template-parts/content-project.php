@@ -51,7 +51,7 @@
                                 <div class="blur"></div>
                                 <div class="hover-caption-text">
                                     <h1><?php the_title();?></h1>
-                                    <p>Lorem Ipsum Dolor Sit Amet</p>
+                                    <?php if(the_excerpt()) {echo '<p>' . the_excerpt() . '</p>';}?>
                                 </div>
                 </div>
                         </a>
@@ -70,7 +70,7 @@
                                 <div class="blur"></div>
                                 <div class="hover-caption-text">
                                     <h1><?php the_title();?></h1>
-                                    <p>Lorem Ipsum Dolor Sit Amet</p>
+                                    <?php if(!empty(the_excerpt())) {echo '<p>' . the_excerpt() . '</p>';}?>
                                 </div>
                 </div>
                         </a>
