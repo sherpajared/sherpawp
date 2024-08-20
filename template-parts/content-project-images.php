@@ -8,34 +8,34 @@
 <div class="sherpa-gallery nano">
     <div class="carousel-controller">
         <button class="slider-control up slick-prev"></button>
-    <div class="carousel-container nano-content">
-        <?php
-            $gallery_captions = get_project_gallery_captions(get_the_ID());                 
-            $gallery_images = get_project_gallery_images(get_the_ID());
-            $gallery_images = is_array($gallery_images) ? $gallery_images : array($gallery_images);
-            $gallery_captions = is_array($gallery_captions) ? $gallery_captions : array($gallery_captions);
-            if(!empty($gallery_images)){
-                $first = true;
-                foreach($gallery_images as $index => $src){
-                    if($first){    
-                        echo '<div class="carousel-item-container cast"><pre class="caption hidden" pull-caption>' . 
-                        (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .
-                        '</pre>';
-                        $first = false;
+        <div class="carousel-container nano-content">
+            <?php
+                $gallery_captions = get_project_gallery_captions(get_the_ID());                 
+                $gallery_images = get_project_gallery_images(get_the_ID());
+                $gallery_images = is_array($gallery_images) ? $gallery_images : array($gallery_images);
+                $gallery_captions = is_array($gallery_captions) ? $gallery_captions : array($gallery_captions);
+                if(!empty($gallery_images)){
+                    $first = true;
+                    foreach($gallery_images as $index => $src){
+                        if($first){    
+                            echo '<div class="carousel-item-container cast"><pre class="caption hidden" pull-caption>' . 
+                            (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .
+                            '</pre>';
+                            $first = false;
+                        }
+                        else{
+                            echo '<div class="carousel-item-container"><pre class="caption hidden" pull-caption>' . 
+                            (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .$gallery_captions[$index] 
+                            . '</pre>';
+                        }
+                        echo '<img class="carousel-img" src="' . $src . '" main-img="' . $src . '" alt="image">';
+                        echo '</div>';
                     }
-                    else{
-                        echo '<div class="carousel-item-container"><pre class="caption hidden" pull-caption>' . 
-                        (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .$gallery_captions[$index] 
-                        . '</pre>';
-                    }
-                    echo '<img class="carousel-img" src="' . $src . '" main-img="' . $src . '" alt="image">';
-                    echo '</div>';
                 }
-            }
-        ?>
-    </div>
+            ?>
+        </div><!-- .carousel-container.nano-content -->
     <button class="slider-control down slick-next"></button>
-    </div>
+    </div><!-- .carousel-controller -->
     <div class="main-sec-container">
         <div class="lightbox main-image-container">
             <?php
@@ -48,9 +48,9 @@
                 }
                 
             ?>
-        </div>       
-    </div>
-</div>
+        </div> <!-- .lightbox.main-image-container -->    
+    </div>  <!-- .main-sec-container -->
+</div> <!-- .sherpa-gallery-nano -->
 
 <div class="project-images">
     <?php
@@ -65,9 +65,11 @@
         }
     }
     ?>
-</div>
+</div> <!-- .project-images -->
 <script>
-
+/* Run on DOM Loaded, 
+    Jquery to init slick slider on .carousel-container
+*/
 document.addEventListener('DOMContentLoaded', function() {
     $(document).ready(function(){
         $('.carousel-container').slick({
@@ -78,15 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
     });
 });
-
-  
-    function initializeCarousel() {
+/*    
+function initializeCarousel() {
     const carousel = document.querySelector('.multi-carousel');
-    /***********/
-  }
-
-  initializeCarousel();
- 
+}
+initializeCarousel();
+ */
   // Listener for click
   document.querySelectorAll('.carousel-item-container').forEach(ele => {
     ele.addEventListener('click', function() {
