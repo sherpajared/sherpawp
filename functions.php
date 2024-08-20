@@ -1,17 +1,22 @@
 <?php
-    
+/* * * * * * INIT * * * * * *
+*   Enqueue Boostrap and native css files    
+*   Enqueue Bootstrap scripts
+*   Add widget, Menu and Thumbnail support
+*   Register Nav menus
+*   Custom Image size
+*
+*/
 function sherpa_init(){
     if(!is_admin()){
         wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/css/bootstrap.min.css');
         wp_enqueue_style('systemcss', get_template_directory_uri().'/style.css');
         wp_enqueue_script('bootjs', get_template_directory_uri().'/assets/js/bootstrap.min.js');
         wp_enqueue_script('sticky-header', get_template_directory_uri() . '/assets/js/sticky-header.js', array('jquery'), null, true);
-
     }
     add_theme_support('widgets');
     add_theme_support('menus');
     add_theme_support('post-thumbnails');
-
     add_image_size('post-preview', 280, 180, true);
     register_nav_menus(
         array(
@@ -21,15 +26,22 @@ function sherpa_init(){
         )
     );
     // register sidebars
-
 }
-
 add_action('init', 'sherpa_init');
+/* * * * * * END INIT * * * * * */
+
+/* * * * * * ADMIN_ENQUEUE_SCRIPTS * * * * * *
+* Add admin-style.css for backend styling on CPT
+*/
 function custom_admin_styles() {
     wp_enqueue_style( 'admin-custom-style', get_template_directory_uri() . '/assets/css/admin-style.css' );
 }
 add_action( 'admin_enqueue_scripts', 'custom_admin_styles' );
-
+/* * * * * * END ADMIN_ENQUEUE_SCRIPTS * * * * * */
+/* * * * * * WIDGETS_INIT * * * * * *
+*   Register Sidebar Widgets
+*   Add widgets here
+*/
 add_action( 'widgets_init', function(){    
         register_sidebar( array(
             'id'            => 'sidebar-1',
@@ -59,7 +71,11 @@ add_action( 'widgets_init', function(){
             'after_title'   => '</h3>',
         ) );
 });
-
+/* * * * * * END WIDGETS_INIT * * * * * */
+/* * * * * * AFTER_THEME_SETUP * * * * * *
+*   Adds default values for custom logo 
+*       -Custom Logo Used in header
+*/
 function sherpa_custom_logo_setup(){
     $defaults = array(
         'height'                => 100,
@@ -72,8 +88,22 @@ function sherpa_custom_logo_setup(){
     add_theme_support('custom-logo', $defaults);
 }
 add_action('after_setup_theme', 'sherpa_custom_logo_setup');
+/* * * * * * END AFTER_THEME_SETUP * * * * * */
+/* * * * * * CUSTOMIZE_REGISTER * * * * * *
+* Add functionality to Customzie section in WP backend
+*   -Image Slider Images
+*   -Select Site Colors
+*    -Generate Hero Banner Content
+*    TODO:   Select Font
+*            Select which colors to be used where
+*            Revisit existing code to quicken load times
+*/
 function sherpawp_customize_register( $wp_customize ){
-
+    /* * * IMAGE SLIDER * * *
+    *   Set Slider attributes
+    * Set Placeholder
+    * Set images
+    * * * * * * * * * * * * */
     $wp_customize -> add_section( 'sherpawp_slider_settings', array(
         'title'             => __('Slider Image Settings'),
         'description'       => __('Edit slider image settings'),
@@ -107,8 +137,9 @@ function sherpawp_customize_register( $wp_customize ){
      * Customizer:
      * Color Selector
      * creates css variables based on Colors selected:
-     * var(--primary-color)
-     * var(--secondary-color)
+     * var(--primary-color),    var(--primary-color-r/g/b)
+     * var(--secondary-color),  var(--secondary-color-r/g/b)
+     * var(--accent-color),     var(--accent-color-r/g/b)
     */
     $wp_customize->add_setting('primary_color', array(
         'default'   => '#3498db',
@@ -124,13 +155,17 @@ function sherpawp_customize_register( $wp_customize ){
         'transport' => 'refresh',
     ));
 
-    // Add controls
+    /* 
+    Add Controls
+    Settings:   primary_color
+                secondary_color
+                accent_color    
+    */
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
         'label'    => __('Primary Color', 'sherpawp'),
         'section'  => 'colors',
         'settings' => 'primary_color',
     )));
-
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'secondary_color_control', array(
         'label'    => __('Secondary Color', 'sherpawp'),
         'section'  => 'colors',
@@ -142,10 +177,13 @@ function sherpawp_customize_register( $wp_customize ){
         'settings' => 'accent_color',
     )));
     /* END CUSTOM COLORS */
-    /* FOOTER SETTINGS */
+    /* FOOTER SETTINGS 
+    *   Content 
+    *   Background & Text Colors
+    */
     $wp_customize->add_section( 'sherpawp_footer_settings', array(
         'title'       => __( 'Footer Settings', 'sherpawp' ),
-        'description' => __( 'Customize the footer area', 'mytheme' ),
+        'description' => __( 'Customize the footer area', 'sherpawp' ),
         'priority'    => 160,
     ) );
 
@@ -157,7 +195,7 @@ function sherpawp_customize_register( $wp_customize ){
 
     // Add control for footer background color
     $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'footer_background_color_control', array(
-        'label'    => __( 'Footer Background Color', 'mytheme' ),
+        'label'    => __( 'Footer Background Color', 'sherpawp' ),
         'section'  => 'sherpawp_footer_settings',
         'settings' => 'footer_background_color',
     ) ) );
@@ -170,26 +208,38 @@ function sherpawp_customize_register( $wp_customize ){
 
     // Add control for footer text color
     $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'footer_text_color_control', array(
-        'label'    => __( 'Footer Text Color', 'mytheme' ),
+        'label'    => __( 'Footer Text Color', 'sherpawp' ),
         'section'  => 'sherpawp_footer_settings',
         'settings' => 'footer_text_color',
     ) ) );
 
     // Add setting for footer text
     $wp_customize->add_setting( 'footer_text', array(
-        'default'           => __( '© 2024 My Website', 'mytheme' ),
+        'default'           => __( '© 2024 My Website', 'sherpawp' ),
         'sanitize_callback' => 'sanitize_text_field',
     ) );
 
     // Add control for footer text
     $wp_customize->add_control( 'footer_text_control', array(
-        'label'    => __( 'Footer Text', 'mytheme' ),
+        'label'    => __( 'Footer Text', 'sherpawp' ),
         'section'  => 'sherpawp_footer_settings',
         'settings' => 'footer_text',
         'type'     => 'text',
     ) );
     /* End Footer Settings */
-    /* Customize Hero Banners */
+    /* Customize Hero Banners 
+    *   $heroes contains a list of all hero-banner types
+    *   Based on post types, i.e. 
+    *            $hero_type = null;
+    *            if(is_home()){
+    *                $hero_type = "home";
+    *            }
+    *            else if(get_post_type() == "project"){
+    *                $hero_type = "projects";
+    *            }
+    *            echo $hero_type . 'hero-part';
+    *    
+    */
     $heroes = ['home', 'projects'];
     $wp_customize->add_section('hero_section', array(
         'title' => __('Hero Section', 'sherpawp'),
@@ -224,46 +274,22 @@ function sherpawp_customize_register( $wp_customize ){
             'settings'  =>  $hero . '_button_text',
         ));
     }
-   /* $wp_customize->add_setting('hero_title', array(
-        'default' => 'Welcome to Our Website',
-        'transport' => 'refresh',
-    ));
-
-    $wp_customize->add_setting('hero_subtitle', array(
-        'default' => 'Your Success, Our Commitment',
-        'transport' => 'refresh',
-    ));
-
-    $wp_customize->add_setting('hero_button_text', array(
-        'default' => 'Learn More',
-        'transport' => 'refresh',
-    ));
-
-    $wp_customize->add_control('hero_title_control', array(
-        'label' => __('Hero Title', 'mytheme'),
-        'section' => 'hero_section',
-        'settings' => 'hero_title',
-    ));
-
-    $wp_customize->add_control('hero_subtitle_control', array(
-        'label' => __('Hero Subtitle', 'mytheme'),
-        'section' => 'hero_section',
-        'settings' => 'hero_subtitle',
-    ));
-
-    $wp_customize->add_control('hero_button_text_control', array(
-        'label' => __('Hero Button Text', 'mytheme'),
-        'section' => 'hero_section',
-        'settings' => 'hero_button_text',
-    ));*/
-    /* End Hero */
 }
 add_action('customize_register', 'sherpawp_customize_register');
+/* * * * * * END CUSTOMIZE_REGISTER * * * * * */
+
+/* * * * * * WP_HEAD * * * * * *
+* Creates CSS Variables for each of the colors selected in customizer
+* Standalone color + rgb for each color:
+* var(--primary-color),    var(--primary-color-r/g/b)
+* var(--secondary-color),  var(--secondary-color-r/g/b)
+* var(--accent-color),     var(--accent-color-r/g/b)
+*/
 function sherpawp_customizer_css() {
     $primary_color = get_theme_mod('primary_color', '#3498db');
     $secondary_color = get_theme_mod('secondary_color', '#2ecc71');
     $accent_color = get_theme_mod('accent_color', '#ababab');
-    
+    // hex_to_rgb defined directly after this function - splits the hex into 3 rgb values
     $primary_rgb = hex_to_rgb($primary_color);
     $secondary_rgb = hex_to_rgb($secondary_color);
     $accent_rgb = hex_to_rgb($accent_color);
@@ -290,6 +316,7 @@ function sherpawp_customizer_css() {
     <?php
 }
 add_action('wp_head', 'sherpawp_customizer_css');
+/* * * * * * END WP_HEAD * * * * * */
 function hex_to_rgb($hex) {
     $hex = ltrim($hex, '#');
     if (strlen($hex) == 6) {
@@ -304,21 +331,7 @@ function hex_to_rgb($hex) {
     $b = hexdec($b);
     return array($r, $g, $b);
 }
-//Add Custom Colors to head
-function sherpawp_custom_colors() {
-    // Get the colors from the customizer settings
-    $primary_color = get_theme_mod('primary_color', '#3498db');
-    $secondary_color = get_theme_mod('secondary_color', '#2ecc71');
-
-    // Output the colors as CSS variables
-    echo "<style>
-        :root {
-            --primary-color: $primary_color;
-            --secondary-color: $secondary_color;
-        }
-    </style>";
-}
-add_action('wp_head', 'sherpawp_custom_colors');
+/* * * * * * END WP_HEAD ADD ON * * * * * */
 
 function sherpa_def_image_size($image, $container_height, $type, $redirect=''){
     $image_out = wp_get_attachment_image_src($image, 'full');

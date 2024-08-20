@@ -2,13 +2,7 @@
 PHP FUNCTIONS
 navbar-brand - home_url()
 d-flex - home_url(), added name 'search' to input tag
-
-
-
-
-
 -->
-
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="max-height: 76px;">
   <div class="container-fluid navbar-container">
   <div class="navbar-logo-container" <?php
@@ -30,19 +24,13 @@ d-flex - home_url(), added name 'search' to input tag
         else{
           the_title();
         }
-
-      
-   
     ?></a>
-    
-    </div>
+    </div><!-- .navbar-logo-container -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-   
     <?php 
-   
     wp_nav_menu(
       array(
         'theme_location' => 'header-menu',
@@ -56,16 +44,9 @@ d-flex - home_url(), added name 'search' to input tag
       <form class="d-flex" role="search" action="<?= get_home_url()?>">
         <input name="s" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
-        
-      </form>
+      </form> <!-- .d-flex -->
   </div>
-
-    
-   
-    
-    <?php
-
-
-?>
+  <?php
+  ?>
   </div>
-</nav>
+</nav><!-- .navbar.navbar-expand-lg.bg-body-tertiary -->
