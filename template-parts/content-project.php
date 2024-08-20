@@ -1,3 +1,20 @@
+<?php
+
+/**
+ *  content-project.php  
+ * 
+ * Generates Project grid, starting with a featured product and filling in with the rest of projects
+ * Hovering a project gives it a black blur with title and excerpt
+ * 
+ * Used in: archive-project.php 
+ * 
+ * @todo Create product filter that can hide projects missing a certain category
+ *          -Likely use an attribute with defining characteristics on container 
+ * 
+ * @var $freatured_args array - gets a list of Featured projects
+ * @var $args array - gets a list of all projects
+ */
+?>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <header class="entry-header">
         <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
@@ -29,6 +46,13 @@
             'posts_per_page' => -1, // Get all projects
         );
         $projects_query = new WP_Query($args);
+        /**
+         * Populate grid
+         * First checks if there are any Featured posts.
+         * If there are featured posts, adds the first in the list to a 2x2 space on the grid.
+         * Then continues to populate the grid regularly, skipping the first featured image.
+         * 
+         */
         if ($projects_query->have_posts()) :
             $primary_post = null;
             $primary_id = null;

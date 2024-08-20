@@ -1,6 +1,28 @@
 <?php
+/**
+ * widgets.php
+ * 
+ * includes widgets to be initialzied in functions.php
+ * 
+ * @package sherpawp
+ * @todo Create widgets with more functionality
+ */
+
+/**
+ * Most_Viewed_Widget
+ * 
+ * Displays most viewed post of a particular type
+ * Tracks view on each post
+ * 
+ * @extends WP_Widget
+ */
 class Most_Viewed_Widget extends WP_Widget {
-	public function __construct() {
+	/**
+     * Constructor method for Most_Viewed_Widget
+     * Registed by widget_init
+     * 
+     */
+    public function __construct() {
 		parent::__construct(
 			'sherpa-most-viewed',  // Base ID
 			'Sherpa Most Viewed'   // Name
@@ -9,20 +31,24 @@ class Most_Viewed_Widget extends WP_Widget {
 			register_widget( 'Most_Viewed_Widget' );
 		});
 	}
-
 	public $args = array(
 		'before_title'  => '<h4 class="widgettitle">',
 		'after_title'   => '</h4>',
 		'before_widget' => '<div class="widget-wrap">',
 		'after_widget'  => '</div>',
 	);
-
+    /**
+     * Widget display on the front end
+     * Outputs the most viewed posts
+     * 
+     * @param array $args     - Display arguments: before_title, after_title, before_widget and after_widget
+     * @param array $instance - Setting for any particular instance of the widget
+     */
 	public function widget( $args, $instance ) {
 		echo $args['before_widget'];
 		if ( ! empty( $instance['title'] ) ) {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
-
 		$query_args = array(
 			'meta_key'  	 => 'views',
 			'post_type' 	 => 'post',
@@ -42,7 +68,12 @@ class Most_Viewed_Widget extends WP_Widget {
 		
 		echo $args['after_widget'];
 	}
-
+/**
+ * Widget form in the admin panel
+ * Outputs the options form on the admin side
+ * 
+ * @param array $instance - the current settings of the widget
+ */
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( '', 'text_domain' );
 		$text  = ! empty( $instance['text'] ) ? $instance['text'] : esc_html__( '', 'text_domain' );
@@ -63,7 +94,13 @@ class Most_Viewed_Widget extends WP_Widget {
 		</p>
 		<?php
 	}
-
+/**
+ * Processes the widget options to be saved.
+ *
+ * @param array $new_instance New settings for this instance as input by the user via the form.
+ * @param array $old_instance Old settings for this instance.
+ * @return array Updated settings to be saved.
+ */
 	public function update( $new_instance, $old_instance ) {
 		$instance          = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
@@ -122,6 +159,15 @@ class Recent_Posts_Widget extends WP_Widget {
         return $instance;
     }
 }
+/**
+ * Image_Gallery_Widget
+ * 
+ * A custom widget that displays an image gallery from user-provided URLs.
+ *
+ * @package sherpawp
+ * 
+ * @extends WP_Widget
+ */
 class Image_Gallery_Widget extends WP_Widget {
 
     public function __construct() {
@@ -133,6 +179,12 @@ class Image_Gallery_Widget extends WP_Widget {
     }
 
     // Widget form (admin panel)
+    /**
+     * Widget form in the admin panel.
+     * Outputs the options form on the admin side.
+     *
+     * @param array $instance The current settings for the widget.
+     */
     public function form($instance) {
         // Output admin widget options form
         $title = ! empty( $instance['title'] ) ? $instance['title'] : '';

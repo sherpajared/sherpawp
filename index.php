@@ -1,4 +1,27 @@
 <?php
+/**
+ *  index.php
+ *  
+ * Final fallback template when no other template matches the page query
+ * 
+ * Displays all posts as cards with a sidebar menu. If it is the homepage, 
+ * an image slider is displayed at the top. Adds pagination for navigating posts.
+ * 
+ * @package sherpawp
+ * 
+ * @uses get_header()
+ * 
+ * @uses get_template_part('template-parts/image-slider')
+ * @uses get_template_part('template-parts/post')
+ * @uses Widget: dynamic_sidebar  
+ * @uses get_template_part('template-parts/pagination')
+ * 
+ * @uses get_footer() 
+ * 
+ * @var WP_Query $myposts Query object for retrieving posts.
+ * 
+ */    
+
     get_header();
     if(is_home()){    
         get_template_part('template-parts/image-slider');

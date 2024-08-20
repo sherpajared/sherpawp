@@ -1,4 +1,20 @@
-<?php get_header(); ?>
+
+
+<?php get_header(); 
+/**
+ * single-project.php
+ * 
+ * Displays a single post registered with 'project' post type
+ * 
+ * The template gets images and their associated captions, and displays them in 
+ * 
+ * @package sherpawp
+ * @uses get_header()
+ * @uses get_template_part('template-parts/content', 'project-images')
+ * @uses get_template_part('template-parts/content', 'project-details')
+ * @uses get_footer()
+ */
+?>
 
 <div id="primary" class="content-area">
     <main id="main" class="site-main">

@@ -1,5 +1,21 @@
 <?php
-    // Get customizer settings
+/**
+ * footer.php 
+ * 
+ * Adds footer - used on all pages
+ * 
+ * @uses get_theme_mod - gets values from the WP Customizer
+ * @uses is_active_sidebar() & dynamic_sidebar() in conjunction: if sidebar, display sidebar
+ * 
+ * @var string $footer_bg_color - background color for footer
+ * @var string $footer_text_color - text color for footer
+ * @var string $footer_text - content for the footer
+ * 
+ * @todo implement sections in the footer, working with customizer  
+ * 
+ * 
+ */
+// Get customizer settings
     $footer_bg_color = get_theme_mod('footer_background_color', '#333333');
     $footer_text_color = get_theme_mod('footer_text_color', '#ffffff');
     $footer_text = get_theme_mod('footer_text', '© 2024 My Website');

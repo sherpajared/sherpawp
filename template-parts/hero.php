@@ -1,4 +1,13 @@
-<?php 
+<?php
+/**
+ * hero.php
+ * 
+ * Creates Hero Banner based on the type of post. Used in Home Page and Project Archive
+ * 
+ * @var string $hero_type - defines which kind of hero banner is used - passed to Customizer
+ * @uses get_post_type - check post-type for hero banner conditional
+ * @uses get_theme_mod - access customizer to get hero content 
+ */ 
     $hero_type = null;
     if(is_home()){
         $hero_type = "home";

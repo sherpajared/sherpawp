@@ -1,8 +1,11 @@
 <?php
 /**
- * Template part for displaying project images
+ * content-project-images.php 
+ * 
+ * @var $gallery_images - gallery images used to populate image carousel
+ * @var $gallery_captions - matched to $gallery_images, should always be the same length
+ * 
  */
-
 ?>
 
 <div class="sherpa-gallery nano">
@@ -86,7 +89,14 @@ function initializeCarousel() {
 }
 initializeCarousel();
  */
-  // Listener for click
+
+<?php
+/**
+ * evenListener(click)
+ * 
+ * When .carousel-item-container in .carousel-container is clicked, it is cast to the main image in .lightbox
+ */
+?>
   document.querySelectorAll('.carousel-item-container').forEach(ele => {
     ele.addEventListener('click', function() {
       document.querySelectorAll('.carousel-item-container').forEach(item => {item.classList.remove('cast')});
@@ -105,7 +115,17 @@ initializeCarousel();
   });
 });
 </script>
-<?php function get_project_gallery_images($post_id) {
+
+<?php 
+/**
+ * get_project_gallery_images()
+ * 
+ * Queries database for images stored under the current post 
+ * 
+ * @param $post_id
+ * @return $image_sources array
+ */
+function get_project_gallery_images($post_id) {
     // Retrieve the gallery images from the post meta
     
     $gallery_images = get_post_meta($post_id, 'project-gallery-images', true);
@@ -128,6 +148,13 @@ initializeCarousel();
     // Return the array of image sources
     return $image_sources;
 }
+/**
+ * get_project_gallery_captions()
+ * 
+ * @param $post_id
+ * @return $galler_captions array
+ * 
+ */
 function get_project_gallery_captions($post_id){
     $gallery_captions = get_post_meta($post_id, 'project-gallery-captions', true);
     

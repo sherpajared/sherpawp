@@ -1,4 +1,17 @@
 <?php
+/**
+ * page.php
+ *  
+ * Default template for a page
+ * 
+ * If the current page is the home page (blog index), it includes the image slider.
+ * Otherwise, it displays the page content with a card layout for posts.
+ * @package sherpawp 
+ * @uses    get_header()
+ * @uses    get_footer()
+ * @uses    get_template_part('template-parts/image-slider')
+ * 
+ */
   get_header(); 
   if(is_home()){    
       get_template_part('template-parts/image-slider');

@@ -1,3 +1,26 @@
+<?php
+/**
+ * header.php
+ * 
+ * Active header for all pages on the site. Responsible for loading the navigation 
+ * and applying it to every page. Also imports stylesheets and JavaScript for 
+ * slick-carousel, nano-scroller, and Popper.js for Bootstrap hover/dropdown functionality.
+ * @package sherpawp
+ * 
+ * @uses language_attributes()
+ * @uses bloginfo() - set charset, meta description, and site title
+ * @uses wp_head() 
+ * @uses body_class
+ * @uses get_template_part('template-parts/nav') - immediately after body tag
+ * @uses wp_body_open - immediately after nav included
+ * 
+ * @todo Use more metafields for SEO
+ * @todo Correct nanoscroller functionality
+ * @todo record amount of visits
+ * 
+ * 
+ */
+?>
 <!DOCTYPE html>
 <html 
 <?php language_attributes();?>>

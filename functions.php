@@ -1,12 +1,42 @@
 <?php
-/* * * * * * INIT * * * * * *
-*   Enqueue Boostrap and native css files    
-*   Enqueue Bootstrap scripts
-*   Add widget, Menu and Thumbnail support
-*   Register Nav menus
-*   Custom Image size
-*
-*/
+/**
+ * functions.php - we're gonna need a bigger boat.
+ * 
+ * @package sherpawp
+ * 
+ * Table of Contents
+ * 
+ * 1. Sherpawp Init {#sherpa-init}
+ * 2. Sherpawp Custom Functions/Customizer (#sherpa-custom)
+ * 3. Sherpa Includes (#sherpa-includes)
+ * 
+ * @todo Document all functionality
+ * @todo Move code outside functions.php wherever possible
+ * @todo Optimize asset loading
+ * 
+ * @return void
+ * 
+ */
+
+/**************************************************
+ * 1. Theme Setup Functions
+ *************************************************/
+/**
+ * sherpa_init()
+ * 
+ * Enqueues style sheets and scripts. Adds theme support for widgets, 
+ * menus, and thumbnail image size, as well as adding post-preview image size
+ * 
+ * @uses wp_enqueu_style() Add native style sheet and boostrap style sheet.
+ * @uses wp_enqueue_script Add js necessary js from /assets
+ * @uses add_theme_support Adds support for widgets and menus
+ * @uses add_image_size Adds custom post size for post-preview
+ * @uses register_nav_menuis() Registers navigation menus
+ * 
+ * @return void
+ * 
+ * @hook init runs on WP initialization
+ */
 function sherpa_init(){
     if(!is_admin()){
         wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/css/bootstrap.min.css');
@@ -28,20 +58,43 @@ function sherpa_init(){
     // register sidebars
 }
 add_action('init', 'sherpa_init');
-/* * * * * * END INIT * * * * * */
 
-/* * * * * * ADMIN_ENQUEUE_SCRIPTS * * * * * *
-* Add admin-style.css for backend styling on CPT
-*/
+/**
+ * custom_admin_styles()
+ * 
+ * adds stylesheet for WP backend
+ * 
+ * @uses wp_enqueue_style() includes admin-style.css in WP backend
+ * 
+ * @return void
+ * 
+ * @hook admin_enqueue_scripts Runs when loading WP backend
+ */
+
 function custom_admin_styles() {
     wp_enqueue_style( 'admin-custom-style', get_template_directory_uri() . '/assets/css/admin-style.css' );
 }
 add_action( 'admin_enqueue_scripts', 'custom_admin_styles' );
-/* * * * * * END ADMIN_ENQUEUE_SCRIPTS * * * * * */
-/* * * * * * WIDGETS_INIT * * * * * *
-*   Register Sidebar Widgets
-*   Add widgets here
-*/
+/**************************************************
+ * 2. Sherpawp Custom Functions/Customizer
+ *************************************************/
+/**
+ * Widgets
+ * 
+ * Creates 3 sidebar widgets that can be used on the site
+ * 
+ * @uses register_sidebar
+ * 
+ * @param widget details
+ * 
+ * @todo Add Widgets to offer additional functionality
+ * @todo move widgets entirely to their own file (widgets.php)
+ * 
+ * @return void
+ * 
+ * @hook widgets_init, when widgets are initialized
+ */
+
 add_action( 'widgets_init', function(){    
         register_sidebar( array(
             'id'            => 'sidebar-1',
@@ -71,11 +124,17 @@ add_action( 'widgets_init', function(){
             'after_title'   => '</h3>',
         ) );
 });
-/* * * * * * END WIDGETS_INIT * * * * * */
-/* * * * * * AFTER_THEME_SETUP * * * * * *
-*   Adds default values for custom logo 
-*       -Custom Logo Used in header
-*/
+
+/**
+ * sherpa_custom_logo_setup()
+ * 
+ * adds inherent attributes to custom logo
+ * 
+ * @uses add_theme_support for custom logo with specified styles and attributes
+ * @return void
+ * 
+ * @hook after_setup_theme, follows init funcitons 
+ */
 function sherpa_custom_logo_setup(){
     $defaults = array(
         'height'                => 100,
@@ -88,17 +147,22 @@ function sherpa_custom_logo_setup(){
     add_theme_support('custom-logo', $defaults);
 }
 add_action('after_setup_theme', 'sherpa_custom_logo_setup');
-/* * * * * * END AFTER_THEME_SETUP * * * * * */
-/* * * * * * CUSTOMIZE_REGISTER * * * * * *
-* Add functionality to Customzie section in WP backend
-*   -Image Slider Images
-*   -Select Site Colors
-*    -Generate Hero Banner Content
-*    TODO:   Select Font
-*            Select which colors to be used where
-*            Revisit existing code to quicken load times
-*/
+
+/**
+ * sherpawp_customize_register
+ * 
+ * @param $wp_customize - native WP when hook runs
+ * 
+ * @todo Add customizable Contact form
+ * @todo Add modifiable sections to the footer
+ * @todo Select Font
+ * @todo Specify color location
+ * 
+ * @hook customize_register
+ */
 function sherpawp_customize_register( $wp_customize ){
+
+
     /* * * IMAGE SLIDER * * *
     *   Set Slider attributes
     * Set Placeholder
@@ -133,6 +197,15 @@ function sherpawp_customize_register( $wp_customize ){
           'placeholder' => __( 'mm/dd/yyyy' ),
         ),
       ) );
+    /**
+     * Color Selector
+     * 
+     * @var primary_color string - set with color selector
+     * @var secondary_color string - set with color selector
+     * @var accent_color string - set with color selector
+     * 
+     *  
+     *  */  
     /******************
      * Customizer:
      * Color Selector
@@ -154,13 +227,6 @@ function sherpawp_customize_register( $wp_customize ){
         'default'   => '#ababab',
         'transport' => 'refresh',
     ));
-
-    /* 
-    Add Controls
-    Settings:   primary_color
-                secondary_color
-                accent_color    
-    */
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
         'label'    => __('Primary Color', 'sherpawp'),
         'section'  => 'colors',
@@ -274,6 +340,7 @@ function sherpawp_customize_register( $wp_customize ){
             'settings'  =>  $hero . '_button_text',
         ));
     }
+    
 }
 add_action('customize_register', 'sherpawp_customize_register');
 /* * * * * * END CUSTOMIZE_REGISTER * * * * * */
