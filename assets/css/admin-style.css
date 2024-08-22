@@ -152,6 +152,21 @@
     border-spacing: 0;
     background-color: #f6f7f7;
 }
+/* Form Builder Styles */
+.field-group{
+    border: dashed 2pt #ababab;
+    border-radius: 1em;
+    min-height: 5rem;
+
+    margin-bottom: 1rem;
+}
+.field-group .form-field{
+    padding: 0 1rem 1rem 1rem;
+}
+.field-group .form-field:first-of-type{
+    padding: 1rem 1rem 1rem 1rem;
+}
+
 
 
 

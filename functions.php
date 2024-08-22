@@ -31,7 +31,7 @@
  * @uses wp_enqueue_script Add js necessary js from /assets
  * @uses add_theme_support Adds support for widgets and menus
  * @uses add_image_size Adds custom post size for post-preview
- * @uses register_nav_menuis() Registers navigation menus
+ * @uses register_nav_menus() Registers navigation menus
  * 
  * @return void
  * 
@@ -349,7 +349,6 @@ function sherpawp_customize_register( $wp_customize ){
     
 }
 add_action('customize_register', 'sherpawp_customize_register');
-/* * * * * * END CUSTOMIZE_REGISTER * * * * * */
 
 /* * * * * * WP_HEAD * * * * * *
 * Creates CSS Variables for each of the colors selected in customizer
@@ -405,24 +404,36 @@ function hex_to_rgb($hex) {
     return array($r, $g, $b);
 }
 /* * * * * * END WP_HEAD ADD ON * * * * * */
-
+/**
+ * sherpa_def_image_size
+ * @param $image - Image
+ * @param $container_height 
+ * @param $type - determines if output is an element or inline style
+ * @param $redirect - adds a src for href
+ * @todo refactor - Used in nav.php for logo, confusing and unneccessary functionality
+ */
 function sherpa_def_image_size($image, $container_height, $type, $redirect=''){
-    $image_out = wp_get_attachment_image_src($image, 'full');
-    $width =($image_out[1]*$container_height)/$image_out[2];
+    // Check if the input is an ID or a URL
+    if (is_numeric($image)) {
+        $image_out = wp_get_attachment_image_src($image, 'full');
+    } else {
+        // Assuming it's a URL, get image size directly from the file
+        $image_info = getimagesize($image);
+        $image_out = array($image, $image_info[0], $image_info[1]);  // URL, width, height
+    }
 
-    if($type == 0){
+    $width = ($image_out[1] * $container_height) / $image_out[2];
+
+    if ($type == 0) {
         return 'style="width: '. $width . 'px;"';
     }
-    if($type == 1){
-        if($redirect != ''){
-            return '<a href= ' . $redirect . '<img src="' . $image_out[0] . '" style="width:' . $width . 'px;"></a>';
+    if ($type == 1) {
+        if ($redirect != '') {
+            return '<a href="' . esc_url($redirect) . '"><img src="' . esc_url($image_out[0]) . '" style="width:' . $width . 'px;"></a>';
+        } else {
+            return '<img src="' . esc_url($image_out[0]) . '" style="width:' . $width . 'px;">';
         }
-        else{
-            return '<img src="' . $image_out[0] . '" style="width:' . $width . 'px;">';
-        }
-    
     }
-    
 }
 //Callable functions
 function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = '') {
@@ -477,4 +488,5 @@ require get_template_directory().'/template-parts/walker.php';
 require get_template_directory().'/template-parts/widgets.php';
 require get_template_directory().'/cpts/project-cpt.php';
 require get_template_directory().'/includes/theme-init.php';
+require get_template_directory().'/includes/form-builder.php';
 ?>
