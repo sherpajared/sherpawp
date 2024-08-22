@@ -10,7 +10,7 @@
 
 <div class="sherpa-gallery nano">
     <div class="carousel-controller">
-        <button class="slider-control up slick-prev"></button>
+        <button id="project-slider-prev" class="slider-control up slick-prev"></button>
         <div class="carousel-container nano-content">
             <?php
                 $gallery_captions = get_project_gallery_captions(get_the_ID());                 
@@ -37,12 +37,13 @@
                 }
             ?>
         </div><!-- .carousel-container.nano-content -->
-    <button class="slider-control down slick-next"></button>
+    <button id="project-slider-next" class="slider-control down"></button>
     </div><!-- .carousel-controller -->
     <div class="main-sec-container">
         <div class="lightbox main-image-container">
             <?php
                 $gallery_images = get_project_gallery_images(get_the_ID());
+                
                 $gallery_captions = get_project_gallery_captions(get_the_ID());
                 if(!empty($gallery_images)){
                     echo '<figure class="main-fig">';
@@ -76,11 +77,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     $(document).ready(function(){
         $('.carousel-container').slick({
-        infinite: true,
+        infinite: false,
         slidesToShow: 3,
         slidesToScroll: 1,
-        
-        
+        vertical: true,
+        nextArrow: '#project-slider-next',
+        prevArrow: '#project-slider-prev',  
     });
 });
 /*    
@@ -157,7 +159,6 @@ function get_project_gallery_images($post_id) {
  */
 function get_project_gallery_captions($post_id){
     $gallery_captions = get_post_meta($post_id, 'project-gallery-captions', true);
-    
     return $gallery_captions;
 }
 ?>

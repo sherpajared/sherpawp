@@ -340,6 +340,12 @@ function sherpawp_customize_register( $wp_customize ){
             'settings'  =>  $hero . '_button_text',
         ));
     }
+    /**
+     * Contact Form
+     * Allow development of custom contact form  
+     * 
+     * 
+     */
     
 }
 add_action('customize_register', 'sherpawp_customize_register');

@@ -306,15 +306,13 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     grid-template-columns: 2fr 7fr;
     width: auto;
     padding: 0.75rem;
-    max-height: 60vh;
-    height: 60vh;
     place-items: center; 
 }
 .slick-slide.slick-active{
     width: 100% !important;
 }
 .slider-control {
-    width: 0;
+    width: 100%;
     height: 0;
     border: 0 solid transparent;
     background: transparent;
@@ -332,19 +330,21 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     border-left-width: 100px;
     border-right-width: 100px;
     border-top: 1rem solid var(--accent-color);
+    flex-shrink: 0;
     
 }
 /* * * * * * * * * * * * * */
 .carousel-controller{
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 85%;
     overflow: visible;
     justify-content: center;
 }
 .sherpa-gallery .slick-track{
     display: flex;
     flex-direction: column;
+    width: 100% !important;
 }
 
 .carousel-container{
@@ -353,6 +353,8 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     box-sizing: border-box;
     padding: 10px;
     overflow-y: clip;
+    flex-grow: 1;
+    min-height: 0;
     background: radial-gradient(rgb(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.2 ), rgb(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5 ));
 }
 .carousel-item-container {
@@ -463,6 +465,8 @@ figcaption.caption{
     display: grid;
     gap: 20px; /* Adjust the gap between grid items */
     grid-template-columns: repeat(3, 1fr); /* Adjust min width */
+    grid-auto-rows: 1fr;
+    margin-bottom: 1rem;
 }
 .project-item {
     overflow: hidden;

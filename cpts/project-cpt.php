@@ -144,12 +144,12 @@ function project_gallery_meta_box_callback($post) {
                     <td class="right">
                         <div class="td-border"></div>
                     </td>
-                /tr>
+                </tr>
             </tbody>
         </table>
     </div> <!-- .gallery-images-container -->
 <!-- hidden field used to store image IDS for read/write -->
-    <input id="project-gallery-images" name="project-gallery-images hidden"
+    <input id="project-gallery-images" name="project-gallery-images" class="hidden"
 value="<?php echo esc_attr(!empty($gallery_images) ? json_encode($gallery_images) : '[]'); ?>"/>
 
 </div>
@@ -339,22 +339,18 @@ function save_project_gallery_meta_data($post_id) {
     if (!isset($_POST['project_gallery_nonce'])) {
         return;
     }
-
     // Verify nonce
     if (!wp_verify_nonce($_POST['project_gallery_nonce'], 'project_gallery_meta_box')) {
         return;
     }
-
     // Check if this is an autosave
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
         return;
     }
-
     // Check if the user has permissions to save data
     if (!current_user_can('edit_post', $post_id)) {
         return;
     }
-
     // Save gallery images data
     if (isset($_POST['gallery_images'])) {
         update_post_meta($post_id, 'gallery_images', sanitize_text_field($_POST['gallery_images']));
