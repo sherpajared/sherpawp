@@ -153,12 +153,19 @@
     background-color: #f6f7f7;
 }
 /* Form Builder Styles */
-.field-group{
+.field-group, .field-header{
     border: dashed 2pt #ababab;
     border-radius: 1em;
     min-height: 5rem;
-
     margin-bottom: 1rem;
+}
+.field-header{
+    padding: 0 1rem 1rem 1rem;
+}
+.field-header textarea, .field-header input{
+    width: 50%;
+    max-width: 80%;
+    resize: both;
 }
 .field-group .form-field{
     padding: 0 1rem 1rem 1rem;

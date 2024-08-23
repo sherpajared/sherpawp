@@ -585,3 +585,13 @@ figcaption.caption{
     box-sizing: border-box;
     padding: 1rem;  
 }
+/* End project  */
+
+/* Contact Us */
+.contact-form {
+    max-width: 60%;
+    margin: auto;
+    padding: 2.25rem;
+    background: #f4f7f8;
+    border-radius: 8px;
+  }

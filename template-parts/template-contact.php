@@ -1,16 +1,17 @@
 <?php
 
 $form_fields = json_decode(get_option('form_fields', json_encode(array())), true);
-get_template_part('template-parts/contact-form.php');
+
 if (!empty($form_fields)) {
-    echo '<form action="" method="post">';
+    echo '<form class="contact-form" action="" method="post">';
+    echo '<h2 class="contact-header">Contact Us</h2>';
     $count = 0;
     echo '<div class="form-row">';
     foreach ($form_fields as $field) {
         $field_group = sanitize_title($field['group']);
         echo $field_group;
         if($count != $field_group){
-            $form_content .= '</div><div class="form-row">';   
+            echo '</div><div class="form-row">';   
             $count++;   
         }
         echo '<div class="form-group">';

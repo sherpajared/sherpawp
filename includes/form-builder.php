@@ -89,22 +89,31 @@ function render_form_fields() {
     </div>
     <button type="button" id="create-group" class="button"><?php _e('Create Group', 'sherpawp'); ?></button>
     <button type="button" id="add-field" class="button"><?php _e('Add Field', 'sherpawp'); ?></button>
-    <textarea id="form-fields-data" name="form_fields" style="display:none;"><?php echo esc_textarea($form_fields); ?></textarea>
+    <textarea id="form-fields-data" name="form_fields" style=""><?php echo esc_textarea($form_fields); ?></textarea>
+    <textarea id="testertester"></textarea>
 
     <script>
     (function($){
         $(document).ready(function(){
             var fieldTemplate = '<div class="form-field"><input type="text" class="field-label" placeholder="Field Label" /><select class="field-type"><option value="text">Text</option><option value="email">Email</option><option value="textarea">Textarea</option></select><button type="button" class="remove-field">Remove</button></div>';
             var groupTemplate ='<div class="field-group"></div>';
+            var groupHeader = '<div class="field-header"><h2>Title:</h2> <input type="text" class="field-label" id="form-title" placeholder="Form Title" /> <h3>Subtitle:</h3> <input type="text" id="form-subtitle" class="field-label" /></div>';
             var formFieldsContainer = $('#form-fields-container');
             var formFieldsData = $('#form-fields-data');
+            var testertester = $('#testertester');
 
             function loadFields() {
-                var fields = JSON.parse(formFieldsData.val());
+                var formData = JSON.parse(formFieldsData.val());
+                fields = formData.fields;
                 formFieldsContainer.empty();
+                formFieldsContainer.append(groupHeader);
+                formFieldsContainer.find('#form-title').val(formData.title);
+                formFieldsContainer.find('#form-subtitle').val(formData.subtitle);
+                
+                
                 var count = 0;
                 $.each(fields, function(index, field) {
-                    console.log("hello");
+                    
                     var fieldGroup = $(groupTemplate);
                     if(count==field.group){
                         formFieldsContainer.append(fieldGroup);
@@ -121,18 +130,29 @@ function render_form_fields() {
 
             function saveFields() {
                 var fields = [];
+                var title = $('#form-title').val();
+                var subtitle = $('#form-subtitle').val();
+                
                 formFieldsContainer.find('.field-group').each(function(groupIndex){
                     $(this).find('.form-field').each(function(){
                         var label = $(this).find('.field-label').val();
                         var type = $(this).find('.field-type').val();
+                        
                         fields.push({
                             label: label,
                             type: type,
-                            group: groupIndex 
+                            group: groupIndex,
+                             
                         });
                     });
                 });
-                formFieldsData.val(JSON.stringify(fields)); // Save the fields with group information as JSON
+                let formData = {
+                    title: title,
+                    subtitle: subtitle,
+                    fields: fields
+                };
+                var j = JSON.stringify(formData);
+                formFieldsData.val(JSON.stringify(formData)); // Save the fields with group information as JSON
             }
             
             $('#add-field').on('click', function(){
