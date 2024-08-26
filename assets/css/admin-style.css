@@ -173,6 +173,10 @@
 .field-group .form-field:first-of-type{
     padding: 1rem 1rem 1rem 1rem;
 }
+.radio-container{
+    display: flex;
+    flex-direction: column;
+}
 
 
 

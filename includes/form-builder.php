@@ -95,13 +95,28 @@ function render_form_fields() {
     <script>
     (function($){
         $(document).ready(function(){
-            var fieldTemplate = '<div class="form-field"><input type="text" class="field-label" placeholder="Field Label" /><select class="field-type"><option value="text">Text</option><option value="email">Email</option><option value="textarea">Textarea</option></select><button type="button" class="remove-field">Remove</button></div>';
-            var groupTemplate ='<div class="field-group"></div>';
+            var fieldTemplate = '<div class="form-field"><input type="text" class="field-label" placeholder="Field Label" />\
+            <select class="field-type">\
+                <option value="text">Text</option>\
+                <option value="email">Email</option>\
+                <option value="textarea">Textarea</option>\
+                <option value="radio">Radio</options>\
+                <option value="dropdown">Dropdown</options>\
+            </select>\
+            <button type="button" class="remove-field">Remove</button>\
+            </div>';
+            var radioTemplate ='<div class="radio-container">\
+                                    <button type="button" class="button add-radio">Add Radio Button</button>\
+                                </div>';
+            var radioOption = '<div class="radio-option-container">\
+                                <input type="text" class="radio-option" />\
+                                <button type="button" class="sherpa-btn-close>&times;</button>\
+                                </div>';
+            var groupTemplate ='<div class="field-group"><button type="button" class="button remove-group">Remove Group</button></div>';
             var groupHeader = '<div class="field-header"><h2>Title:</h2> <input type="text" class="field-label" id="form-title" placeholder="Form Title" /> <h3>Subtitle:</h3> <input type="text" id="form-subtitle" class="field-label" /></div>';
             var formFieldsContainer = $('#form-fields-container');
             var formFieldsData = $('#form-fields-data');
             var testertester = $('#testertester');
-
             function loadFields() {
                 var formData = JSON.parse(formFieldsData.val());
                 fields = formData.fields;
@@ -109,8 +124,7 @@ function render_form_fields() {
                 formFieldsContainer.append(groupHeader);
                 formFieldsContainer.find('#form-title').val(formData.title);
                 formFieldsContainer.find('#form-subtitle').val(formData.subtitle);
-                
-                
+
                 var count = 0;
                 $.each(fields, function(index, field) {
                     
@@ -136,8 +150,7 @@ function render_form_fields() {
                 formFieldsContainer.find('.field-group').each(function(groupIndex){
                     $(this).find('.form-field').each(function(){
                         var label = $(this).find('.field-label').val();
-                        var type = $(this).find('.field-type').val();
-                        
+                        var type = $(this).find('.field-type').val();                        
                         fields.push({
                             label: label,
                             type: type,
@@ -151,10 +164,10 @@ function render_form_fields() {
                     subtitle: subtitle,
                     fields: fields
                 };
+                console.log(formData);
                 var j = JSON.stringify(formData);
                 formFieldsData.val(JSON.stringify(formData)); // Save the fields with group information as JSON
-            }
-            
+            }           
             $('#add-field').on('click', function(){
                 let groups = formFieldsContainer.find('.field-group');
                 console.log(groups);
@@ -162,14 +175,41 @@ function render_form_fields() {
             });
             $('#create-group').on('click', function(){
                 formFieldsContainer.append(groupTemplate);
-            })
+            });
+            /**
+             * on-click radi-container
+             * @todo Add saving functionality
+             * @todo get remove button visible and working
+             * @var radioTemplate - container holding radio options
+             * @var radioOptions - Input field with remove button
+             *  
+             */
+            $(document).on('click', '.add-radio', function(){
+                $(this).closest('.radio-container').append(radioOption);
+            });
+            $(document).on('click', '.remove-group', function(){
+                $(this).closest('.field-group').remove();
+            });
             $(document).on('click', '.remove-field', function(){
                 $(this).closest('.form-field').remove();
                 saveFields();
             });
 
-            formFieldsContainer.on('change', '.field-label, .field-type', saveFields);
+            formFieldsContainer.on('change', '.field-label, .field-type', function(event) {
+                var targetClass = '';
 
+                if ($(event.target).hasClass('field-label')) {
+                    targetClass = 'field-label';
+                    console.log('Field Label changed');
+                } else if ($(event.target).hasClass('field-type')) {
+                    if($(this).val() == "radio"){
+                        $(this).closest('.field-group').append(radioTemplate);
+                    }
+                }
+
+                // Now you can use `targetClass` to handle the event differently based on the class
+                saveFields();
+            });
             loadFields();
         });
     })(jQuery);

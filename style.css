@@ -595,3 +595,6 @@ figcaption.caption{
     background: #f4f7f8;
     border-radius: 8px;
   }
+  .form-container{
+    padding: 1.5rem;
+  }
