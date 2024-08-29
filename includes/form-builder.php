@@ -94,6 +94,7 @@ function render_form_fields() {
 
     <script>
     (function($){
+        
         $(document).ready(function(){
             var fieldTemplate = '<div class="form-field"><input type="text" class="field-label" placeholder="Field Label" />\
             <select class="field-type">\
@@ -103,20 +104,28 @@ function render_form_fields() {
                 <option value="radio">Radio</options>\
                 <option value="dropdown">Dropdown</options>\
             </select>\
-            <button type="button" class="remove-field">Remove</button>\
-            </div>';
-            var radioTemplate ='<div class="radio-container">\
-                                    <button type="button" class="button add-radio">Add Radio Button</button>\
+            <button type="button" class="button-primary remove-field">Remove</button>';
+            var optionTemplate ='<div class="option-container">\
+                                    <button type="button" class=" btn-primary button add-option">Add Radio Button</button>\
                                 </div>';
-            var radioOption = '<div class="radio-option-container">\
-                                <input type="text" class="radio-option" />\
-                                <button type="button" class="sherpa-btn-close>&times;</button>\
+            var optionContent = '<div class="enter-option-container">\
+                                <input type="text" class="radio-option field-option" />\
+                                <button type="button" class="sherpa-btn-close">&times;</button>\
                                 </div>';
+            var ddTemplate = '<div class="dd-container">\
+                                <button type="button" class="button-primary button add-option'
             var groupTemplate ='<div class="field-group"><button type="button" class="button remove-group">Remove Group</button></div>';
             var groupHeader = '<div class="field-header"><h2>Title:</h2> <input type="text" class="field-label" id="form-title" placeholder="Form Title" /> <h3>Subtitle:</h3> <input type="text" id="form-subtitle" class="field-label" /></div>';
             var formFieldsContainer = $('#form-fields-container');
             var formFieldsData = $('#form-fields-data');
             var testertester = $('#testertester');
+            /**
+             * loadFields
+             * @var formFieldsContainer - the container that holds all of the fields
+             * @var fieldElement - the given most recent element to be appended to formFieldContainer
+             * 
+             * @todo refactor radio and dropdown options using a function
+             */
             function loadFields() {
                 var formData = JSON.parse(formFieldsData.val());
                 fields = formData.fields;
@@ -134,14 +143,31 @@ function render_form_fields() {
                         count++;
                     }
                     let groups = formFieldsContainer.find('.field-group');
-                    var fieldElement = $(fieldTemplate);
+                    fieldElement = $(fieldTemplate);
                     fieldElement.find('.field-label').val(field.label);
                     fieldElement.find('.field-type').val(field.type);
-                    console.log(groups.last());
+                    fieldElement.append('</div>');
                     groups.last().append(fieldElement);
+                    switch(field.type){
+                        case "radio": 
+                            groups.last().find('.form-field').last().append(optionTemplate);
+                            var thisRad = groups.last().find('.option-container').last();
+                            console.log(field.options);
+                            $.each(field.options, function(){
+                                console.log($(this));
+                                thisRad.append(optionContent);
+                                thisRad.find('.radio-option').last().val(this);
+                            });
+                            break;
+                        case "dropdown":
+
+                            
+                    }
                 });
             }
+            function populateOptions(containerClass, optionClass){
 
+            }
             function saveFields() {
                 var fields = [];
                 var title = $('#form-title').val();
@@ -150,11 +176,23 @@ function render_form_fields() {
                 formFieldsContainer.find('.field-group').each(function(groupIndex){
                     $(this).find('.form-field').each(function(){
                         var label = $(this).find('.field-label').val();
-                        var type = $(this).find('.field-type').val();                        
+                        var type = $(this).find('.field-type').val();
+                        
+                        var options = null;
+                        if(type=="radio" || type=="dropdown"){
+                            options = [];
+                            console.log("before");
+                            console.log($(this));
+                            $(this).find('.field-option').each(function(){
+                                options.push($(this).val());
+                                console.log("during");
+                            });
+                        }                    
                         fields.push({
                             label: label,
                             type: type,
                             group: groupIndex,
+                            options: options
                              
                         });
                     });
@@ -174,18 +212,18 @@ function render_form_fields() {
                 groups.last().append(fieldTemplate);
             });
             $('#create-group').on('click', function(){
-                formFieldsContainer.append(groupTemplate);
+                formFieldsContainer.append(groupTemplate); 
             });
             /**
              * on-click radi-container
              * @todo Add saving functionality
              * @todo get remove button visible and working
-             * @var radioTemplate - container holding radio options
+             * @var optionTemplate - container holding radio options
              * @var radioOptions - Input field with remove button
              *  
              */
             $(document).on('click', '.add-radio', function(){
-                $(this).closest('.radio-container').append(radioOption);
+                $(this).closest('.option-container').append(optionContent);
             });
             $(document).on('click', '.remove-group', function(){
                 $(this).closest('.field-group').remove();
@@ -194,18 +232,31 @@ function render_form_fields() {
                 $(this).closest('.form-field').remove();
                 saveFields();
             });
-
+            $(document).on('change', '.field-option', function(){
+                saveFields();
+            });
             formFieldsContainer.on('change', '.field-label, .field-type', function(event) {
                 var targetClass = '';
-
+                console.log("SHERPA::CHANGE:DETECTED");
                 if ($(event.target).hasClass('field-label')) {
+                    console.log("SHERPA::CHANGE:FIELD-LABEL");
                     targetClass = 'field-label';
-                    console.log('Field Label changed');
+                    
                 } else if ($(event.target).hasClass('field-type')) {
+                    console.log("SHERPA::CHANGE:FIELD-TYPE");
                     if($(this).val() == "radio"){
-                        $(this).closest('.field-group').append(radioTemplate);
+                        $(this).closest('.form-field').append(optionTemplate);
+                        $(this).closest('.form-field').find('add-option').addClass('add-radio');
+                    }
+                    else if($(this).val() == "dropdown"){
+                        $(this).closest('.form-field').append(optionTemplate);
+                        $(this).closest('.form-field').find('add-option').addClass('add-dropdown');
+                    }
+                    else{
+                        console.log("yadmudda: "+$(this).val());
                     }
                 }
+                console.log("SHERPA::CHANGE:ERROR");
 
                 // Now you can use `targetClass` to handle the event differently based on the class
                 saveFields();

@@ -18,13 +18,21 @@ if (!empty($form_fields)) {
         echo '<div class="form-group">';
         switch ($field['type']) {
             case 'text':
-                echo '<label>' . esc_html($field['label']) . '</label><input class="form-control" type="text" name="' . sanitize_title($field['label']) . '">';
+                echo '<label>' . esc_html($field['label']) . '</label><input class="form-control" type="text" name="' . sanitize_title($field['label']) . '"/>';
                 break;
             case 'email':
-                echo '<label>' . esc_html($field['label']) . '</label><input class="form-control" type="email" name="' . sanitize_title($field['label']) . '">';
+                echo '<label>' . esc_html($field['label']) . '</label><input class="form-control" type="email" name="' . sanitize_title($field['label']) . '"/>';
                 break;
             case 'textarea':
                 echo '<label>' . esc_html($field['label']) . '</label><textarea name="' . sanitize_title($field['label']) . '"></textarea>';
+                break;
+            case 'radio':
+                echo '<label>' . esc_html($field['label']) . '</label><div class="radio-container">';
+                foreach($field['options'] as $option){
+                    echo '<input id="' . $option . '" type="radio" class="radio" name="'. esc_html($field['label']) . '" value="' . $option . '" />
+                    <label for="' . $option . '">' . $option . '</label>';
+                }
+                echo '</div>';
                 break;
 
         }

@@ -153,6 +153,9 @@
     background-color: #f6f7f7;
 }
 /* Form Builder Styles */
+.form-field > *{
+    padding: 0.75rem;
+}
 .field-group, .field-header{
     border: dashed 2pt #ababab;
     border-radius: 1em;
@@ -176,6 +179,11 @@
 .radio-container{
     display: flex;
     flex-direction: column;
+}
+.radio-option-container{
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.5rem;
 }
 
 
