@@ -22,16 +22,16 @@ if (!empty($form_fields)) {
         echo '<script>console.log("SHERPA::DEBUG:' . $field['type'] . '");</script>';
         switch ($field['type']) {
             case 'text':
-                echo '<label>' . $label . '</label><input class="form-control" type="text" name="' . $label . '"/>';
+                echo '<label>' . $field['label'] . '</label><input class="form-control" type="text" name="' . $label . '"/>';
                 break;
             case 'email':
-                echo '<label>' . $label . '</label><input class="form-control" type="email" name="' . $label . '"/>';
+                echo '<label>' . $field['label'] . '</label><input class="form-control" type="email" name="' . $label . '"/>';
                 break;
             case 'textarea':
-                echo '<label>' . $label . '</label><textarea name="' . $label . '"></textarea>';
+                echo '<label>' . $field['label'] . '</label><textarea name="' . $label . '"></textarea>';
                 break;
             case 'radio':
-                echo '<label>' . $label . '</label><div class="radio-container">';
+                echo '<label>' . $field['label'] . '</label><div class="radio-container">';
                 foreach($field['options'] as $option){
                     echo '<div class="binding-agent radio-label-bind"><input id="' . sanitize_title($option) . '" type="radio" class="radio" name="'. $label . '" value="' . sanitize_title($option) . '" />
                     <label for="' . sanitize_title($option) . '">' . $option . '</label></div>';

@@ -33,3 +33,25 @@ ADD TO END OF <body>
 TEMPLATES
 
 get_template_part();
+
+======================================================
+## ON ACTIVATION
+
+To access Sherpa WP;
+
+Navigate from Wordpress dashboard
+
+Apparance>Themes
+
+Click 'Add New Theme'
+
+Click 'Upload Theme'
+
+Select sherpawp.zip file *Wordpress will handle extraction
+
+A Contact Us and Thank You page are generated.
+
+=======================================================
+Form Builder 
+SherpaWP comes with a custom FormBuilder that functions similarly to WPForms
+

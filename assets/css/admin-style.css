@@ -176,14 +176,17 @@
 .field-group .form-field:first-of-type{
     padding: 1rem 1rem 1rem 1rem;
 }
-.radio-container{
+.option-container{
     display: flex;
     flex-direction: column;
 }
-.radio-option-container{
+.enter-option-container{
     display: flex;
     flex-direction: row;
     margin-top: 0.5rem;
+}
+.group-header{
+    padding: 0.75rem;
 }
 
 

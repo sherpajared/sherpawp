@@ -84,7 +84,7 @@ function form_builder_section_callback() {
 function render_form_fields() {
 
     $form_fields = get_option('form_fields', json_encode(array()));
-    echo '<script>console.log("' . $form_fields . '");</script>';
+    
     ?>
    <button id="view-submissions" type="button">View Submissions</button>
     <div id="submissions-list"></div>
@@ -92,7 +92,7 @@ function render_form_fields() {
         <!-- JavaScript will dynamically add fields here -->
     </div>
     <button type="button" id="create-group" class="button"><?php _e('Create Group', 'sherpawp'); ?></button>
-    <button type="button" id="add-field" class="button"><?php _e('Add Field', 'sherpawp'); ?></button>
+    
     <textarea id="form-fields-data" name="form_fields" style=""><?php echo esc_textarea($form_fields); ?></textarea>
     <textarea id="testertester"></textarea>
 
@@ -114,11 +114,11 @@ function render_form_fields() {
                                 </div>';
             var optionContent = '<div class="enter-option-container">\
                                 <input type="text" class="field-option" />\
-                                <button type="button" class="sherpa-btn-close">&times;</button>\
+                                <button type="button" class="sherpa-btn-close option-remove">&times;</button>\
                                 </div>';
             var ddTemplate = '<div class="dd-container">\
-                                <button type="button" class="button-primary button add-option'
-            var groupTemplate ='<div class="field-group"><button type="button" class="button remove-group">Remove Group</button></div>';
+                                <button type="button" class="button-primary button add-option">'
+            var groupTemplate ='<div class="field-group"><div class="group-header"><input class="group-title" type="text" placeholder="Group Title"/> <button type="button" class="button add-field">Add Field</button><button type="button" class="button remove-group">Remove Group</button></div></div>';
             var groupHeader = '<div class="field-header"><h2>Title:</h2> <input type="text" class="field-label" id="form-title" placeholder="Form Title" /> <h3>Subtitle:</h3> <input type="text" id="form-subtitle" class="field-label" /></div>';
             var formFieldsContainer = $('#form-fields-container');
             var formFieldsData = $('#form-fields-data');
@@ -143,7 +143,8 @@ function render_form_fields() {
                     
                     var fieldGroup = $(groupTemplate);
                     if(count==field.group){
-                        formFieldsContainer.append(fieldGroup);
+                        formFieldsContainer.append(fieldGroup); 
+                        formFieldsContainer.find('.field-group').last().find('.group-title').val(field.groupTitle);
                         count++;
                     }
                     var groups = formFieldsContainer.find('.field-group');
@@ -195,6 +196,8 @@ function render_form_fields() {
                 var subtitle = $('#form-subtitle').val();
                 
                 formFieldsContainer.find('.field-group').each(function(groupIndex){
+                    var groupTitle = $(this).find('.group-title').val();
+                    console.log("TEST ME TEST MEEE test me test me test me:" + groupTitle);
                     $(this).find('.form-field').each(function(){
                         var label = $(this).find('.field-label').val();
                         var type = $(this).find('.field-type').val();
@@ -213,6 +216,7 @@ function render_form_fields() {
                             label: label,
                             type: type,
                             group: groupIndex,
+                            groupTitle: groupTitle,
                             options: options,
                             value: null
                              
@@ -230,10 +234,12 @@ function render_form_fields() {
                 console.log("JSON: "+j);
                 formFieldsData.val(JSON.stringify(formData)); // Save the fields with group information as JSON
             }           
-            $('#add-field').on('click', function(){
-                let groups = formFieldsContainer.find('.field-group');
+            $(document).on('click', '.add-field', function(){
+                console.log("SHERPA::ADD-FIELD:CLICL");
+                let groups = $(this).closest('.field-group');
                 console.log(groups);
-                groups.last().append(fieldTemplate);
+                groups.append(fieldTemplate);
+                saveFields();
             });
             $('#create-group').on('click', function(){
                 formFieldsContainer.append(groupTemplate); 
@@ -252,6 +258,10 @@ function render_form_fields() {
                 $(this).closest('.option-container').find('.field-option').addClass('.radio-option');
                 saveFields();
             });
+            $(document).on('click', '.option-remove', function(){
+                $(this).closest('.enter-option-container').remove();
+                saveFields();
+            })
             $(document).on('click', '.add-dropdown', function(){
                 console.log("SHERPA::CLICK:DROPDOWN");
                 $(this).closest('.option-container').append(optionContent);
@@ -267,6 +277,9 @@ function render_form_fields() {
                 saveFields();
             });
             $(document).on('change', '.field-option', function(){
+                saveFields();
+            });
+            $(document).on('change', '.group-title', function(){
                 saveFields();
             });
             formFieldsContainer.on('change', '.field-label, .field-type', function(event) {

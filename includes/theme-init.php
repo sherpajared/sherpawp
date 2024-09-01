@@ -180,3 +180,40 @@ function create_json_form_submission_table() {
     }
 }
 add_action('after_switch_theme', 'create_json_form_submission_table');
+function sherpawp_register_menus() {
+    register_nav_menus(array(
+        'header-menu' => __('Header Menu', 'sherpawp'),
+    ));
+}
+add_action('after_setup_theme', 'sherpawp_register_menus');
+function my_theme_setup_default_menu() {
+    // Check if the menu exists
+    $menu_name = 'Header Menu';
+    $menu_exists = wp_get_nav_menu_object($menu_name);
+
+    // If the menu doesn't exist, create it
+    if (!$menu_exists) {
+        $menu_id = wp_create_nav_menu($menu_name);
+
+        // Add default items to the menu
+        wp_update_nav_menu_item($menu_id, 0, array(
+            'menu-item-title' => __('Projects'),
+            'menu-item-url' => home_url('/projects'),
+            'menu-item-status' => 'publish'
+        ));
+
+        wp_update_nav_menu_item($menu_id, 0, array(
+            'menu-item-title' => __('Contact Us'),
+            'menu-item-url' => home_url('/contact-us'),
+            'menu-item-status' => 'publish'
+        ));
+
+        // Assign the menu to the primary menu location
+        if (!has_nav_menu('header-menu')) {
+            $locations = get_theme_mod('nav_menu_locations');
+            $locations['header-menu'] = $menu_id;
+            set_theme_mod('nav_menu_locations', $locations);
+        }
+    }
+}
+add_action('after_switch_theme', 'my_theme_setup_default_menu');
