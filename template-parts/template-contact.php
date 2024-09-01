@@ -9,7 +9,8 @@ if (!empty($form_fields)) {
     echo wp_nonce_field('custom_form_action', 'custom_form_nonce', true, false);
     echo '<h2 class="contact-header">Contact Us</h2>';
     $count = 0;
-    echo '<div class="form-group">';
+
+    echo '<div class="form-inner"><div class="form-group">';
     foreach ($form_fields['fields'] as $field) {
         $field_group = sanitize_title($field['group']);
        
@@ -51,7 +52,8 @@ if (!empty($form_fields)) {
         echo '</div>';
     }
     echo '<button type="submit" class="form-submit btn btn-primary">Submit</button>';
-    echo '</form>';
+    
+    echo '</div></form>';
 }
 ?>
 </div>
