@@ -341,12 +341,34 @@ function sherpawp_customize_register( $wp_customize ){
         ));
     }
     /**
-     * Contact Form
-     * Allow development of custom contact form  
+     * Thank You 
      * 
      * 
      */
-    
+    $wp_customize->add_section('thank_you_section', array(
+        'title'     => __('Thank You Template', 'sherpawp'),
+        'priority'  => 30,
+    ));
+    $wp_customize->add_setting('thank_you_header', array(
+        'default'   => 'We have recieved your submission.',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('thank_you_excerpt', array(
+        'default'   => 'We will reach out to you as soon as possible!',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('thank_you_header_control', array(
+        'label'     => 'Thank You Header',
+        'section'   => 'thank_you_section',
+        'settings'  =>  'thank_you_header',
+    ));
+    $wp_customize->add_control('thank_you_excerpt_control', array(
+        'label'     => 'Thank You Excerpt',
+        'section'   => 'thank_you_section',
+        'settings'  => 'thank_you_excerpt',
+        'type'      => 'textarea',
+    ));
+
 }
 add_action('customize_register', 'sherpawp_customize_register');
 
@@ -472,6 +494,81 @@ function the_placeholder_image($size = 'post-thumbnail', $attr = '', $class = ''
 
     echo 'alt="' . esc_attr(get_the_title()) . '">';
 }
+function handle_custom_form_submission() {
+    global $wpdb;
+
+    // Check if the nonce is valid
+    if (!isset($_POST['custom_form_nonce']) || !wp_verify_nonce($_POST['custom_form_nonce'], 'custom_form_action')) {
+        wp_die('Security check failed.');
+    }
+
+    // Collect and sanitize all form data
+    $submission_data = array();
+    foreach ($_POST as $field_key => $field_value) {
+        if ($field_key !== 'action' && $field_key !== '_wpnonce') {
+            $submission_data[$field_key] = sanitize_text_field($field_value);
+        }
+    }
+
+    // Convert the sanitized form data to JSON
+    $json_data = wp_json_encode($submission_data);
+    $form_id = 1; // Example form ID, change it as needed
+
+    // Insert the JSON data into the custom table
+    $result = $wpdb->insert(
+        $wpdb->prefix . 'form_submissions',
+        array(
+            'form_id' => $form_id,
+            'submission_data' => $json_data,
+        ),
+        array('%d', '%s')
+    );
+
+    // Check if insertion was successful
+    if ($result === false) {
+        error_log('Database insertion failed: ' . $wpdb->last_error);
+        wp_die('There was an error processing your submission. Please try again.');
+    } else {
+        error_log('Database insertion succeeded: ' . print_r($wpdb->insert_id, true));
+    }
+    // Redirect after processing
+    wp_redirect(home_url('/thank-you'));
+    exit;
+}
+add_action('admin_post_custom_form_submission', 'handle_custom_form_submission');
+add_action('admin_post_nopriv_custom_form_submission', 'handle_custom_form_submission');
+function fetch_form_submissions() {
+    global $wpdb;
+
+    $form_id = isset($_POST['form_id']) ? intval($_POST['form_id']) : 0;
+    $table_name = $wpdb->prefix . 'form_submissions';
+
+    $submissions = $wpdb->get_results(
+        $wpdb->prepare("SELECT * FROM $table_name WHERE form_id = %d ORDER BY submission_time DESC", $form_id)
+    );
+
+    if (!empty($submissions)) {
+        foreach ($submissions as $submission) {
+            // Decode the JSON data
+            $data = json_decode($submission->submission_data, true);
+
+            // Display each field from the submission
+            foreach ($data as $field_key => $field_value) {
+                if ($field_key !== 'custom_form_nonce' && $field_key !== '_wp_http_referer') {
+                    echo '<p><strong>' . esc_html(ucfirst($field_key)) . ':</strong> ' . esc_html($field_value) . '</p>';
+                }
+            }
+
+            echo '<p><strong>Submitted on:</strong> ' . esc_html($submission->submission_time) . '</p><hr>';
+        }
+    } else {
+        echo '<p>No submissions found for this form.</p>';
+    }
+
+    wp_die();
+}
+add_action('wp_ajax_fetch_form_submissions', 'fetch_form_submissions');
+add_action('wp_ajax_nopriv_fetch_form_submissions', 'fetch_form_submissions');
 // Add CPTS
 // Register Projects Custom Post Type
 function CONSOLE_DEBUG($message){

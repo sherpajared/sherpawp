@@ -95,6 +95,30 @@ function create_contact_us_page() {
 }
 add_action('after_switch_theme', 'create_contact_us_page');
 /**
+ * create_thank_you_page()
+ * -Creates a thank you page that responds to form submission
+ * @uses page_template - page-thank-you.php
+ */
+function create_thank_you_page() {
+    // Check if the page already exists
+    $page = get_page_by_path('thank-you');
+
+    // If the page doesn't exist, create it
+    if (!$page) {
+        $page_id = wp_insert_post(array(
+            'post_title'     => 'Thank You',
+            'post_name'      => 'thank-you',
+            'post_content'   => '<h1>Thank You!</h1><p>Your submission has been received. We will get back to you soon.</p>',
+            'post_status'    => 'publish',
+            'post_type'      => 'page',
+            'page_template'  => 'page-thank-you.php', // Assign the custom template
+        ));
+
+        // Optional: Add metadata or any other customization to the page here
+    }
+}
+add_action('after_switch_theme', 'create_thank_you_page');
+/**
  * sherpawp_get_defaults()
  * 
  * @return array of default values used in customizer
@@ -135,3 +159,24 @@ function sherpawp_write_defaults() {
     }
 }
 add_action('after_switch_theme', 'sherpawp_write_defaults');
+
+function create_json_form_submission_table() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'form_submissions';
+
+    if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $sql = "CREATE TABLE $table_name (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            form_id mediumint(9) NOT NULL,
+            submission_data text NOT NULL,
+            submission_time datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            PRIMARY KEY  (id)
+        ) $charset_collate;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
+    }
+}
+add_action('after_switch_theme', 'create_json_form_submission_table');

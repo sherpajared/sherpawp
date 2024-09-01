@@ -82,8 +82,12 @@ function form_builder_section_callback() {
  * the necessary JavaScript for dynamically updating the fields.
  */
 function render_form_fields() {
+
     $form_fields = get_option('form_fields', json_encode(array()));
+    echo '<script>console.log("' . $form_fields . '");</script>';
     ?>
+   <button id="view-submissions" type="button">View Submissions</button>
+    <div id="submissions-list"></div>
     <div id="form-fields-container">
         <!-- JavaScript will dynamically add fields here -->
     </div>
@@ -106,10 +110,10 @@ function render_form_fields() {
             </select>\
             <button type="button" class="button-primary remove-field">Remove</button>';
             var optionTemplate ='<div class="option-container">\
-                                    <button type="button" class=" btn-primary button add-option">Add Radio Button</button>\
+                                    <button type="button" class=" btn-primary button add-option">Add Option</button>\
                                 </div>';
             var optionContent = '<div class="enter-option-container">\
-                                <input type="text" class="radio-option field-option" />\
+                                <input type="text" class="field-option" />\
                                 <button type="button" class="sherpa-btn-close">&times;</button>\
                                 </div>';
             var ddTemplate = '<div class="dd-container">\
@@ -142,31 +146,48 @@ function render_form_fields() {
                         formFieldsContainer.append(fieldGroup);
                         count++;
                     }
-                    let groups = formFieldsContainer.find('.field-group');
+                    var groups = formFieldsContainer.find('.field-group');
                     fieldElement = $(fieldTemplate);
                     fieldElement.find('.field-label').val(field.label);
                     fieldElement.find('.field-type').val(field.type);
                     fieldElement.append('</div>');
                     groups.last().append(fieldElement);
+                    console.log("SHERPAWP::LOAD:" + field.type);
                     switch(field.type){
+                        
                         case "radio": 
-                            groups.last().find('.form-field').last().append(optionTemplate);
+                            /*groups.last().find('.form-field').last().append(optionTemplate);
                             var thisRad = groups.last().find('.option-container').last();
                             console.log(field.options);
                             $.each(field.options, function(){
                                 console.log($(this));
                                 thisRad.append(optionContent);
                                 thisRad.find('.radio-option').last().val(this);
-                            });
+                            });*/
+                            populateOptions(groups, field, 'radio');
                             break;
                         case "dropdown":
-
-                            
+                            console.log("SHERPA::FIELD:DROPDOWN");
+                            populateOptions(groups, field, 'dropdown');
+                            break;
                     }
                 });
             }
-            function populateOptions(containerClass, optionClass){
 
+            function populateOptions(group, field, type){
+                group.last().find('.form-field').last().append(optionTemplate);
+                var thisOpt = group.last().find('.option-container').last();
+                let newClass = 'add-'+type;
+                let option = '.'+type+'-option';
+                thisOpt.find('.add-option').addClass(newClass);
+                var thisClass = "."+type+"-option";
+                $.each(field.options, function(){
+                    thisOpt.append(optionContent);
+                    thisOpt.find('.field-option').addClass(option);
+                    console.log("JY::DEBUG:"+this)
+                    thisOpt.find('.field-option').last().val(this);
+                   
+                })
             }
             function saveFields() {
                 var fields = [];
@@ -192,7 +213,8 @@ function render_form_fields() {
                             label: label,
                             type: type,
                             group: groupIndex,
-                            options: options
+                            options: options,
+                            value: null
                              
                         });
                     });
@@ -204,6 +226,8 @@ function render_form_fields() {
                 };
                 console.log(formData);
                 var j = JSON.stringify(formData);
+                formFieldsData.val('');
+                console.log("JSON: "+j);
                 formFieldsData.val(JSON.stringify(formData)); // Save the fields with group information as JSON
             }           
             $('#add-field').on('click', function(){
@@ -223,10 +247,20 @@ function render_form_fields() {
              *  
              */
             $(document).on('click', '.add-radio', function(){
+                console.log("SHERPA::CLICK:RADIO");
                 $(this).closest('.option-container').append(optionContent);
+                $(this).closest('.option-container').find('.field-option').addClass('.radio-option');
+                saveFields();
+            });
+            $(document).on('click', '.add-dropdown', function(){
+                console.log("SHERPA::CLICK:DROPDOWN");
+                $(this).closest('.option-container').append(optionContent);
+                $(this).closest('.option-container').find('.field-option').addClass('.dropdown-option');
+                saveFields();
             });
             $(document).on('click', '.remove-group', function(){
                 $(this).closest('.field-group').remove();
+                saveFields();
             });
             $(document).on('click', '.remove-field', function(){
                 $(this).closest('.form-field').remove();
@@ -246,11 +280,13 @@ function render_form_fields() {
                     console.log("SHERPA::CHANGE:FIELD-TYPE");
                     if($(this).val() == "radio"){
                         $(this).closest('.form-field').append(optionTemplate);
-                        $(this).closest('.form-field').find('add-option').addClass('add-radio');
+                        $(this).closest('.form-field').find('.add-option').addClass('add-radio');
+                        console.log("SHERPA::CHANGE:RADIO");
                     }
                     else if($(this).val() == "dropdown"){
+                        console.log("SHERPA::CHANGE:DROPDOWN");
                         $(this).closest('.form-field').append(optionTemplate);
-                        $(this).closest('.form-field').find('add-option').addClass('add-dropdown');
+                        $(this).closest('.form-field').find('.add-option').addClass('add-dropdown');
                     }
                     else{
                         console.log("yadmudda: "+$(this).val());
@@ -265,5 +301,22 @@ function render_form_fields() {
         });
     })(jQuery);
     </script>
+    <script>
+        jQuery(document).ready(function($) {
+            $('#view-submissions').on('click', function() {
+                $.ajax({
+                    url: ajaxurl,
+                    type: 'POST',
+                    data: {
+                        action: 'fetch_form_submissions',
+                        form_id: 1 // Example form ID, change it as needed
+                    },
+                    success: function(response) {
+                        $('#submissions-list').html(response);
+                    }
+                });
+            });
+        });
+</script>
     <?php
 }
