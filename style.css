@@ -94,6 +94,9 @@ body{
     padding: 0.5em;
     text-decoration: none;
 }
+.sherpa-table th{
+    background-color: rgb(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5);
+}
 /* Background gradients based on primary and secondary colors */
 .sherpa-bgd-lin-gradient{
     background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--primary-color) 50%, var(--secondary-color) 100%)
@@ -607,3 +610,4 @@ figcaption.caption{
     line-height: 2rem;
     width: 30%;
   }
+  
