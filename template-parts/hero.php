@@ -15,7 +15,7 @@
     else if(get_post_type() == "project"){
         $hero_type = "projects";
     }
-    echo $hero_type;
+    
 ?>
 <section class="hero-banner">
     <div class="hero-banner-content">

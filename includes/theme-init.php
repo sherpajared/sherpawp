@@ -151,7 +151,6 @@ function sherpawp_get_defaults(){
  */
 function sherpawp_write_defaults() {
     $settings = sherpawp_get_defaults();
-
     foreach ($settings as $setting => $default_value) {
         if (get_theme_mod($setting) === false) {
             set_theme_mod($setting, $default_value);
