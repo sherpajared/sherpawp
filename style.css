@@ -93,9 +93,10 @@ body{
     padding: 0.5em;
     text-decoration: none;
 }
-.sherpa-table{
+.sherpa-table *{
     border: solid thin lightgray;
     background-color: black;
+    color: red;
 }
 .sherpa-table th{
     background-color: rgb(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5);
