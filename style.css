@@ -72,7 +72,6 @@ body{
 .mh-100 {
     max-height: 100%;
 }
-.meomi{background-color: black;}
 .mt {
     margin-top: 20px;
   }
@@ -93,6 +92,9 @@ body{
     border: solid thin #aaa;
     padding: 0.5em;
     text-decoration: none;
+}
+.sherpa-table{
+    border: solid thin lightgray;
 }
 .sherpa-table th{
     background-color: rgb(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5);
