@@ -120,6 +120,15 @@ form.d-flex{
     align-items: right;
     
 }
+/*
+* SHERPA MODULE STYLES
+* prefix sherpa- before module and contaienr names
+*
+*/
+
+
+
+/* END SHERPA MODULE STYLES
 /* Animation for diagonal fill on animatiom bar
     * Used in Contact Us buttonf in the navbar */
     .diagonal {
