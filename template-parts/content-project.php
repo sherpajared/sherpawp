@@ -16,16 +16,21 @@
  */
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-    <header class="entry-header">
-        <?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
-    </header><!-- .entry-header -->
-    <div class="entry-content">
-        <?php the_content(); ?>
-    </div><!-- .entry-content -->
     <?php
     ?>
-    <div class="projects-archive">
-    <h2>Our Projects</h2>
+    <div class="binder project-archive">
+    <div class="sherpa-module-container">
+        <div class="sherpa-text-block sherpa-col">
+            <div class="sherpa-header">        
+                <h2><?php echo (get_theme_mod('project_gallery_title')) ? (get_theme_mod('project_gallery_title', $default_value="true")) : ('Our Projects'); ?></h2>
+            </div>
+            <div class="sherpa-p">
+                <p><?php echo (get_theme_mod('project_gallery_caption')) ? (get_theme_mod('project_gallery_caption', $default_value="true")) : ('These are our projects'); ?></p>  
+            </div>
+        </div>
+</div>
+<div class="sherpa-module-container">
+    <h1 class="sherpa-header primary">Check out our work</h1>
     <div class="projects-grid">
         <?php
         // Query and Loop for projects
@@ -99,11 +104,6 @@
             <p>No projects found.</p>
         <?php endif; ?>
         </div> <!-- .projects-grid -->
+        </div>
     </div> <!-- .projects-archive -->
-    <footer class="entry-footer">
-        <?php
-            // Display edit link if user is logged in
-            edit_post_link( __( 'Edit', 'textdomain' ), '<span class="edit-link">', '</span>' );
-        ?>
-    </footer><!-- .entry-footer -->
 </article><!-- #post-## -->
