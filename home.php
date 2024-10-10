@@ -27,7 +27,7 @@
         padding: auto;
     }
 </style>
-<div class="home-container content-project-container">
+<div class="sherpa-div-body content-project-container">
     <?php get_template_part('template-parts/content-project'); ?>
 </div><!-- .home-container.content-project-container -->
 <?php

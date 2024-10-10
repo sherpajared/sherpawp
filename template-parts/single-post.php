@@ -11,7 +11,7 @@
     if (has_post_thumbnail($post->ID)) {
       // If post has thumbnail, display it
       if(get_post_type() != 'projects'){
-        
+        echo "who shotcha";
         the_post_thumbnail($size);
       }
     } 

@@ -24,7 +24,7 @@
         </div><!-- .hero-banner-leftt -->
         <div class="hero-banner-right">
             <p><?php echo get_theme_mod($hero_type . '_subtitle', $default_value=true); ?></p>
-            <a href="#about" class="hero-btn sherpa-color-hover"><?php echo get_theme_mod($hero_type . '_button_text', $default_value=true); ?></a>
+            <a href="<?php echo home_url() . '/contact-us'?>" class="hero-btn sherpa-color-hover"><?php echo get_theme_mod($hero_type . '_button_text', $default_value=true); ?></a>
         </div><!-- .hero-banner-right -->
     </div><!-- .hero-banner-content -->
 </section> <!-- .hero-benner -->

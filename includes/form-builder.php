@@ -106,7 +106,7 @@ function render_form_fields() {
                 <option value="email">Email</option>\
                 <option value="textarea">Textarea</option>\
                 <option value="radio">Radio</options>\
-                <option value="dropdown">Dropdown</options>\
+                <option value="dropdown">Dropdown</option>\
             </select>\
             <button type="button" class="button-primary remove-field">Remove</button>';
             var optionTemplate ='<div class="option-container">\
@@ -197,7 +197,6 @@ function render_form_fields() {
                 
                 formFieldsContainer.find('.field-group').each(function(groupIndex){
                     var groupTitle = $(this).find('.group-title').val();
-                    console.log("TEST ME TEST MEEE test me test me test me:" + groupTitle);
                     $(this).find('.form-field').each(function(){
                         var label = $(this).find('.field-label').val();
                         var type = $(this).find('.field-type').val();

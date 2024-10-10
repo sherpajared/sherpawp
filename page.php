@@ -19,11 +19,15 @@
 ?>
 
     <?php the_post_thumbnail('post-preview'); ?>
+
     <div class="sherpa-div-body">
-      <h5 class="card-title"><?php the_title()?></h5>
-      <p class="card-text"><?php the_content();?></p>
-      <a href="<?php the_permalink()?>" class="btn btn-primary">Read More</a>
-    </div><!-- .cart-body -->
+      <div class="header-container">
+      <h1 class="content-header"><?php the_title()?></h5>
+</div>
+  <div class="blocker">
+      <?php the_content();?>
+
+
 
 
 <?php get_footer()?>
