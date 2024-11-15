@@ -41,6 +41,7 @@ function sherpa_init(){
     if(!is_admin()){
         wp_enqueue_style('bootstrap', get_template_directory_uri().'/assets/css/bootstrap.min.css');
         wp_enqueue_style('systemcss', get_template_directory_uri().'/style.css');
+        wp_enqueue_style('systemscss', get_template_directory_uri().'/assets/css/coffeystyle.css');
         wp_enqueue_script('bootjs', get_template_directory_uri().'/assets/js/bootstrap.min.js');
         wp_enqueue_script('sticky-header', get_template_directory_uri() . '/assets/js/sticky-header.js', array('jquery'), null, true);
     }
@@ -75,6 +76,16 @@ function custom_admin_styles() {
     wp_enqueue_style( 'admin-custom-style', get_template_directory_uri() . '/assets/css/admin-style.css' );
 }
 add_action( 'admin_enqueue_scripts', 'custom_admin_styles' );
+
+/**
+ * allow_svg
+ * allows SVG to be uploaded in the Library
+ */
+function allow_svg( $mimes ) {
+    $mimes['svg'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter( 'upload_mimes', 'allow_svg' );
 /**************************************************
  * 2. Sherpawp Custom Functions/Customizer
  *************************************************/
@@ -197,52 +208,6 @@ function sherpawp_customize_register( $wp_customize ){
           'placeholder' => __( 'mm/dd/yyyy' ),
         ),
       ) );
-    /**
-     * Color Selector
-     * 
-     * @var primary_color string - set with color selector
-     * @var secondary_color string - set with color selector
-     * @var accent_color string - set with color selector
-     * 
-     *  
-     *  */  
-    /******************
-     * Customizer:
-     * Color Selector
-     * creates css variables based on Colors selected:
-     * var(--primary-color),    var(--primary-color-r/g/b)
-     * var(--secondary-color),  var(--secondary-color-r/g/b)
-     * var(--accent-color),     var(--accent-color-r/g/b)
-    */
-    $wp_customize->add_setting('primary_color', array(
-        'default'   => '#3498db',
-        'transport' => 'refresh',
-    ));
-
-    $wp_customize->add_setting('secondary_color', array(
-        'default'   => '#2ecc71',
-        'transport' => 'refresh',
-    ));
-    $wp_customize->add_setting('accent_color', array(
-        'default'   => '#ababab',
-        'transport' => 'refresh',
-    ));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
-        'label'    => __('Primary Color', 'sherpawp'),
-        'section'  => 'colors',
-        'settings' => 'primary_color',
-    )));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'secondary_color_control', array(
-        'label'    => __('Secondary Color', 'sherpawp'),
-        'section'  => 'colors',
-        'settings' => 'secondary_color',
-    )));
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'accent_color_control', array(
-        'label'    => __('Accent Color', 'sherpawp'),
-        'section'  => 'colors',
-        'settings' => 'accent_color',
-    )));
-    /* END CUSTOM COLORS */
     /* FOOTER SETTINGS 
     *   Content 
     *   Background & Text Colors
@@ -278,14 +243,32 @@ function sherpawp_customize_register( $wp_customize ){
         'section'  => 'sherpawp_footer_settings',
         'settings' => 'footer_text_color',
     ) ) );
+    $wp_customize->add_setting( 'footer_num_col', array(
+        'default'   => 3, // Default value
+        'sanitize_callback' => 'absint', // Sanitization callback
+        'transport' => 'refresh', // Optional: Use 'postMessage' if you want live preview
+    ));
 
+    // Add a control for selecting the number of columns
+    $wp_customize->add_control( 'footer_num_col_control', array(
+        'type'        => 'number', // Type of input (range)
+        'section'     => 'sherpawp_footer_settings', // The section in the customizer
+        'label'       => __( 'Number of Columns' ),
+        'description' => __( 'Select the number of columns for your layout.' ),
+        'settings'    => 'footer_num_col',
+        'input_attrs' => array(
+            'min'  => 1,  // Minimum value
+            'max'  => 4,  // Maximum value
+            'step' => 1,  // Step value
+        ),
+    ));
     // Add setting for footer text
     $wp_customize->add_setting( 'footer_text', array(
         'default'           => __( '© 2024 My Website', 'sherpawp' ),
         'sanitize_callback' => 'sanitize_text_field',
     ) );
 
-    // Add control for footer text
+
     $wp_customize->add_control( 'footer_text_control', array(
         'label'    => __( 'Footer Text', 'sherpawp' ),
         'section'  => 'sherpawp_footer_settings',
@@ -311,35 +294,61 @@ function sherpawp_customize_register( $wp_customize ){
         'title' => __('Hero Section', 'sherpawp'),
         'priority' => 30,
     ));
-    foreach($heroes as $hero){
-        $wp_customize->add_setting($hero . '_title', array(
-            'default'   =>  'Welcome to Our Website',
-            'transport' =>  'refresh',
-        ));
-        $wp_customize->add_setting($hero . '_subtitle', array(
-            'default'   =>  'Your Success, Our Commitment',
-            'transport' =>  'refresh',
-        ));
-        $wp_customize->add_setting($hero . '_button_text', array(
-            'default'   =>  'Learn More',
-            'transport' =>  'refresh',
-        ));
-        $wp_customize->add_control($hero . '_title_control', array(
-            'label'     =>  __(ucfirst($hero) . ' Title', 'sherpawp'),
-            'section'   => 'hero_section',
-            'settings'  => $hero . '_title',
-        ));
-        $wp_customize->add_control($hero . '_subtitle_control', array(
-            'label'     =>  __(ucfirst($hero) . ' Subtitle', 'sherpawp'),
-            'section'   =>  'hero_section',
-            'settings'  =>  $hero . '_subtitle',
-        ));
-        $wp_customize->add_control($hero . '_button_control', array(
-            'label'     => __(ucfirst($hero) . ' Button', 'sherpawp'),
-            'section'   =>  'hero_section',
-            'settings'  =>  $hero . '_button_text',
-        ));
-    }
+    $wp_customize->add_setting('hero_title', array(
+        'default' => 'Welcome to our website',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('hero_caption', array(
+        'default' => 'This is what we do',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('hero_cta', array(
+        'default' => 'Contact Us',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('hero_image_1', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('hero_image_2', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('hero_image_3', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('hero_title', array(
+        'label' => __('Hero Title', 'sherpawp'),
+        'section'   => 'hero_section',
+        'setting'   => 'hero_title'
+    ));
+    $wp_customize->add_control('hero_caption', array(
+        'label' => __('Hero Caption', 'sherpawp'),
+        'section'   => 'hero_section',
+        'setting'   => 'hero_caption'
+    ));
+    $wp_customize->add_control('hero_cta', array(
+        'label' => __('Hero CTA', 'sherpawp'),
+        'section'   => 'hero_section',
+        'setting'   => 'hero_cta',
+    ));    
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_image_1_control', array(
+        'label' =>  'Hero Image 1',
+        'section'   => 'hero_section',
+        'settings'  => 'hero_image_1',
+    )))    ;
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_image_2_control', array(
+        'label' =>  'Hero Image 2',
+        'section'   => 'hero_section',
+        'settings'  => 'hero_image_2',
+    )));
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'hero_image_3_control', array(
+        'label' =>  'Hero Image 3',
+        'section'   => 'hero_section',
+        'settings'  => 'hero_image_3',
+    )));
+
     /**
      * Thank You 
      * 
@@ -368,6 +377,119 @@ function sherpawp_customize_register( $wp_customize ){
         'settings'  => 'thank_you_excerpt',
         'type'      => 'textarea',
     ));
+    $wp_customize->add_section('project_section', array(
+        'title'     =>__('Project Settings'),
+        'priority'  => 30,
+    ));
+    $wp_customize->add_setting('project_gallery_title', array(
+        'default'   => 'Our Projects',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('project_gallery_caption', array(
+        'default'   => 'These are our projects',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_control('project_gallery_title_control', array(
+        'label'     => 'Project Gallery Title',
+        'section'   => 'project_section',
+        'settings'  => 'project_gallery_title',
+        'type'      => 'text',
+    ));
+    $wp_customize->add_control('project_gallery_caption_control', array(
+        'label'     => 'Project Gallery Caption',
+        'section'   => 'project_section',
+        'settings'  => 'project_gallery_caption',
+        'type'      => 'textarea',
+    ));
+    $wp_customize->add_setting('font', array(
+        'default' => 'Arial',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // Add Font Control
+    $wp_customize->add_control('font', array(
+        'label' => __('Font Choice', 'sherpawp'),
+        'section' => 'title_tagline', // Section in the Customizer
+        'type' => 'select',
+        'choices' => array(
+            'Arial' => 'Arial',
+            'Verdana' => 'Verdana',
+            'Helvetica' => 'Helvetica',
+            'Georgia' => 'Georgia',
+            'Times New Roman' => 'Times New Roman',
+            'Courier New' => 'Courier New',
+            'Tahoma' => 'Tahoma',
+            'Trebuchet MS' => 'Trebuchet MS',
+            'Lucida Sans' => 'Lucida Sans',
+            'Impact' => 'Impact',
+            'Palatino' => 'Palatino',
+        ),
+    ));
+        /**
+     * Color Selector
+     * 
+     * @var primary_color string - set with color selector
+     * @var secondary_color string - set with color selector
+     * @var accent_color string - set with color selector
+     * 
+     *  
+     *  */  
+    /******************
+     * Customizer:
+     * Color Selector
+     * creates css variables based on Colors selected:
+     * var(--primary-color),    var(--primary-color-r/g/b)
+     * var(--secondary-color),  var(--secondary-color-r/g/b)
+     * var(--accent-color),     var(--accent-color-r/g/b)
+    */
+    $wp_customize->add_setting('primary_color', array(
+        'default'   => '#3498db',
+        'transport' => 'refresh',
+    ));
+
+    $wp_customize->add_setting('secondary_color', array(
+        'default'   => '#2ecc71',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('tertiary_color', array(
+        'default'   => '##CCFF00',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('accent_color', array(
+        'default'   => '#ababab',
+        'transport' => 'refresh',
+    ));
+    $wp_customize->add_setting('text_color', array(
+        'default'   => '#4B4B4B',
+        'tranposrt' => 'refresh',
+    ));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'primary_color_control', array(
+        'label'    => __('Primary Color', 'sherpawp'),
+        'section'  => 'colors',
+        'settings' => 'primary_color',
+    )));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'secondary_color_control', array(
+        'label'    => __('Secondary Color', 'sherpawp'),
+        'section'  => 'colors',
+        'settings' => 'secondary_color',
+    )));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'tertiary_color_control', array(
+        'label'    => __('Tertiary Color', 'sherpawp'),
+        'section'   => 'colors',
+        'settings'  => 'tertiary_color',
+    )));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'accent_color_control', array(
+        'label'    => __('Accent Color', 'sherpawp'),
+        'section'  => 'colors',
+        'settings' => 'accent_color',
+    )));
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'text_color_control', array(
+        'label'     => __('Text Color', 'sherpawp'),
+        'section'   => 'colors',
+        'settings'  => 'text_color',
+    )));
+    
+    /* END CUSTOM COLORS */
 
 }
 add_action('customize_register', 'sherpawp_customize_register');
@@ -380,17 +502,24 @@ add_action('customize_register', 'sherpawp_customize_register');
 * var(--accent-color),     var(--accent-color-r/g/b)
 */
 function sherpawp_customizer_css() {
+    $font = get_theme_mod('font', 'Arial');
+
     $primary_color = get_theme_mod('primary_color', '#3498db');
     $secondary_color = get_theme_mod('secondary_color', '#2ecc71');
+    $tertiary_color = get_theme_mod('tertiary_color', '#CCFF00');
     $accent_color = get_theme_mod('accent_color', '#ababab');
+    $text_color = get_theme_mod('text_color', '#4B4B4B');
     // hex_to_rgb defined directly after this function - splits the hex into 3 rgb values
     $primary_rgb = hex_to_rgb($primary_color);
     $secondary_rgb = hex_to_rgb($secondary_color);
+    $tertiary_rgb = hex_to_rgb($tertiary_color);
     $accent_rgb = hex_to_rgb($accent_color);
+    $text_rgb = hex_to_rgb($text_color);
     
     ?>
     <style type="text/css">
         :root {
+            --global-font: <?php echo "'" . $font . "'";?>; 
             --primary-color: <?php echo esc_attr($primary_color); ?>;
             --primary-color-r: <?php echo $primary_rgb[0]; ?>;
             --primary-color-g: <?php echo $primary_rgb[1]; ?>;
@@ -401,10 +530,20 @@ function sherpawp_customizer_css() {
             --secondary-color-g: <?php echo $secondary_rgb[1]; ?>;
             --secondary-color-b: <?php echo $secondary_rgb[2]; ?>;
             
+            --tertiary-color: <?php echo esc_attr($tertiary_color); ?>;
+            --tertiary-color-r: <?php echo $tertiary_rgb[0]; ?>;            
+            --tertiary-color-g: <?php echo $tertiary_rgb[1]; ?>;        
+            --tertiary-color-b: <?php echo $tertiary_rgb[2]; ?>;  
+
             --accent-color: <?php echo esc_attr($accent_color); ?>;
             --accent-color-r: <?php echo $accent_rgb[0]; ?>;
             --accent-color-g: <?php echo $accent_rgb[1]; ?>;
             --accent-color-b: <?php echo $accent_rgb[2]; ?>;
+
+            --text-color: <?php echo esc_attr($text_color); ?>;
+            --text-color-r: <?php echo $text_color[0]; ?>;
+            --text-color-g: <?php echo $text_color[1]; ?>;
+            --text-color-b: <?php echo $text_color[2]; ?>;    
         }
     </style>
     <?php
@@ -569,6 +708,13 @@ function fetch_form_submissions() {
 }
 add_action('wp_ajax_fetch_form_submissions', 'fetch_form_submissions');
 add_action('wp_ajax_nopriv_fetch_form_submissions', 'fetch_form_submissions');
+function include_pages_in_search($query) {
+    if ($query->is_search) {
+        $query->set('post_type', array('post', 'page'));
+    }
+    return $query;
+}
+add_filter('pre_get_posts', 'include_pages_in_search');
 // Add CPTS
 // Register Projects Custom Post Type
 function CONSOLE_DEBUG($message){
@@ -586,4 +732,5 @@ require get_template_directory().'/template-parts/widgets.php';
 require get_template_directory().'/cpts/project-cpt.php';
 require get_template_directory().'/includes/theme-init.php';
 require get_template_directory().'/includes/form-builder.php';
+require get_template_directory().'/includes/footer-builder.php';
 ?>

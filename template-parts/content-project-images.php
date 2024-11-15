@@ -28,7 +28,7 @@
                         }
                         else{
                             echo '<div class="carousel-item-container"><pre class="caption hidden" pull-caption>' . 
-                            (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') .$gallery_captions[$index] 
+                            (isset($gallery_captions[$index]) && !is_null($gallery_captions[$index]) ? $gallery_captions[$index] : '') . $gallery_captions[$index] 
                             . '</pre>';
                         }
                         echo '<img class="carousel-img" src="' . $src . '" main-img="' . $src . '" alt="image">';
@@ -36,6 +36,7 @@
                     }
                 }
             ?>
+            <div class="sherpa-bright-overlay"></div>
         </div><!-- .carousel-container.nano-content -->
     <button id="project-slider-next" class="slider-control down"></button>
     </div><!-- .carousel-controller -->
@@ -47,12 +48,14 @@
                 $gallery_captions = get_project_gallery_captions(get_the_ID());
                 if(!empty($gallery_images)){
                     echo '<figure class="main-fig">';
-                    echo '<img class="main-img" src="' . $gallery_images[0] . '" alt="main-image">';
+                    echo '<img class="main-img" src="' . $gallery_images[0] . '" alt="main-image"><div class="sherpa-bright-overlay"></div>';
                     echo '<figcaption class="caption" put-caption>' . $gallery_captions[0] . '</figcaption></figure>';
                 }
                 
             ?>
-        </div> <!-- .lightbox.main-image-container -->    
+              
+        </div> <!-- .lightbox.main-image-container --> 
+         
     </div>  <!-- .main-sec-container -->
 </div> <!-- .sherpa-gallery-nano -->
 
@@ -81,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         slidesToShow: 3,
         slidesToScroll: 1,
         vertical: true,
+        variableWidth: false,
         nextArrow: '#project-slider-next',
         prevArrow: '#project-slider-prev',  
     });

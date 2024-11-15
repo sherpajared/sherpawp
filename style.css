@@ -29,12 +29,96 @@ License URL: https://www.gnu.org/licenses/gpl-3.0.html
 
 */
 /* Native Element Styles */
+html{
+    min-height: 100%
+}
+*{
+    font-family: var(--global-font);
+}
+h1{
+    font-size: 52pt;
+    font-weight: 900;   
+}
+h2{
+  font-size: 36pt;
+  font-weight: 700;
+}
+h3{
+  font-size: 32pt;
+  font-weight: 100;
+}
+h4{
+  font-size: 24pt;
+  font-weight: 900;
+}
+h5{
+  font-size: 16pt;
+  font-weight: 400;
+}
+h1, h2, h3, h4, h5, h6, p{
+    color: var(--text-color);
+    font-family: var(--global-font);
+}
+.sherpa-heading.primary{
+    color: var(--primary-color);
+    
+}
+.sherpa-heading.secondary{
+    color: var(--secondary-color);
+}
+.sherpa-heading.white{
+    color: white;
+}
+.sherpa-var-list {
+    list-style: none; /* Remove default bullets */
+    padding-left: 0;
+}
+
+.sherpa-var-list li {
+    position: relative;
+    padding-left: 24px; /* Space for the icon */
+    margin-bottom: 8px; /* Optional: Add spacing between list items */
+}
+
+.sherpa-var-list li::before {
+    content: url('http://localhost/sandbox/wp-content/uploads/2024/10/tennis.svg.svg'); /* Replace with the actual SVG URL */
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px; /* Adjust to match natural bullet size */
+    height: 12px; /* Adjust to match natural bullet size */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+span.white{
+    color: white;
+}
+.sherpa-module-container.primary{
+    background-color: var(--primary-color);
+}
+.sherpa-module-container.primary-trans50{
+    background-color: rgba(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.90);
+}
+.sherpa-heading.text-shadow{
+    text-shadow: -3px 2px 3px #000000
+}
+h3{
+    font-weight: 600;
+    font-size: 16pt;
+}
+.header-container h1{
+    font-weight: 900;
+}
+
 body, html{
     max-width:100% !important;
     min-width:100% !important;
+
 }
 body{
     overflow: visible !important;
+    background-color:rgb(var(--secondary-color-r), var(--secondary-color-g), var(--secondary-color-b), 0.25)
 }
 /* place wpadmin bar below native navbar 
     -enabled for testing
@@ -46,19 +130,22 @@ body{
 /* General Custom Classes */
 /* Use of Color Pallete */
 .sherpa-color, .sherpa-color-hover{
-    background-color: var(--secondary-color);
+    background-color: var(--accent-color);
     color: var(--primary-color);
 }
 .sherpa-color-hover:hover{
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    color: var(--accent-color);
+}
+.sherpa-content{
+    padding: 1.25rem;
 }
 /* Spacing/Sizing class defnitions */
 .gap{
     gap: 1em !important;
 }
-.center{
-    justify-content: center !important;
+.mtop-1{
+    margin-top: 1rem;
 }
 .hidden{
     display: none;
@@ -93,42 +180,171 @@ body{
     padding: 0.5em;
     text-decoration: none;
 }
-.sherpa-table *{
-    border: solid thin lightgray;
-    background-color: black;
-    color: red;
+.content-table{
+    display: flex;
+    justify-content: center;
+    padding: 0 2.25rem 2.25rem 2.25rem;
 }
-.sherpa-table th{
-    background-color: rgb(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5);
+.sherpa-table{
+   margin: auto;
+    width: 80%;
+    
 }
-/* Background gradients based on primary and secondary colors */
-.sherpa-bgd-lin-gradient{
-    background: linear-gradient(to bottom, var(--secondary-color) 0%, var(--primary-color) 50%, var(--secondary-color) 100%)
-}
-.sherpa-bgd-rad-gradient{
-    background: radial-gradient(circle at 50% 50%, var(--secondary-color) 0%, var(--primary-color) 200%);
 
+
+.content-header{
+
+}
+
+
+/*
+* Sherpa Styles
+*
+*
+*/
+/* Div starts at body start and ends and body end */
+.highlight{
+    font-style: italic;
+    text-decoration: underline;
+}
+section.hero-banner{
+    box-shadow: 5px 2px 5px 0px rgba(0,0,0, 0.75);
 }
 .sherpa-div-body{
-    width: 90vw;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+.sherpa-module-container{
+
+    padding: 2.5rem;
+    width: 100%;
     margin: auto;
-    
 
 }
+.sherpa-module-container.grid-2col{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
+}
+.sherpa-module-container.secondary{
+    background-color: var(--secondary-color);
+
+}
+
+.header-container{
+    padding: 2rem;
+    margin: auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    width: 75%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem 2.5rem 1rem 2.5rem;
+    
+  }
+  .header-container p{
+    display: inline-block;
+    text-align: center;
+    margin: 1rem;
+  }
+  h1.content-header{
+    padding: 1rem 3.5rem 0 3.5rem;
+    font-weight: 900;
+    font-size: 52pt;
+    color: white;
+    text-align: center;    
+  }
+.sherpa-text-block{
+    display: flex;
+
+    margin: auto;
+
+}
+.sherpa-text-block .sherpa-p p{
+    text-align: center;
+    font-size: 20px;
+    
+}
+.sherpa-p{
+    width: 80%;
+    font-size: 15pt;
+}
+.sherpa-text-block .sherpa-header h2{
+    font-weight: 400;
+    font-size: 32pt;
+    color: var(--primary-color);
+    text-align: center;
+    
+}
+.sherpa-text-block .sherpa-header h1{
+    color: var(--primary-color);
+}
+.sherpa-text-block.sherpa-row .sherpa-header{
+    width: 40%;
+    
+}
+.sherpa-text-block.sherpa-row .sherpa-header h2{
+    font-weight: 600;
+}
+.sherpa-col{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sherpa-row{
+    flex-direction: row;
+    justify-content: end;
+    align-items: start;
+}
+.sherpa-table th{
+    padding: 1.25rem;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 13pt;
+}
+.sherpa-table td{
+    padding: 0.75rem;
+    margin-left: 0.5rem;
+}
+.sherpa-table tr:nth-child(even){
+    background-color: #efefef;
+}
+.sherpa-table tr:nth-child(odd){
+    background-color: white;
+}
+/* END Sherpa Styles
+/* Background gradients based on primary and secondary colors */
+.sherpa-bgd-lin-gradient{
+    background: linear-gradient(to bottom, var(--accent-color) 0%, var(--primary-color) 50%, var(--accent-color) 100%)
+}
+.sherpa-bgd-rad-gradient{
+    background: radial-gradient(circle at 50% 50%, var(--accent-color) 0%, var(--primary-color) 200%);
+
+}
+
 /* * * * * * * * * * * * * * * */
 form.d-flex{
     align-items: right;
     
+}
+.sherpa-div-body {
+
 }
 /* Animation for diagonal fill on animatiom bar
     * Used in Contact Us buttonf in the navbar */
     .diagonal {
         position: relative;
         
-        background: var(--secondary-color);
+        background: var(--accent-color);
         font-weight: bold;
         color: var(--primary-color);
-        border: solid 2pt var(--accent-color);
+        border: solid 2pt var(--secondary-color);
         
         font-family: 'Open Sans', sans-serif;
         overflow: hidden;
@@ -143,9 +359,9 @@ form.d-flex{
         left: 0%;
         width: 500%;
         height: 1000%;
-        border: solid 2pt var(--accent-color);
+        border: solid 2pt var(--secondary-color);
         background: var(--primary-color);
-        color:var(--secondary-color);
+        color:var(--accent-color);
         z-index: -1;
         transform-origin: 0% 0%;
         
@@ -155,13 +371,13 @@ form.d-flex{
       }
       .diagonal:hover::after {
         transform: translateY(10%) (-250px) rotate(-45deg);
-        color:var(--secondary-color);
-        border: solid 2pt var(--accent-color);
+        color:var(--accent-color);
+        border: solid 2pt var(--secondary-color);
         
       }
       .diagonal:hover {
-        color:var(--secondary-color);
-        border: solid 2pt var(--accent-color);
+        color:var(--accent-color);
+        border: solid 2pt var(--secondary-color);
         
     }
 
@@ -216,7 +432,7 @@ form.d-flex{
     
 }
 .nav-contact{
-    border: solid 3pt var(--accent-color);
+    border: solid 3pt var(--secondary-color);
 }
 /* * * * * * END NAVBAR STYLES * * * * * */
 /* * * * * * 3. Hero Banner Styles * * * * * * 
@@ -231,9 +447,10 @@ form.d-flex{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(to right, var(--secondary-color) 50%, var(--primary-color) 50%);
+    background: linear-gradient(to right, rgb(var(--tertiary-color-r), var(--tertiary-color-g), var(--tertiary-color-b), 0.25) 50%, var(--primary-color) 50%);
     padding: 40px 20px;
-    color: white;
+    color: var(--primary-color);
+    
     position: relative;
     overflow: hidden;
 }
@@ -254,9 +471,9 @@ form.d-flex{
 }
 .hero-banner-left h1 {
     font-size: 4em;
-    font-weight: bold;
+    font-weight: 900;
     margin: 0;
-    color: var(--primary-color);
+    color: var(---color);
     line-height: 1.2;
     animation: hero-fadeIn 1.5s ease-in-out;
 }
@@ -270,27 +487,33 @@ form.d-flex{
     font-size: 1.5rem;
     margin: 0 0 20px;
     animation: hero-fadeIn 1.5s ease-in-out;
+    color: white;
 }
 .hero-btn {
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
+    border: solid 1pt white;
+    color: white;
+    font-weight: 500;
+    background-color: var(--primary-color);
     transition: background-color 0.3s, transform 0.3s;
-    animation: hero-fadeIn 1.5s ease-in-out
+    
 }
 .hero-btn:hover {
     transform: scale(1.05);
-    border: solid 1pt white;
-    background-color: var(--accent-color);
+    border: solid 1pt var(--primary-color);
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
 }
 @keyframes hero-fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        
     }
 }
 /* * * * * * END HERO BANNER STYLES * * * * * */
@@ -320,12 +543,14 @@ form.d-flex{
 flex: 1 0 33.33%; /* Adjust to fit 3 items */
 }
 .sherpa-gallery{
-    display: grid;
-    grid-template-rows: 1fr;
-    grid-template-columns: 2fr 7fr;
+    display: flex;
+    flex-direction: row;
     width: auto;
-    padding: 0.75rem;
+    padding: .75rem 2rem;
     place-items: center; 
+    background-color: #efefef;
+    border-radius: 20px;
+
 }
 .slick-slide.slick-active{
     width: 100% !important;
@@ -336,27 +561,57 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     border: 0 solid transparent;
     background: transparent;
 }
+.sherpa-bright-overlay{
+    position: absolute;
+    bottom: 0;
+    background: rgba(200, 255, 200, 0.2) !important;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    color: white;
+}
 /* Pagination Arrows */
-/* Top triangle with 120-degree angle */
-.slider-control.up {
-    border-right-width: 100px;
-    border-left-width: 100px;
-    border-bottom: 1rem solid var(--accent-color);
+/* Pagination Arrows */
+/* Main slider control */
+/* Main slider control */
+.slider-control {
+    width: auto; /* Keeping this auto ensures the width adjusts based on the content */
+    height: 0; /* Height is still zero because triangles are created with borders */
+    border: 0 solid transparent; /* This ensures no actual border but gives space for the triangles */
+    background: transparent; /* Transparent background */
+    display: flex;
+    justify-content: center; /* Center the arrows */
+    align-items: center; 
 }
 
-/* Bottom triangle with 120-degree angle */
-.slider-control.down {
-    border-left-width: 100px;
-    border-right-width: 100px;
-    border-top: 1rem solid var(--accent-color);
-    flex-shrink: 0;
-    
+/* Top triangle (pointing up) */
+.slider-control.up {
+    border-right-width: 1.5rem; /* Adjust these values to control triangle size */
+    border-left-width: 1.5rem;
+    border-bottom: 0.66rem solid rgba(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.66); /* This creates the arrow */
 }
+
+/* Bottom triangle (pointing down) */
+.slider-control.down {
+    border-right-width: 1.5rem; /* Adjust these values to control triangle size */
+    border-left-width: 1.5rem;
+    border-top: 0.66rem solid rgba(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.66); /* This creates the arrow */
+}
+
+/* Optional styling for hover */
+.slider-control:hover {
+    cursor: pointer; /* Adds a pointer cursor for better UX */
+}
+
+
+
 /* * * * * * * * * * * * * */
 .carousel-controller{
     display: flex;
     flex-direction: column;
-    height: 85%;
+    flex-grow: 1;
+    height: 100%;
+    width: 20%;
     overflow: visible;
     justify-content: center;
 }
@@ -367,7 +622,7 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
 }
 
 .carousel-container{
-    max-height: 90%;
+   
     height: auto;
     box-sizing: border-box;
     padding: 10px;
@@ -398,9 +653,10 @@ flex: 1 0 33.33%; /* Adjust to fit 3 items */
     align-items: center;
     justify-content: start;
     place-items: left;
-    height: 90vh;
+    flex-grow: 1;
+    height: 100%;
     width: 90%;
-    height: inherit;
+    
     box-sizing: border-box;
     gap: 10px;
     padding: 0.5rem 1rem 0.5rem 1rem;
@@ -475,7 +731,9 @@ figcaption.caption{
     align-items: center;
 }
 .gallery-2{
-    width: 80vw;
+    display: flex;
+    justify-content: center;
+    width: 60vw;
     margin-bottom: 1rem;
     height: auto;
 }
@@ -486,6 +744,8 @@ figcaption.caption{
     grid-template-columns: repeat(3, 1fr); /* Adjust min width */
     grid-auto-rows: 1fr;
     margin-bottom: 1rem;
+    padding: 0 2.75rem;
+    max-height: 100vh;
 }
 .project-item {
     overflow: hidden;
@@ -552,8 +812,10 @@ figcaption.caption{
 }
 
 .projects-archive{
-    overflow: hidden;
+
+    
 }
+
 .project-block-hover .block-hover-caption{
     position: absolute;
     top: 0;
@@ -573,10 +835,13 @@ figcaption.caption{
     z-index: 5;
     position: absolute;
 }
-
+.hover-caption-text *{
+    color: white !important;
+}
 .project-block-hover .hover-caption-text h1{
     text-transform: uppercase;
     font-size: 24px;
+    font-weight: 700;
 }
 .project-block-hover .hover-caption-text{
     display: flex;
@@ -614,4 +879,198 @@ figcaption.caption{
     line-height: 2rem;
     width: 30%;
   }
-  
+
+
+  /* Footer Styles */
+.sherpa-footer{
+    background-color: var(--accent-color);
+}
+  .footer-container{
+    display: flex;
+    flex-direction: row;
+    gap: 2.25rem;
+    min-height: 20rem;
+    padding: 2.25rem;
+    justify-content: center;
+}
+.footer-container .column{
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    
+    padding: 1rem;
+
+}
+.footer-container .column p{
+    font-size: 12pt;
+
+}
+.footer-container .column h3, .footer-container .column p{
+    color: var(--primary-color) !important;
+}
+.footer-container .column h3{
+    margin-bottom: 0;
+}
+.footer-container .column hr{
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+    border-top: solid 2px;
+}
+.content-container{
+    padding: 3.75rem 12.25rem 3.75rem 12.25rem;
+    display: flex;
+    flex-direction: column;
+}
+.center{
+    justify-content: center;
+    align-items: center;
+}
+.text-content.center p{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+}
+/*CODE PEN STYLES*/
+.sherpa-hero-slide {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    overflow: hidden;
+}
+.sherpa-hero-slide::after {
+    content: "";
+    display: block;
+    position: relative;
+   /* could also be absolute */
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    opacity: 0.5;
+    background: radial-gradient(farthest-corner at 40px 40px, #fff 0%, rgba(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5) 1.23%, var(--primary-color) 100%);
+}
+.sherpa-hero-slide-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: no-repeat 50% 50%;
+    background-size: cover;
+    animation-name: kenburns;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 18s;
+    opacity: 1;
+    transform: scale(1.1);
+}
+.sherpa-hero-slide-image:nth-child(1) {
+    animation-name: kenburns-1;
+    z-index: 2;
+}
+.sherpa-hero-slide-image:nth-child(2) {
+    animation-name: kenburns-2;
+    z-index: 1;
+}
+.sherpa-hero-slide-image:nth-child(3) {
+    animation-name: kenburns-3;
+    z-index: 0;
+}
+@keyframes kenburns-1 {
+    0% {
+        opacity: 1;
+        transform: scale(1.1);
+   }
+    4.1666666667% {
+        opacity: 1;
+   }
+    29.1666666667% {
+        opacity: 1;
+   }
+    37.5% {
+        opacity: 0;
+        transform: scale(1);
+   }
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+   }
+    95.8333333333% {
+        opacity: 0;
+        transform: scale(1.1111111111);
+   }
+    100% {
+        opacity: 1;
+   }
+}
+@keyframes kenburns-2 {
+    29.1666666667% {
+        opacity: 1;
+        transform: scale(1.1);
+   }
+    37.5% {
+        opacity: 1;
+   }
+    62.5% {
+        opacity: 1;
+   }
+    70.8333333333% {
+        opacity: 0;
+        transform: scale(1);
+   }
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+   }
+}
+@keyframes kenburns-3 {
+    62.5% {
+        opacity: 1;
+        transform: scale(1.1);
+   }
+    70.8333333333% {
+        opacity: 1;
+   }
+    95.8333333333% {
+        opacity: 1;
+   }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+   }
+}
+.sherpa-kenburns {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 99;
+    text-align: center;
+    color: white;
+    
+    box-shadow: 0 1em 2em -1em rgba(0, 0, 0, .5);
+    padding: 1em 2em;
+    line-height: 1.5;
+    animation: hero-fadeIn 1.5s ease-in-out
+}
+.sherpa-kenburns h1{
+    text-transform: uppercase;
+}
+.sherpa-kenburns h1, .sherpa-kenburns h4{
+    position: relative;
+    text-align: center;
+    margin: auto;
+}
+h1.sherpa-kenburns small {
+    display: block;
+    text-transform: lowercase;
+    font-size: 0.7em;
+}
+h1.sherpa-kenburns small:first-child {
+    border-bottom: 1px solid rgba(0, 0, 0, .25);
+    padding-bottom: 0.5em;
+}
+h1.sherpa-kenburns small:last-child {
+    border-top: 1px solid rgba(0, 0, 0, .25);
+    padding-top: 0.5em;
+}

@@ -12,6 +12,9 @@
  */
     get_header();
     get_template_part('template-parts/hero');
-        ?>
+    ?>
+    <div class="sherpa-div-body content-project-container">
+        <?php get_template_part('template-parts/content-project'); ?>
+    </div>
         <?php
     get_footer();
