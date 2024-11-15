@@ -32,9 +32,76 @@ License URL: https://www.gnu.org/licenses/gpl-3.0.html
 html{
     min-height: 100%
 }
+*{
+    font-family: var(--global-font);
+}
+h1{
+    font-size: 52pt;
+    font-weight: 900;   
+}
+h2{
+  font-size: 36pt;
+  font-weight: 700;
+}
+h3{
+  font-size: 32pt;
+  font-weight: 100;
+}
+h4{
+  font-size: 24pt;
+  font-weight: 900;
+}
+h5{
+  font-size: 16pt;
+  font-weight: 400;
+}
 h1, h2, h3, h4, h5, h6, p{
     color: var(--text-color);
     font-family: var(--global-font);
+}
+.sherpa-heading.primary{
+    color: var(--primary-color);
+    
+}
+.sherpa-heading.secondary{
+    color: var(--secondary-color);
+}
+.sherpa-heading.white{
+    color: white;
+}
+.sherpa-var-list {
+    list-style: none; /* Remove default bullets */
+    padding-left: 0;
+}
+
+.sherpa-var-list li {
+    position: relative;
+    padding-left: 24px; /* Space for the icon */
+    margin-bottom: 8px; /* Optional: Add spacing between list items */
+}
+
+.sherpa-var-list li::before {
+    content: url('http://localhost/sandbox/wp-content/uploads/2024/10/tennis.svg.svg'); /* Replace with the actual SVG URL */
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 12px; /* Adjust to match natural bullet size */
+    height: 12px; /* Adjust to match natural bullet size */
+    display: inline-block;
+    vertical-align: middle;
+}
+
+span.white{
+    color: white;
+}
+.sherpa-module-container.primary{
+    background-color: var(--primary-color);
+}
+.sherpa-module-container.primary-trans50{
+    background-color: rgba(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.90);
+}
+.sherpa-heading.text-shadow{
+    text-shadow: -3px 2px 3px #000000
 }
 h3{
     font-weight: 600;
@@ -70,11 +137,16 @@ body{
     background-color: var(--primary-color);
     color: var(--accent-color);
 }
+.sherpa-content{
+    padding: 1.25rem;
+}
 /* Spacing/Sizing class defnitions */
 .gap{
     gap: 1em !important;
 }
-
+.mtop-1{
+    margin-top: 1rem;
+}
 .hidden{
     display: none;
     visibility: hidden;
@@ -150,12 +222,16 @@ section.hero-banner{
     margin: auto;
 
 }
-.sherpa-module-container:nth-child(even){
-    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(239,239,239,1) 100%);
+.sherpa-module-container.grid-2col{
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 1fr;
 }
-.sherpa-module-container:nth-child(odd){
-    background-color: white;
+.sherpa-module-container.secondary{
+    background-color: var(--secondary-color);
+
 }
+
 .header-container{
     padding: 2rem;
     margin: auto;
@@ -196,6 +272,7 @@ section.hero-banner{
 }
 .sherpa-p{
     width: 80%;
+    font-size: 15pt;
 }
 .sherpa-text-block .sherpa-header h2{
     font-weight: 400;
@@ -421,7 +498,7 @@ form.d-flex{
     font-weight: 500;
     background-color: var(--primary-color);
     transition: background-color 0.3s, transform 0.3s;
-    animation: hero-fadeIn 1.5s ease-in-out
+    
 }
 .hero-btn:hover {
     transform: scale(1.05);
@@ -432,11 +509,11 @@ form.d-flex{
 @keyframes hero-fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        
     }
 }
 /* * * * * * END HERO BANNER STYLES * * * * * */
@@ -854,4 +931,146 @@ figcaption.caption{
 a{
     text-decoration: none;
 }
-
+/*CODE PEN STYLES*/
+.sherpa-hero-slide {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    overflow: hidden;
+}
+.sherpa-hero-slide::after {
+    content: "";
+    display: block;
+    position: relative;
+   /* could also be absolute */
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    opacity: 0.5;
+    background: radial-gradient(farthest-corner at 40px 40px, #fff 0%, rgba(var(--primary-color-r), var(--primary-color-g), var(--primary-color-b), 0.5) 1.23%, var(--primary-color) 100%);
+}
+.sherpa-hero-slide-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: no-repeat 50% 50%;
+    background-size: cover;
+    animation-name: kenburns;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 18s;
+    opacity: 1;
+    transform: scale(1.1);
+}
+.sherpa-hero-slide-image:nth-child(1) {
+    animation-name: kenburns-1;
+    z-index: 2;
+}
+.sherpa-hero-slide-image:nth-child(2) {
+    animation-name: kenburns-2;
+    z-index: 1;
+}
+.sherpa-hero-slide-image:nth-child(3) {
+    animation-name: kenburns-3;
+    z-index: 0;
+}
+@keyframes kenburns-1 {
+    0% {
+        opacity: 1;
+        transform: scale(1.1);
+   }
+    4.1666666667% {
+        opacity: 1;
+   }
+    29.1666666667% {
+        opacity: 1;
+   }
+    37.5% {
+        opacity: 0;
+        transform: scale(1);
+   }
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+   }
+    95.8333333333% {
+        opacity: 0;
+        transform: scale(1.1111111111);
+   }
+    100% {
+        opacity: 1;
+   }
+}
+@keyframes kenburns-2 {
+    29.1666666667% {
+        opacity: 1;
+        transform: scale(1.1);
+   }
+    37.5% {
+        opacity: 1;
+   }
+    62.5% {
+        opacity: 1;
+   }
+    70.8333333333% {
+        opacity: 0;
+        transform: scale(1);
+   }
+    100% {
+        opacity: 0;
+        transform: scale(1.1);
+   }
+}
+@keyframes kenburns-3 {
+    62.5% {
+        opacity: 1;
+        transform: scale(1.1);
+   }
+    70.8333333333% {
+        opacity: 1;
+   }
+    95.8333333333% {
+        opacity: 1;
+   }
+    100% {
+        opacity: 0;
+        transform: scale(1);
+   }
+}
+.sherpa-kenburns {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 99;
+    text-align: center;
+    color: white;
+    
+    box-shadow: 0 1em 2em -1em rgba(0, 0, 0, .5);
+    padding: 1em 2em;
+    line-height: 1.5;
+    animation: hero-fadeIn 1.5s ease-in-out
+}
+.sherpa-kenburns h1{
+    text-transform: uppercase;
+}
+.sherpa-kenburns h1, .sherpa-kenburns h4{
+    position: relative;
+    text-align: center;
+    margin: auto;
+}
+h1.sherpa-kenburns small {
+    display: block;
+    text-transform: lowercase;
+    font-size: 0.7em;
+}
+h1.sherpa-kenburns small:first-child {
+    border-bottom: 1px solid rgba(0, 0, 0, .25);
+    padding-bottom: 0.5em;
+}
+h1.sherpa-kenburns small:last-child {
+    border-top: 1px solid rgba(0, 0, 0, .25);
+    padding-top: 0.5em;
+}

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Template Name: Home Page
  * home.php
  * 
  * The home-page, template used in place of front-page. User redirected here from clicking the navbar logo,
@@ -27,8 +28,11 @@
         padding: auto;
     }
 </style>
-<div class="sherpa-div-body content-project-container">
+<div class="sherpa-div-body">
+    <?php the_content();?>
+    <div class="content-project-container">
     <?php get_template_part('template-parts/content-project'); ?>
+</div>
 </div><!-- .home-container.content-project-container -->
 <?php
     get_footer();
